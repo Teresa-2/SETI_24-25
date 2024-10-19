@@ -72,62 +72,78 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
 
 int main(int argc, char **argv)
 {
-	struct addrinfo gai_hints, *server_addrinfo;
+	struct addrinfo gai_hints, *server_addrinfo; 
 	int msgsz, norep;
-	int gai_rv;
+	int gai_rv; 
 	char ipstr[INET_ADDRSTRLEN];
 	struct sockaddr_in *ipv4;
 	int tcp_socket;
 	char request[MAX_REQ], answer[MAX_ANSW];
-	ssize_t nr;
+	ssize_t nr; //NOTA: utilizzato per rappr numero di byte di READ e WRITE
 
 	if (argc < 4)
 		fail("Incorrect parameters provided. Use: tcp_ping PONG_ADDR PONG_PORT SIZE [NO_REP]\n");
 	for (nr = 4, norep = REPEATS; nr < argc; nr++)
 		if (*argv[nr] >= '1' && *argv[nr] <= '9')
-			sscanf(argv[nr], "%d", &norep);
+			sscanf(argv[nr], "%d", &norep); //NOTA: trasforma una stringa in un numero e la mette nella zona puntata da norep
 	if (norep < MINREPEATS)
 		norep = MINREPEATS;
 	else if (norep > MAXREPEATS)
 		norep = MAXREPEATS;
 
     /*** Initialize hints in order to specify socket options ***/
-	memset(&gai_hints, 0, sizeof gai_hints);
+	memset(&gai_hints, 0, sizeof gai_hints); //NOTA: Inizializza tutti a zero e alloca alla struttura &gai_hints uno spazio di memoria pari a sizeof gai_hints espressa in byte  
 
-/*** TO BE DONE START ***/
-
+/*** TO BE DONE START ***/ 
+gai_hints.ai_family = AF_INET; 
+gai_hints.ai_socktype = SOCK_STREAM; 
+gai_hints.ai_protocol = 0; 
+/*NOTA: 
+da completare i restanti campi??
+*/
 
 /*** TO BE DONE END ***/
 
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
-
+	gai_rv= getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
+	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 /*** TO BE DONE END ***/
 
     /*** Print address of the Pong server before trying to connect ***/
-	ipv4 = (struct sockaddr_in *)server_addrinfo->ai_addr;
+	ipv4 = (struct sockaddr_in *)server_addrinfo->ai_addr; 
 	printf("TCP Ping trying to connect to server %s (%s) on port %s\n", argv[1], inet_ntop(AF_INET, &ipv4->sin_addr, ipstr, INET_ADDRSTRLEN), argv[2]);
 
     /*** create a new TCP socket and connect it with the server ***/
 /*** TO BE DONE START ***/
-
+	tcp_socket=socket(server_addrinfo->ai_family,server_addr->ai_socktype,server_addr->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
+	if(tcp_socket==-1){ 
+		fail_errno("Problem with socket creation during the connection inizialization");
+	}
+	if(connect(tcp_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)==-1) {//NOTA: in caso di successo, resituisce 0, sennò -1
+		fail_errno("Problem with socket connection");
+	}
 
 /*** TO BE DONE END ***/
 
-	freeaddrinfo(server_addrinfo);
-	if (sscanf(argv[3], "%d", &msgsz) != 1)
+	freeaddrinfo(server_addrinfo); //NOTA: libera l'indirizzo
+	if (sscanf(argv[3], "%d", &msgsz) != 1) //NOTA: restituisce il numero di variabili a cui è riuscito ad asegnare un valore (in questo caso ne ha una sola. Se non è uguale a 1, quindi, ha fallito)
 		fail("Incorrect format of size parameter");
 	if (msgsz < MINSIZE)
 		msgsz = MINSIZE;
 	else if (msgsz > MAXTCPSIZE)
 		msgsz = MAXTCPSIZE;
 	printf(" ... connected to Pong server: asking for %d repetitions of %d bytes TCP messages\n", norep, msgsz);
-	sprintf(request, "TCP %d %d\n", msgsz, norep);
+	sprintf(request, "TCP %d %d\n", msgsz, norep); //NOTA: stampa request, TCP msgsz, norep e poi un byte nullo
 
     /*** Write the request on socket ***/
 /*** TO BE DONE START ***/
-
+	//CHIEDI: nr viene usata immediatamente sotto. Sovrascrive
+	nr = write(tcp_socket, request,sizeof(request)); //NOTA: in caso di insuccesso, -1
+	if(nr<0){
+		fail_errno("Problem with Write"); 
+	}
 
 /*** TO BE DONE END ***/
 
@@ -138,7 +154,11 @@ int main(int argc, char **argv)
 
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
-
+	/*NOTA: prende due stringhe, le confrontano: 
+		- se ritorna 0, successo 
+		- in caso contrario, le due stringhe non sono identiche
+	*/
+	if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
 
 /*** TO BE DONE END ***/
 
