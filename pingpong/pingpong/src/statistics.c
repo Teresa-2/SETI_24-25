@@ -31,6 +31,19 @@ double timespec_delta2milliseconds(struct timespec *last,
 
 /*** TO BE DONE START ***/
 
+	//DA CHIEDERE E TESTARE 
+	/*VERSIONI:
+	VERSIONE 1:  
+	return (difftime(last->tv_sec, previous-> tv_sec) + ((double) last->tv_nsec - (double) previous->tv_nsec));
+
+	VERSIONE 2: 
+	time_t sec_diff = last->tv_sec - previous->tv_sec;
+    long nsec_diff = last->tv_nsec - previous->tv_nsec;
+
+    double msec_diff = (sec_diff * 1000.0) + (nsec_diff / 1000000.0);
+    return msec_diff;
+
+	*/
 
 /*** TO BE DONE END ***/
 
