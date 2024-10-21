@@ -40,6 +40,11 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
     /*** write msg_no at the beginning of the message buffer ***/
 /*** TO BE DONE START ***/
 
+	//DA CHIEDERE: la sprintf, il valore di ritorno è OK se è 0?? 
+	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno)); /*NOTA: 
+
+
+	*/
 
 /*** TO BE DONE END ***/
 
@@ -48,24 +53,34 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
+	//DA CHIEDERE: se il parametro passato CLOCK_REALTIME è corretto
+	if(clock_gettime(CLOCK_REALTIME,&send_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
 	/*** Send the message through the socket ***/
 /*** TO BE DONE START ***/
 
+	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+	sent_bytes= send(tcp_socket, message, msg_size, 0); 
+	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
+	if(sent_bytes<0) fail_errno("Error sending data");  
 
 /*** TO BE DONE END ***/
 
 	/*** Receive answer through the socket (non blocking mode) ***/
 /*** TO BE DONE START ***/
 
+//DA CHIEDERE: i flags sono int??? 
+	//recv_bytes= recv(ping_socket, &answer_buffer, msg_size, MSG_DONTWAIT); 
+	if(recv_bytes < 0 ) fail_errno("Error receiving data"); 
 
 /*** TO BE DONE END ***/
 
 	/*** Store the current time in recv_time ***/
 /*** TO BE DONE START ***/
 
+	if(clock_gettime(CLOCK_REALTIME,&recv_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
