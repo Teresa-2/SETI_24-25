@@ -38,18 +38,31 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** write msg_no at the beginning of the message buffer ***/
 /*** TO BE DONE START ***/
 
+	//NOTA: il metodo scrive una stringa formattata in un buffer. In particolare, formatta il numero interno msg_no come una stringa e lo memorizza nel buffer 'message'. Poichè 'message' è un array di char, la call trasformerà msg_no in forato char 
+
+	//DA CHIEDERE: la sprintf, il valore di ritorno è OK se è 0?? 
+	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno)); /*NOTA: 
+
+
+	*/
 
 /*** TO BE DONE END ***/
 
     /*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
-
+	//DA CHIEDERE: se il parametro passato CLOCK_REALTIME è corretto
+	if(clock_gettime(CLOCK_REALTIME,&send_time) !=0 ) fail_errno(strerror(errno)); 
+	
 /*** TO BE DONE END ***/
 
     /*** Send the message through the socket ***/
 /*** TO BE DONE START ***/
-	
+
+	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+	sent_bytes= send(tcp_socket, message, msg_size, 0); 
+	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
+	if(sent_bytes<0) fail_errno("Error sending data");  	
 
 /*** TO BE DONE END ***/
 
@@ -63,6 +76,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** Store the current time in recv_time ***/
 /*** TO BE DONE START ***/
 
+if(clock_gettime(CLOCK_REALTIME,&recv_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
@@ -98,7 +112,7 @@ int main(int argc, char **argv)
 gai_hints.ai_family = AF_INET; 
 gai_hints.ai_socktype = SOCK_STREAM; 
 gai_hints.ai_protocol = 0; 
-/*NOTA: 
+/*DA CHIEDERE: 
 da completare i restanti campi??
 */
 
