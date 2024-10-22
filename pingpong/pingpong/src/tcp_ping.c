@@ -40,20 +40,16 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
 
 	//NOTA: il metodo scrive una stringa formattata in un buffer. In particolare, formatta il numero interno msg_no come una stringa e lo memorizza nel buffer 'message'. Poichè 'message' è un array di char, la call trasformerà msg_no in forato char 
 
-	//DA CHIEDERE: la sprintf, il valore di ritorno è OK se è 0?? 
-	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno)); /*NOTA: 
-
-
-	*/
+	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
 
     /*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE: se il parametro passato CLOCK_REALTIME è corretto
-	if(clock_gettime(CLOCK_REALTIME,&send_time) !=0 ) fail_errno(strerror(errno)); 
-	
+	//DA CHIEDERE: perché non va bene CLOCK_MONOTONIC?
+	if(clock_gettime(CLOCK_MONOTONIC, &send_time) ==-1 ) fail_errno(strerror(errno));
+
 /*** TO BE DONE END ***/
 
     /*** Send the message through the socket ***/
@@ -110,11 +106,7 @@ int main(int argc, char **argv)
 
 /*** TO BE DONE START ***/ 
 gai_hints.ai_family = AF_INET; 
-gai_hints.ai_socktype = SOCK_STREAM; 
-gai_hints.ai_protocol = 0; 
-/*DA CHIEDERE: 
-da completare i restanti campi??
-*/
+gai_hints.ai_socktype = SOCK_STREAM;
 
 /*** TO BE DONE END ***/
 
@@ -153,9 +145,8 @@ da completare i restanti campi??
 
     /*** Write the request on socket ***/
 /*** TO BE DONE START ***/
-	//CHIEDI: nr viene usata immediatamente sotto. Sovrascrive
-	nr = write(tcp_socket, request,sizeof(request)); //NOTA: in caso di insuccesso, -1
-	if(nr<0){
+	nr = blocking_write_all(tcp_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
+	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
 		fail_errno("Problem with Write"); 
 	}
 

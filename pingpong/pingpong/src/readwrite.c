@@ -72,7 +72,7 @@ ssize_t nonblocking_write_all(int fd, const void *ptr, size_t n)
 		if (n_written < 0) {
 
 /*** TO BE DONE START ***/
-
+// RIVEDERE DOPO EWOULDBLOCK
 			if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR){
 					printf("non-blocking error (data couldn't be written immediately)\n");
 					continue;

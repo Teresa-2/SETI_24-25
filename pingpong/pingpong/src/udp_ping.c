@@ -40,11 +40,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
     /*** write msg_no at the beginning of the message buffer ***/
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE: la sprintf, il valore di ritorno è OK se è 0?? 
-	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno)); /*NOTA: 
-
-
-	*/
+	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
 
@@ -53,8 +49,8 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE: se il parametro passato CLOCK_REALTIME è corretto
-	if(clock_gettime(CLOCK_REALTIME,&send_time) !=0 ) fail_errno(strerror(errno)); 
+	//DA CHIEDERE: controllare MONOTONIC/TYPE
+	if(clock_gettime(CLOCK_MONOTONIC,&send_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
@@ -71,9 +67,9 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Receive answer through the socket (non blocking mode) ***/
 /*** TO BE DONE START ***/
 
-//DA CHIEDERE: i flags sono int??? 
-	//recv_bytes= recv(ping_socket, &answer_buffer, msg_size, MSG_DONTWAIT); 
-	if(recv_bytes < 0 ) fail_errno("Error receiving data"); 
+//DA CHIEDERE: ha senso? o anziché msg_size, va passato strlen(answer_buffer)?
+	recv_bytes = read (ping_socket, &answer_buffer, msg_size);
+	recv_errno = errno;
 
 /*** TO BE DONE END ***/
 
@@ -122,10 +118,8 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
 	memset(&gai_hints, 0, sizeof gai_hints);
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE.: seil livello del protocollo(secondo argomento della setsockopt()) va ottenuto tramite il metodo getprotoent oppure se basta inserire manualmente UDP 
 	gai_hints.ai_family = AF_INET; 
 	gai_hints.ai_socktype = SOCK_DGRAM; //NOTA: la UDP usa la DGRAM 
-	gai_hints.ai_protocol = 0; 	
 
 /*** TO BE DONE END ***/
 
@@ -205,7 +199,6 @@ int main(int argc, char *argv[])
 
 	gai_hints.ai_family = AF_INET; 
 	gai_hints.ai_socktype = SOCK_STREAM;
-	gai_hints.ai_protocol = 0; 
 
 /*** TO BE DONE END ***/
 
@@ -241,9 +234,8 @@ int main(int argc, char *argv[])
     /*** Write the request on the TCP socket ***/
 /** TO BE DONE START ***/
 
-	//CHIEDI: nr viene usata immediatamente sotto. Sovrascrive
-	nr = write(ask_socket, request,sizeof(request)); //NOTA: in caso di insuccesso, -1
-	if(nr<0){
+	nr = blocking_write_all(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
+	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
 		fail_errno("Problem with Write"); 
 	}
 
