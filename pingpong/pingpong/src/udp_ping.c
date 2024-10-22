@@ -58,7 +58,8 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 /*** TO BE DONE START ***/
 
 	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-	sent_bytes= send(tcp_socket, message, msg_size, 0); 
+	//TERESA: il 1° parametro della send era tcp_socket, ho modificato inserendo ping_socket
+	sent_bytes= send(ping_socket, message, msg_size, 0); 
 	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
 	if(sent_bytes<0) fail_errno("Error sending data");  
 
@@ -205,7 +206,7 @@ int main(int argc, char *argv[])
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
 
-	gai_rv= getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
+	gai_rv = getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
 	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 /*** TO BE DONE END ***/
@@ -251,7 +252,10 @@ int main(int argc, char *argv[])
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
 
-	if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
+	//TERESA: c'era una parentesi in più al posto sbagliato
+
+	if(strncmp("OK",answer, size_of(answer)) != 0)
+		fail_errno("... Pong Server denied :-(\n"); 
 
 /*** TO BE DONE END ***/
 
