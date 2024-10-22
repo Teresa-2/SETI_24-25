@@ -122,19 +122,30 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
 	memset(&gai_hints, 0, sizeof gai_hints);
 /*** TO BE DONE START ***/
 
+	//DA CHIEDERE.: seil livello del protocollo(secondo argomento della setsockopt()) va ottenuto tramite il metodo getprotoent oppure se basta inserire manualmente UDP 
+	gai_hints.ai_family = AF_INET; 
+	gai_hints.ai_socktype = SOCK_DGRAM; //NOTA: la UDP usa la DGRAM 
+	gai_hints.ai_protocol = 0; 	
 
 /*** TO BE DONE END ***/
 
 	if ((ping_socket = socket(gai_hints.ai_family, gai_hints.ai_socktype, gai_hints.ai_protocol)) == -1)
 		fail_errno("UDP Ping could not get socket");
+
     /*** change socket behavior to NONBLOCKING ***/
 /*** TO BE DONE START ***/
 	
+	if (fcntl(ping_socket, F_SETFL, O_NONBLOCK) == -1) {
+    	fail_errno("problem with setting flags in UDP socket ");
+	}
 
 /*** TO BE DONE END ***/
 
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
+
+	gai_rv= getaddrinfo(pong_addr, pong_port,&gai_hints, &pong_addrinfo); 
+	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 
 /*** TO BE DONE END ***/
@@ -154,6 +165,9 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
     /*** connect the ping_socket UDP socket with the server ***/
 /*** TO BE DONE START ***/
 
+	if(connect(ping_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
+		fail_errno("Problem with socket connection in UDP");
+	}
 
 /*** TO BE DONE END ***/
 
@@ -189,12 +203,17 @@ int main(int argc, char *argv[])
 	memset(&gai_hints, 0, sizeof gai_hints);
 /*** TO BE DONE START ***/
 
+	gai_hints.ai_family = AF_INET; 
+	gai_hints.ai_socktype = SOCK_STREAM;
+	gai_hints.ai_protocol = 0; 
 
 /*** TO BE DONE END ***/
 
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
 
+	gai_rv= getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
+	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 /*** TO BE DONE END ***/
 
@@ -205,6 +224,13 @@ int main(int argc, char *argv[])
     /*** create a new TCP socket and connect it with the server ***/
 /*** TO BE DONE START ***/
 
+	ask_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
+	if(ask_socket==-1){ 
+		fail_errno("Problem with socket creation during the connection inizialization"); //DA RIVEDERE IL MESSAGGIO
+	}
+	if(connect(ask_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
+		fail_errno("Problem with socket connection"); //DA RIVEDERE IL MESSAGGIO
+	}
 
 /*** TO BE DONE END ***/
 
@@ -215,6 +241,11 @@ int main(int argc, char *argv[])
     /*** Write the request on the TCP socket ***/
 /** TO BE DONE START ***/
 
+	//CHIEDI: nr viene usata immediatamente sotto. Sovrascrive
+	nr = write(ask_socket, request,sizeof(request)); //NOTA: in caso di insuccesso, -1
+	if(nr<0){
+		fail_errno("Problem with Write"); 
+	}
 
 /*** TO BE DONE END ***/
 
@@ -228,6 +259,7 @@ int main(int argc, char *argv[])
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
 
+	if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
 
 /*** TO BE DONE END ***/
 
@@ -236,7 +268,7 @@ int main(int argc, char *argv[])
 	printf(" ... Pong server agreed to ping-pong using port %d :-)\n", pong_port);
 	sprintf(answer, "%d", pong_port);
 	shutdown(ask_socket, SHUT_RDWR);
-	close(ask_socket);
+	close(ask_socket);	
 
 	ping_socket = prepare_udp_socket(argv[1], answer);
 

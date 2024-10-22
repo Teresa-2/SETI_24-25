@@ -131,12 +131,12 @@ da completare i restanti campi??
 
     /*** create a new TCP socket and connect it with the server ***/
 /*** TO BE DONE START ***/
-	tcp_socket=socket(server_addrinfo->ai_family,server_addr->ai_socktype,server_addr->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
+	tcp_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
 	if(tcp_socket==-1){ 
 		fail_errno("Problem with socket creation during the connection inizialization");
 	}
-	if(connect(tcp_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)==-1) {//NOTA: in caso di successo, resituisce 0, sennò -1
-		fail_errno("Problem with socket connection");
+	if(connect(tcp_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
+		fail_errno("Problem with socket connection in TCP");
 	}
 
 /*** TO BE DONE END ***/
