@@ -117,7 +117,19 @@ int open_udp_socket(int *pong_port)
 		char port_number_as_str[6];
 		sprintf(port_number_as_str, "%d", port_number);
 /*** TO BE DONE START ***/
+		//NOTA DA TOGLIERE: create DGRAM socket, call getaddrinfo() to set port number, and bind() 
+		udp_socket= socket(gai_hints.ai_family,gai_hints.socktype, gai_hints.ai_protocol); 
+		if(udp_socket==-1) fail_errno(errno); 
 
+		*pong_port=port_number; //NOTA: salvando la port effimera per poter usare il server 
+
+		gai_rv = getaddrinfo("localhost", port_number_as_str,&gai_hints,&pong_addrinfo); 
+		if(gai_rv!= 0) fail_errno(errno); 
+
+		bind_rv = bind(udp_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen); 
+		if(bind_rv==-1) fail_errno(errno); //DA CAPIRE: perchè dà errore??
+		
+		return udp_socket; //DA CAPIRE: perchè il return va qui??  
 
 /*** TO BE DONE END ***/
 		if (errno != EADDRINUSE) 
@@ -263,8 +275,13 @@ int main(int argc, char **argv)
 	gai_hints.ai_protocol = IPPROTO_TCP;
 
 /*** TO BE DONE START ***/
+		gai_rv = getaddrinfo(NULL,*argv[1],&gai_hints,&server_addrinfo); 
+		if(gai_rv != 0) fail_errno(errno); 
 
+		server_socket= socket(gai_hints.ai_family,gai_hints.socktype, gai_hints.ai_protocol); 
+		if(server_socket==-1) fail_errno(errno); 
 
+		//DA FINIRE
 
 /*** TO BE DONE END ***/
 
