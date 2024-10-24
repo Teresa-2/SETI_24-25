@@ -163,6 +163,7 @@ gai_hints.ai_socktype = SOCK_STREAM;
 		- se ritorna 0, successo 
 		- in caso contrario, le due stringhe non sono identiche
 	*/
+	//TERESA
 	//errore come in udp, cambio strncmp con strcmp perché la risposta deve esattamente essere OK
 	//if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
 
