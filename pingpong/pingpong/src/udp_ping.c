@@ -252,10 +252,15 @@ int main(int argc, char *argv[])
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
 
+	//nuova versione da verificare
+	if (strcmp("OK",answer) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
+		fail_errno("... Pong Server denied :-(\n");
+	
+	/* originale*/
+	//DA ERRORE perché strncmp non funzionava con gli argomenti che gli sono stati passati
 	//TERESA: c'era una parentesi in più al posto sbagliato
-
-	if(strncmp("OK",answer, size_of(answer)) != 0)
-		fail_errno("... Pong Server denied :-(\n"); 
+	/*if(strncmp("OK",answer, size_of(answer)) != 0)
+		fail_errno("... Pong Server denied :-(\n");*/
 
 /*** TO BE DONE END ***/
 
