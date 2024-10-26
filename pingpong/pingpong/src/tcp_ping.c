@@ -50,7 +50,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
 	//DA CHIEDERE: perché non va bene CLOCK_MONOTONIC?
 	if(clock_gettime(CLOCK_MONOTONIC, &send_time) ==-1 ) fail_errno(strerror(errno));
 
-/*** TO BE DONE END ***///ciao
+/*** TO BE DONE END ***/
 
     /*** Send the message through the socket ***/
 /*** TO BE DONE START ***/
