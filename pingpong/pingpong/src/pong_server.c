@@ -126,6 +126,7 @@ int open_udp_socket(int *pong_port)
 		gai_rv = getaddrinfo("localhost", port_number_as_str,&gai_hints,&pong_addrinfo); 
 		if(gai_rv!= 0) fail_errno(errno); 
 
+		//DA CHIEDERE: le variabili gai_rv e bind_rv non vengono mai usate in pong_server, dobbiamo comunque inizializzarle con questi valori?? 
 		bind_rv = bind(udp_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen); 
 		if(bind_rv==-1) fail_errno(errno); //DA CAPIRE: perchè dà errore??
 		
@@ -275,13 +276,16 @@ int main(int argc, char **argv)
 	gai_hints.ai_protocol = IPPROTO_TCP;
 
 /*** TO BE DONE START ***/
-		gai_rv = getaddrinfo(NULL,*argv[1],&gai_hints,&server_addrinfo); 
-		if(gai_rv != 0) fail_errno(errno); 
+	gai_rv = getaddrinfo(NULL,*argv[1],&gai_hints,&server_addrinfo); 
+	if(gai_rv != 0) fail_errno(errno); 
 
-		server_socket= socket(gai_hints.ai_family,gai_hints.socktype, gai_hints.ai_protocol); 
-		if(server_socket==-1) fail_errno(errno); 
+	server_socket= socket(gai_hints.ai_family,gai_hints.socktype, gai_hints.ai_protocol); 
+	if(server_socket==-1) fail_errno(errno); 
 
-		//DA FINIRE
+	//DA CHIEDERE: nella lunghezza dell'indirizzo del socket, noi passiamo un tipo di dato 'size_t'. Nel amnuale però la bind prende come argomento socklen_t 
+	if(bind(server_socket, server_addrinfo->ai_addr,server_addrinfo->ai_addrlen) == -1) fail_errno(errno);
+
+	if(listen(server_socket,LISTENBACKLOG) == -1) fail_errno(errno); 
 
 /*** TO BE DONE END ***/
 
