@@ -1,0 +1,157 @@
+Il Micro-bash v2.2 è stato sviluppato con l'obiettivo di offrire un'esperienza pratica nella comprensione dei concetti 
+di elaborazione e trasmissione dell'informazione. Questo interprete di comandi minimalista, una versione 
+semplificata di una shell bash, è stato progettato per fungere da strumento didattico nel contesto del 
+laboratorio.
+
+La scelta di sviluppare un interprete di comandi si basa sulla necessità di fornire 
+una comprensione pratica dei principi fondamentali della programmazione di sistemi operativi e della 
+manipolazione delle stringhe. L'uso di un interprete di comandi consente di applicare direttamente concetti 
+teorici, migliorando la comprensione delle dinamiche dell'elaborazione dell'informazione.
+
+Test e Risultati:
+Test di Stress eseguiti :
+ 
+    Test comando inesistente
+Scopo: Verificare che la shell gestisca correttamente l'errore quando viene fornito un comando inesistente.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: ll
+Risultato atteso: execvp: No such file or directory
+    
+    Test uscita con comando inesistente
+Scopo: Verificare che la shell gestisca correttamente l'errore quando viene richiesta l'uscita con un comando inesistente.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: exit
+Risultato atteso: execvp: No such file or directory
+    
+    Test aggiornamento pacchetti con sudo
+Scopo: Verificare che la shell gestisca correttamente l'esecuzione di un comando sudo con aggiornamento dei pacchetti.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: sudo apt update
+Risultato atteso: Output relativo all'aggiornamento dei pacchetti.
+
+    Test esecuzione di comandi attraverso pipe
+Scopo: Verificare che la shell gestisca correttamente l'esecuzione di comandi attraverso pipe.
+Situazione iniziale: Ambiente di default.
+Linee inviate alla microbash:
+echo "ls" | ./microbash
+echo "pwd" | ./microbash
+Risultati attesi: Output di ls e pwd rispettivamente.
+
+    Test cambio directory di lavoro
+Scopo: Verificare che il comando cd cambi correttamente la directory di lavoro.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cd foo
+Risultato atteso: Cambio della directory di lavoro a "foo".
+
+    Test filtro e redirezione di output
+Scopo: Verificare che la shell filtri correttamente l'output di un comando e lo rediriga in un file.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: ls -l | grep foo >bar
+Risultato atteso: File "bar" contenente solo le linee dell'output di ls -l che contengono la stringa "foo".
+    
+    Test conteggio del numero di processori
+Scopo: Verificare che la shell conti correttamente il numero di processori presenti nel sistema.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cat /proc/cpuinfo | grep processor | wc -l
+Risultato atteso: Numero di processori nel sistema.
+    
+    Test redirezione di input da /proc/cpuinfo
+Scopo: Verificare che la shell gestisca correttamente la redirezione di input da /proc/cpuinfo.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cat </proc/cpuinfo | grep processor | wc -l
+Risultato atteso: Numero di processori nel sistema (analogo al test precedente).
+    
+    Test errore di parsing - Comando cd con due argomenti
+Scopo: Verificare che la shell segnali un errore di parsing quando si forniscono due argomenti al comando cd.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cd foo bar
+Risultato atteso: Errore: il comando cd ha un solo argomento.
+    
+    Test errore di parsing - Redirezione non supportata per il comando cd
+Scopo: Verificare che la shell segnali un errore di parsing quando si tenta di redirigere l'input al comando cd.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cd foo <bar
+Risultato atteso: Errore: il comando cd non supporta la redirezione.
+    
+    Test errore di parsing - Comando cd seguito da un altro comando
+Scopo: Verificare che la shell segnali un errore di parsing quando si segue il comando cd con un altro comando.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: ls | cd foo
+Risultato atteso: Errore: il comando cd deve essere usato da solo.
+    
+    Test errore di parsing - Spazio mancante nella redirezione dell'output
+Scopo: Verificare che la shell segnali un errore di parsing quando manca lo spazio nella redirezione dell'output.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: ls -l | grep foo >bar
+Risultato atteso: Errore: non è specificato il file per la redirezione dello standard output (c'è uno spazio fra > e bar).
+    
+    Test errore di parsing - Redirezione dell'input per comandi non consentiti
+Scopo: Verificare che la shell segnali un errore di parsing quando si tenta di redirigere l'input a comandi che non lo supportano.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: ls | grep foo <bar | wc -l
+Risultato atteso: Errore: solo il primo comando può avere la redirezione dell'input.
+
+    Test esecuzione di comandi complessi tramite pipe
+Scopo: Verificare che la shell esegua correttamente una serie di comandi complessi tramite pipe.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "ls > output.txt" | ./microbash
+Risultato atteso: Esecuzione del comando echo con la redirezione dell'output.
+
+    Test esecuzione di comandi con input da file
+Scopo: Verificare che la shell esegua correttamente i comandi con input da file.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "cat < input.txt" | ./microbash
+Risultato atteso: Esecuzione del comando echo con l'input da file.
+
+    Test esecuzione di comandi concatenati tramite punto e virgola
+Scopo: Verificare che la shell esegua correttamente una sequenza di comandi concatenati tramite punto e virgola.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "echo 'Hello' ; echo 'World'" | ./microbash
+Risultato atteso: Esecuzione dei comandi echo consecutivamente.
+    
+    Test esecuzione di comando in background non supportata
+Scopo: Verificare che la shell gestisca correttamente l'errore quando si tenta di eseguire un comando in background.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "sleep 10 &" | ./microbash
+Risultato atteso: Errore: non supporta l'esecuzione in background.
+    
+    Test cambio directory tramite comando cd
+Scopo: Verificare che la shell cambi correttamente la directory di lavoro.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "cd ../../SETI/LAB2" | ./microbash
+Risultato atteso: Cambio della directory di lavoro.
+    
+    Test loop di comandi echo
+Scopo: Verificare che la shell esegua correttamente un loop di comandi echo.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: for i in {1..1000}; do echo "echo 'Command $i'"; done | ./microbash
+Risultato atteso: Esecuzione ripetuta dei comandi echo con numeri crescenti.
+    
+    Test allocazione e deallocazione di memoria
+Scopo: Verificare che la shell esegua correttamente un loop di comandi per l'allocazione e deallocazione di memoria.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: for i in {1..1000}; do echo "echo 'Allocating memory'; malloc 1000000; echo 'Freeing memory'; free"; done | ./microbash
+Risultato atteso: Esecuzione ripetuta dei comandi di allocazione e deallocazione di memoria.
+    
+    Test esecuzione di comando con lunghezza del nome del file troppo lunga
+Scopo: Verificare che la shell gestisca correttamente l'errore quando il nome del file supera la lunghezza massima consentita.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo "$(python -c 'print("A" * 10000)')" | ./microbash
+Risultato atteso: Errore: execvp: File name too long
+
+    Test lettura di un file con permessi insufficienti
+Scopo: Verificare che la shell gestisca correttamente la lettura di un file quando l'utente non ha i permessi necessari.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: cat /etc/shadow
+Risultato atteso: cat: /etc/shadow: Permission denied
+    
+    Test scrittura di un file con permessi insufficienti
+Scopo: Verificare che la shell gestisca correttamente la scrittura in un file quando l'utente non ha i permessi necessari.
+Situazione iniziale: Ambiente di default.
+Linea inviata alla microbash: echo 'Malicious content' >/etc/passwd
+Risultato atteso: open curr_stdout: Permission denied
+Questi casi di test coprono diversi aspetti dell'implementazione della microbash e dovrebbero essere utili per verificare il corretto 
+funzionamento del programma.
+
+
+

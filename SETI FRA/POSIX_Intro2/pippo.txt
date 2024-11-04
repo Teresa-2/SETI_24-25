@@ -1,0 +1,9 @@
+total 100
+-rwxr-xr-x 1 francesco francesco 37184 Nov 11 14:44 AllTask
+-rw-r--r-- 1 francesco francesco  2370 Nov 10 13:45 README.txt
+-rw-r--r-- 1 francesco francesco  7783 Nov 11 14:43 alltasks.c
+-rw-r--r-- 1 francesco francesco  2155 Nov 10 14:00 ask file.c
+-rwxr-xr-x 1 francesco francesco 22496 Nov 10 14:01 askFile
+-rw-r--r-- 1 francesco francesco  1298 Nov 10 13:23 ls -l.c
+-rwxr-xr-x 1 francesco francesco 16232 Nov 10 13:23 ls-l
+-rw------- 1 francesco francesco     0 Nov 11 14:45 pippo.txt

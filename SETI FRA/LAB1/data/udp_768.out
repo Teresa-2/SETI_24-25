@@ -1,0 +1,2040 @@
+UDP Ping trying to connect to server localhost (127.0.0.1) on TCP port 1491
+ ... connected to Pong server: asking for 501 repetitions of 768 _bytes UDP messages
+ ... Pong server agreed to ping-pong using port 49152 :-)
+ ... about to connect socket 3 to IP address 127.0.0.1, port 49152
+ ... sending message 1
+Error, retrying recieving msg
+Round trip time was  0.038 milliseconds in repetition 1
+ ... sending message 2
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 2
+ ... sending message 3
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 3
+ ... sending message 4
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 4
+ ... sending message 5
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 5
+ ... sending message 6
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 6
+ ... sending message 7
+Error, retrying recieving msg
+Round trip time was  0.037 milliseconds in repetition 7
+ ... sending message 8
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 8
+ ... sending message 9
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 9
+ ... sending message 10
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 10
+ ... sending message 11
+Error, retrying recieving msg
+Round trip time was  0.037 milliseconds in repetition 11
+ ... sending message 12
+Error, retrying recieving msg
+Round trip time was  0.033 milliseconds in repetition 12
+ ... sending message 13
+Error, retrying recieving msg
+Round trip time was  0.021 milliseconds in repetition 13
+ ... sending message 14
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 14
+ ... sending message 15
+Error, retrying recieving msg
+Round trip time was  0.066 milliseconds in repetition 15
+ ... sending message 16
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 16
+ ... sending message 17
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 17
+ ... sending message 18
+Error, retrying recieving msg
+Round trip time was  0.073 milliseconds in repetition 18
+ ... sending message 19
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 19
+ ... sending message 20
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 20
+ ... sending message 21
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 21
+ ... sending message 22
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 22
+ ... sending message 23
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 23
+ ... sending message 24
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 24
+ ... sending message 25
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 25
+ ... sending message 26
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 26
+ ... sending message 27
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 27
+ ... sending message 28
+Error, retrying recieving msg
+Round trip time was  0.067 milliseconds in repetition 28
+ ... sending message 29
+Error, retrying recieving msg
+Round trip time was  0.082 milliseconds in repetition 29
+ ... sending message 30
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 30
+ ... sending message 31
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 31
+ ... sending message 32
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 32
+ ... sending message 33
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 33
+ ... sending message 34
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 34
+ ... sending message 35
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 35
+ ... sending message 36
+Error, retrying recieving msg
+Round trip time was  0.090 milliseconds in repetition 36
+ ... sending message 37
+Error, retrying recieving msg
+Round trip time was  0.065 milliseconds in repetition 37
+ ... sending message 38
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 38
+ ... sending message 39
+Error, retrying recieving msg
+Round trip time was  0.068 milliseconds in repetition 39
+ ... sending message 40
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 40
+ ... sending message 41
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 41
+ ... sending message 42
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 42
+ ... sending message 43
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 43
+ ... sending message 44
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 44
+ ... sending message 45
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 45
+ ... sending message 46
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 46
+ ... sending message 47
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 47
+ ... sending message 48
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 48
+ ... sending message 49
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 49
+ ... sending message 50
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 50
+ ... sending message 51
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 51
+ ... sending message 52
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 52
+ ... sending message 53
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 53
+ ... sending message 54
+Error, retrying recieving msg
+Round trip time was  0.037 milliseconds in repetition 54
+ ... sending message 55
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 55
+ ... sending message 56
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 56
+ ... sending message 57
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 57
+ ... sending message 58
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 58
+ ... sending message 59
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 59
+ ... sending message 60
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 60
+ ... sending message 61
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 61
+ ... sending message 62
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 62
+ ... sending message 63
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 63
+ ... sending message 64
+Error, retrying recieving msg
+Round trip time was  0.069 milliseconds in repetition 64
+ ... sending message 65
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 65
+ ... sending message 66
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 66
+ ... sending message 67
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 67
+ ... sending message 68
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 68
+ ... sending message 69
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 69
+ ... sending message 70
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 70
+ ... sending message 71
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 71
+ ... sending message 72
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 72
+ ... sending message 73
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 73
+ ... sending message 74
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 74
+ ... sending message 75
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 75
+ ... sending message 76
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 76
+ ... sending message 77
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 77
+ ... sending message 78
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 78
+ ... sending message 79
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 79
+ ... sending message 80
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 80
+ ... sending message 81
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 81
+ ... sending message 82
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 82
+ ... sending message 83
+Error, retrying recieving msg
+Round trip time was  0.062 milliseconds in repetition 83
+ ... sending message 84
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 84
+ ... sending message 85
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 85
+ ... sending message 86
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 86
+ ... sending message 87
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 87
+ ... sending message 88
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 88
+ ... sending message 89
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 89
+ ... sending message 90
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 90
+ ... sending message 91
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 91
+ ... sending message 92
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 92
+ ... sending message 93
+Error, retrying recieving msg
+Round trip time was  0.062 milliseconds in repetition 93
+ ... sending message 94
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 94
+ ... sending message 95
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 95
+ ... sending message 96
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 96
+ ... sending message 97
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 97
+ ... sending message 98
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 98
+ ... sending message 99
+Error, retrying recieving msg
+Round trip time was  0.064 milliseconds in repetition 99
+ ... sending message 100
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 100
+ ... sending message 101
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 101
+ ... sending message 102
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 102
+ ... sending message 103
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 103
+ ... sending message 104
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 104
+ ... sending message 105
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 105
+ ... sending message 106
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 106
+ ... sending message 107
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 107
+ ... sending message 108
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 108
+ ... sending message 109
+Error, retrying recieving msg
+Round trip time was  0.099 milliseconds in repetition 109
+ ... sending message 110
+Error, retrying recieving msg
+Round trip time was  0.068 milliseconds in repetition 110
+ ... sending message 111
+Error, retrying recieving msg
+Round trip time was  0.079 milliseconds in repetition 111
+ ... sending message 112
+Error, retrying recieving msg
+Round trip time was  0.078 milliseconds in repetition 112
+ ... sending message 113
+Error, retrying recieving msg
+Round trip time was  0.076 milliseconds in repetition 113
+ ... sending message 114
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 114
+ ... sending message 115
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 115
+ ... sending message 116
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 116
+ ... sending message 117
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 117
+ ... sending message 118
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 118
+ ... sending message 119
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 119
+ ... sending message 120
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 120
+ ... sending message 121
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 121
+ ... sending message 122
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 122
+ ... sending message 123
+Error, retrying recieving msg
+Round trip time was  0.070 milliseconds in repetition 123
+ ... sending message 124
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 124
+ ... sending message 125
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 125
+ ... sending message 126
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 126
+ ... sending message 127
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 127
+ ... sending message 128
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 128
+ ... sending message 129
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 129
+ ... sending message 130
+Error, retrying recieving msg
+Round trip time was  0.082 milliseconds in repetition 130
+ ... sending message 131
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 131
+ ... sending message 132
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 132
+ ... sending message 133
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 133
+ ... sending message 134
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 134
+ ... sending message 135
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 135
+ ... sending message 136
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 136
+ ... sending message 137
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 137
+ ... sending message 138
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 138
+ ... sending message 139
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 139
+ ... sending message 140
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 140
+ ... sending message 141
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 141
+ ... sending message 142
+Error, retrying recieving msg
+Round trip time was  0.069 milliseconds in repetition 142
+ ... sending message 143
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 143
+ ... sending message 144
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 144
+ ... sending message 145
+Error, retrying recieving msg
+Round trip time was  0.072 milliseconds in repetition 145
+ ... sending message 146
+Error, retrying recieving msg
+Round trip time was  0.077 milliseconds in repetition 146
+ ... sending message 147
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 147
+ ... sending message 148
+Error, retrying recieving msg
+Round trip time was  0.066 milliseconds in repetition 148
+ ... sending message 149
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 149
+ ... sending message 150
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 150
+ ... sending message 151
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 151
+ ... sending message 152
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 152
+ ... sending message 153
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 153
+ ... sending message 154
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 154
+ ... sending message 155
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 155
+ ... sending message 156
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 156
+ ... sending message 157
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 157
+ ... sending message 158
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 158
+ ... sending message 159
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 159
+ ... sending message 160
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 160
+ ... sending message 161
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 161
+ ... sending message 162
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 162
+ ... sending message 163
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 163
+ ... sending message 164
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 164
+ ... sending message 165
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 165
+ ... sending message 166
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 166
+ ... sending message 167
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 167
+ ... sending message 168
+Error, retrying recieving msg
+Round trip time was  0.067 milliseconds in repetition 168
+ ... sending message 169
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 169
+ ... sending message 170
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 170
+ ... sending message 171
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 171
+ ... sending message 172
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 172
+ ... sending message 173
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 173
+ ... sending message 174
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 174
+ ... sending message 175
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 175
+ ... sending message 176
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 176
+ ... sending message 177
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 177
+ ... sending message 178
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 178
+ ... sending message 179
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 179
+ ... sending message 180
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 180
+ ... sending message 181
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 181
+ ... sending message 182
+Error, retrying recieving msg
+Round trip time was  0.086 milliseconds in repetition 182
+ ... sending message 183
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 183
+ ... sending message 184
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 184
+ ... sending message 185
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 185
+ ... sending message 186
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 186
+ ... sending message 187
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 187
+ ... sending message 188
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 188
+ ... sending message 189
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 189
+ ... sending message 190
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 190
+ ... sending message 191
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 191
+ ... sending message 192
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 192
+ ... sending message 193
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 193
+ ... sending message 194
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 194
+ ... sending message 195
+Error, retrying recieving msg
+Round trip time was  0.033 milliseconds in repetition 195
+ ... sending message 196
+Error, retrying recieving msg
+Round trip time was  0.022 milliseconds in repetition 196
+ ... sending message 197
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 197
+ ... sending message 198
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 198
+ ... sending message 199
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 199
+ ... sending message 200
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 200
+ ... sending message 201
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 201
+ ... sending message 202
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 202
+ ... sending message 203
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 203
+ ... sending message 204
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 204
+ ... sending message 205
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 205
+ ... sending message 206
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 206
+ ... sending message 207
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 207
+ ... sending message 208
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 208
+ ... sending message 209
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 209
+ ... sending message 210
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 210
+ ... sending message 211
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 211
+ ... sending message 212
+Error, retrying recieving msg
+Round trip time was  0.085 milliseconds in repetition 212
+ ... sending message 213
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 213
+ ... sending message 214
+Error, retrying recieving msg
+Round trip time was  0.112 milliseconds in repetition 214
+ ... sending message 215
+Error, retrying recieving msg
+Round trip time was  0.064 milliseconds in repetition 215
+ ... sending message 216
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 216
+ ... sending message 217
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 217
+ ... sending message 218
+Error, retrying recieving msg
+Round trip time was  0.103 milliseconds in repetition 218
+ ... sending message 219
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 219
+ ... sending message 220
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 220
+ ... sending message 221
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 221
+ ... sending message 222
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 222
+ ... sending message 223
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 223
+ ... sending message 224
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 224
+ ... sending message 225
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 225
+ ... sending message 226
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 226
+ ... sending message 227
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 227
+ ... sending message 228
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 228
+ ... sending message 229
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 229
+ ... sending message 230
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 230
+ ... sending message 231
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 231
+ ... sending message 232
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 232
+ ... sending message 233
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 233
+ ... sending message 234
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 234
+ ... sending message 235
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 235
+ ... sending message 236
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 236
+ ... sending message 237
+Error, retrying recieving msg
+Round trip time was  0.076 milliseconds in repetition 237
+ ... sending message 238
+Error, retrying recieving msg
+Round trip time was  0.070 milliseconds in repetition 238
+ ... sending message 239
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 239
+ ... sending message 240
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 240
+ ... sending message 241
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 241
+ ... sending message 242
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 242
+ ... sending message 243
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 243
+ ... sending message 244
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 244
+ ... sending message 245
+Error, retrying recieving msg
+Round trip time was  0.042 milliseconds in repetition 245
+ ... sending message 246
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 246
+ ... sending message 247
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 247
+ ... sending message 248
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 248
+ ... sending message 249
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 249
+ ... sending message 250
+Error, retrying recieving msg
+Round trip time was  0.075 milliseconds in repetition 250
+ ... sending message 251
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 251
+ ... sending message 252
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 252
+ ... sending message 253
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 253
+ ... sending message 254
+Error, retrying recieving msg
+Round trip time was  0.093 milliseconds in repetition 254
+ ... sending message 255
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 255
+ ... sending message 256
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 256
+ ... sending message 257
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 257
+ ... sending message 258
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 258
+ ... sending message 259
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 259
+ ... sending message 260
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 260
+ ... sending message 261
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 261
+ ... sending message 262
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 262
+ ... sending message 263
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 263
+ ... sending message 264
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 264
+ ... sending message 265
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 265
+ ... sending message 266
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 266
+ ... sending message 267
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 267
+ ... sending message 268
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 268
+ ... sending message 269
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 269
+ ... sending message 270
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 270
+ ... sending message 271
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 271
+ ... sending message 272
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 272
+ ... sending message 273
+Error, retrying recieving msg
+Round trip time was  0.030 milliseconds in repetition 273
+ ... sending message 274
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 274
+ ... sending message 275
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 275
+ ... sending message 276
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 276
+ ... sending message 277
+Error, retrying recieving msg
+Round trip time was  0.070 milliseconds in repetition 277
+ ... sending message 278
+Error, retrying recieving msg
+Round trip time was  0.081 milliseconds in repetition 278
+ ... sending message 279
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 279
+ ... sending message 280
+Error, retrying recieving msg
+Round trip time was  0.090 milliseconds in repetition 280
+ ... sending message 281
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 281
+ ... sending message 282
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 282
+ ... sending message 283
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 283
+ ... sending message 284
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 284
+ ... sending message 285
+Error, retrying recieving msg
+Round trip time was  0.031 milliseconds in repetition 285
+ ... sending message 286
+Error, retrying recieving msg
+Round trip time was  0.023 milliseconds in repetition 286
+ ... sending message 287
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 287
+ ... sending message 288
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 288
+ ... sending message 289
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 289
+ ... sending message 290
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 290
+ ... sending message 291
+Error, retrying recieving msg
+Round trip time was  0.067 milliseconds in repetition 291
+ ... sending message 292
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 292
+ ... sending message 293
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 293
+ ... sending message 294
+Error, retrying recieving msg
+Round trip time was  0.029 milliseconds in repetition 294
+ ... sending message 295
+Error, retrying recieving msg
+Round trip time was  0.018 milliseconds in repetition 295
+ ... sending message 296
+Error, retrying recieving msg
+Round trip time was  0.024 milliseconds in repetition 296
+ ... sending message 297
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 297
+ ... sending message 298
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 298
+ ... sending message 299
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 299
+ ... sending message 300
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 300
+ ... sending message 301
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 301
+ ... sending message 302
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 302
+ ... sending message 303
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 303
+ ... sending message 304
+Error, retrying recieving msg
+Round trip time was  0.067 milliseconds in repetition 304
+ ... sending message 305
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 305
+ ... sending message 306
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 306
+ ... sending message 307
+Error, retrying recieving msg
+Round trip time was  0.037 milliseconds in repetition 307
+ ... sending message 308
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 308
+ ... sending message 309
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 309
+ ... sending message 310
+Error, retrying recieving msg
+Round trip time was  0.069 milliseconds in repetition 310
+ ... sending message 311
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 311
+ ... sending message 312
+Error, retrying recieving msg
+Round trip time was  0.072 milliseconds in repetition 312
+ ... sending message 313
+Error, retrying recieving msg
+Round trip time was  0.114 milliseconds in repetition 313
+ ... sending message 314
+Error, retrying recieving msg
+Round trip time was  0.100 milliseconds in repetition 314
+ ... sending message 315
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 315
+ ... sending message 316
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 316
+ ... sending message 317
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 317
+ ... sending message 318
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 318
+ ... sending message 319
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 319
+ ... sending message 320
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 320
+ ... sending message 321
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 321
+ ... sending message 322
+Error, retrying recieving msg
+Round trip time was  0.033 milliseconds in repetition 322
+ ... sending message 323
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 323
+ ... sending message 324
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 324
+ ... sending message 325
+Error, retrying recieving msg
+Round trip time was  0.028 milliseconds in repetition 325
+ ... sending message 326
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 326
+ ... sending message 327
+Error, retrying recieving msg
+Round trip time was  0.076 milliseconds in repetition 327
+ ... sending message 328
+Error, retrying recieving msg
+Round trip time was  0.109 milliseconds in repetition 328
+ ... sending message 329
+Error, retrying recieving msg
+Round trip time was  0.108 milliseconds in repetition 329
+ ... sending message 330
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 330
+ ... sending message 331
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 331
+ ... sending message 332
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 332
+ ... sending message 333
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 333
+ ... sending message 334
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 334
+ ... sending message 335
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 335
+ ... sending message 336
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 336
+ ... sending message 337
+Error, retrying recieving msg
+Round trip time was  0.065 milliseconds in repetition 337
+ ... sending message 338
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 338
+ ... sending message 339
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 339
+ ... sending message 340
+Error, retrying recieving msg
+Round trip time was  0.066 milliseconds in repetition 340
+ ... sending message 341
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 341
+ ... sending message 342
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 342
+ ... sending message 343
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 343
+ ... sending message 344
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 344
+ ... sending message 345
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 345
+ ... sending message 346
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 346
+ ... sending message 347
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 347
+ ... sending message 348
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 348
+ ... sending message 349
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 349
+ ... sending message 350
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 350
+ ... sending message 351
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 351
+ ... sending message 352
+Error, retrying recieving msg
+Round trip time was  0.101 milliseconds in repetition 352
+ ... sending message 353
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 353
+ ... sending message 354
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 354
+ ... sending message 355
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 355
+ ... sending message 356
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 356
+ ... sending message 357
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 357
+ ... sending message 358
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 358
+ ... sending message 359
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 359
+ ... sending message 360
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 360
+ ... sending message 361
+Error, retrying recieving msg
+Round trip time was  0.066 milliseconds in repetition 361
+ ... sending message 362
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 362
+ ... sending message 363
+Error, retrying recieving msg
+Round trip time was  0.073 milliseconds in repetition 363
+ ... sending message 364
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 364
+ ... sending message 365
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 365
+ ... sending message 366
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 366
+ ... sending message 367
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 367
+ ... sending message 368
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 368
+ ... sending message 369
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 369
+ ... sending message 370
+Error, retrying recieving msg
+Round trip time was  0.030 milliseconds in repetition 370
+ ... sending message 371
+Error, retrying recieving msg
+Round trip time was  0.018 milliseconds in repetition 371
+ ... sending message 372
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 372
+ ... sending message 373
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 373
+ ... sending message 374
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 374
+ ... sending message 375
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 375
+ ... sending message 376
+Error, retrying recieving msg
+Round trip time was  0.033 milliseconds in repetition 376
+ ... sending message 377
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 377
+ ... sending message 378
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 378
+ ... sending message 379
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 379
+ ... sending message 380
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 380
+ ... sending message 381
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 381
+ ... sending message 382
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 382
+ ... sending message 383
+Error, retrying recieving msg
+Round trip time was  0.064 milliseconds in repetition 383
+ ... sending message 384
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 384
+ ... sending message 385
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 385
+ ... sending message 386
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 386
+ ... sending message 387
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 387
+ ... sending message 388
+Error, retrying recieving msg
+Round trip time was  0.030 milliseconds in repetition 388
+ ... sending message 389
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 389
+ ... sending message 390
+Error, retrying recieving msg
+Round trip time was  0.029 milliseconds in repetition 390
+ ... sending message 391
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 391
+ ... sending message 392
+Error, retrying recieving msg
+Round trip time was  0.029 milliseconds in repetition 392
+ ... sending message 393
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 393
+ ... sending message 394
+Error, retrying recieving msg
+Round trip time was  0.082 milliseconds in repetition 394
+ ... sending message 395
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 395
+ ... sending message 396
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 396
+ ... sending message 397
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 397
+ ... sending message 398
+Error, retrying recieving msg
+Round trip time was  0.066 milliseconds in repetition 398
+ ... sending message 399
+Error, retrying recieving msg
+Round trip time was  0.145 milliseconds in repetition 399
+ ... sending message 400
+Error, retrying recieving msg
+Round trip time was  0.194 milliseconds in repetition 400
+ ... sending message 401
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 401
+ ... sending message 402
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 402
+ ... sending message 403
+Error, retrying recieving msg
+Round trip time was  0.062 milliseconds in repetition 403
+ ... sending message 404
+Error, retrying recieving msg
+Round trip time was  0.061 milliseconds in repetition 404
+ ... sending message 405
+Error, retrying recieving msg
+Round trip time was  0.062 milliseconds in repetition 405
+ ... sending message 406
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 406
+ ... sending message 407
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 407
+ ... sending message 408
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 408
+ ... sending message 409
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 409
+ ... sending message 410
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 410
+ ... sending message 411
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 411
+ ... sending message 412
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 412
+ ... sending message 413
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 413
+ ... sending message 414
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 414
+ ... sending message 415
+Error, retrying recieving msg
+Round trip time was  0.068 milliseconds in repetition 415
+ ... sending message 416
+Error, retrying recieving msg
+Round trip time was  0.069 milliseconds in repetition 416
+ ... sending message 417
+Error, retrying recieving msg
+Round trip time was  0.058 milliseconds in repetition 417
+ ... sending message 418
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 418
+ ... sending message 419
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 419
+ ... sending message 420
+Error, retrying recieving msg
+Round trip time was  0.043 milliseconds in repetition 420
+ ... sending message 421
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 421
+ ... sending message 422
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 422
+ ... sending message 423
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 423
+ ... sending message 424
+Error, retrying recieving msg
+Round trip time was  0.077 milliseconds in repetition 424
+ ... sending message 425
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 425
+ ... sending message 426
+Error, retrying recieving msg
+Round trip time was  0.083 milliseconds in repetition 426
+ ... sending message 427
+Error, retrying recieving msg
+Round trip time was  0.041 milliseconds in repetition 427
+ ... sending message 428
+Error, retrying recieving msg
+Round trip time was  0.041 milliseconds in repetition 428
+ ... sending message 429
+Error, retrying recieving msg
+Round trip time was  0.038 milliseconds in repetition 429
+ ... sending message 430
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 430
+ ... sending message 431
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 431
+ ... sending message 432
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 432
+ ... sending message 433
+Error, retrying recieving msg
+Round trip time was  0.034 milliseconds in repetition 433
+ ... sending message 434
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 434
+ ... sending message 435
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 435
+ ... sending message 436
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 436
+ ... sending message 437
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 437
+ ... sending message 438
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 438
+ ... sending message 439
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 439
+ ... sending message 440
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 440
+ ... sending message 441
+Error, retrying recieving msg
+Round trip time was  0.038 milliseconds in repetition 441
+ ... sending message 442
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 442
+ ... sending message 443
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 443
+ ... sending message 444
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 444
+ ... sending message 445
+Error, retrying recieving msg
+Round trip time was  0.050 milliseconds in repetition 445
+ ... sending message 446
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 446
+ ... sending message 447
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 447
+ ... sending message 448
+Error, retrying recieving msg
+Round trip time was  0.041 milliseconds in repetition 448
+ ... sending message 449
+Error, retrying recieving msg
+Round trip time was  0.036 milliseconds in repetition 449
+ ... sending message 450
+Error, retrying recieving msg
+Round trip time was  0.041 milliseconds in repetition 450
+ ... sending message 451
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 451
+ ... sending message 452
+Error, retrying recieving msg
+Round trip time was  0.039 milliseconds in repetition 452
+ ... sending message 453
+Error, retrying recieving msg
+Round trip time was  0.040 milliseconds in repetition 453
+ ... sending message 454
+Error, retrying recieving msg
+Round trip time was  0.041 milliseconds in repetition 454
+ ... sending message 455
+Error, retrying recieving msg
+Round trip time was  0.035 milliseconds in repetition 455
+ ... sending message 456
+Error, retrying recieving msg
+Round trip time was  0.063 milliseconds in repetition 456
+ ... sending message 457
+Error, retrying recieving msg
+Round trip time was  0.079 milliseconds in repetition 457
+ ... sending message 458
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 458
+ ... sending message 459
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 459
+ ... sending message 460
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 460
+ ... sending message 461
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 461
+ ... sending message 462
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 462
+ ... sending message 463
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 463
+ ... sending message 464
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 464
+ ... sending message 465
+Error, retrying recieving msg
+Round trip time was  0.044 milliseconds in repetition 465
+ ... sending message 466
+Error, retrying recieving msg
+Round trip time was  0.047 milliseconds in repetition 466
+ ... sending message 467
+Error, retrying recieving msg
+Round trip time was  0.031 milliseconds in repetition 467
+ ... sending message 468
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 468
+ ... sending message 469
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 469
+ ... sending message 470
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 470
+ ... sending message 471
+Error, retrying recieving msg
+Round trip time was  0.154 milliseconds in repetition 471
+ ... sending message 472
+Error, retrying recieving msg
+Round trip time was  0.084 milliseconds in repetition 472
+ ... sending message 473
+Error, retrying recieving msg
+Round trip time was  0.045 milliseconds in repetition 473
+ ... sending message 474
+Error, retrying recieving msg
+Round trip time was  0.117 milliseconds in repetition 474
+ ... sending message 475
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 475
+ ... sending message 476
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 476
+ ... sending message 477
+Error, retrying recieving msg
+Round trip time was  0.060 milliseconds in repetition 477
+ ... sending message 478
+Error, retrying recieving msg
+Round trip time was  0.051 milliseconds in repetition 478
+ ... sending message 479
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 479
+ ... sending message 480
+Error, retrying recieving msg
+Round trip time was  0.053 milliseconds in repetition 480
+ ... sending message 481
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 481
+ ... sending message 482
+Error, retrying recieving msg
+Round trip time was  0.056 milliseconds in repetition 482
+ ... sending message 483
+Error, retrying recieving msg
+Round trip time was  0.062 milliseconds in repetition 483
+ ... sending message 484
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 484
+ ... sending message 485
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 485
+ ... sending message 486
+Error, retrying recieving msg
+Round trip time was  0.046 milliseconds in repetition 486
+ ... sending message 487
+Error, retrying recieving msg
+Round trip time was  0.083 milliseconds in repetition 487
+ ... sending message 488
+Error, retrying recieving msg
+Round trip time was  0.068 milliseconds in repetition 488
+ ... sending message 489
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 489
+ ... sending message 490
+Error, retrying recieving msg
+Round trip time was  0.048 milliseconds in repetition 490
+ ... sending message 491
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 491
+ ... sending message 492
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 492
+ ... sending message 493
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 493
+ ... sending message 494
+Error, retrying recieving msg
+Round trip time was  0.055 milliseconds in repetition 494
+ ... sending message 495
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 495
+ ... sending message 496
+Error, retrying recieving msg
+Round trip time was  0.054 milliseconds in repetition 496
+ ... sending message 497
+Error, retrying recieving msg
+Round trip time was  0.049 milliseconds in repetition 497
+ ... sending message 498
+Error, retrying recieving msg
+Round trip time was  0.052 milliseconds in repetition 498
+ ... sending message 499
+Error, retrying recieving msg
+Round trip time was  0.057 milliseconds in repetition 499
+ ... sending message 500
+Error, retrying recieving msg
+Round trip time was  0.067 milliseconds in repetition 500
+ ... sending message 501
+Error, retrying recieving msg
+Round trip time was  0.059 milliseconds in repetition 501
+
+ ... clock resolution was 1e-06 h_min=0.0178185,  h_max=0.193771, h_incr=0.00879765
+     rtt[0]=0.01782
+     rtt[1]=0.017951
+     rtt[2]=0.021415
+     rtt[3]=0.021876
+     rtt[4]=0.022991
+     rtt[5]=0.023542
+     rtt[6]=0.02777
+     rtt[7]=0.028961
+     rtt[8]=0.029111
+     rtt[9]=0.029463
+     rtt[10]=0.030094
+     rtt[11]=0.030393
+     rtt[12]=0.030395
+     rtt[13]=0.031016
+     rtt[14]=0.031086
+     rtt[15]=0.033077
+     rtt[16]=0.033096
+     rtt[17]=0.03326
+     rtt[18]=0.03346
+     rtt[19]=0.03352
+     rtt[20]=0.03361
+     rtt[21]=0.03367
+     rtt[22]=0.03373
+     rtt[23]=0.033921
+     rtt[24]=0.034181
+     rtt[25]=0.034642
+     rtt[26]=0.0349
+     rtt[27]=0.034994
+     rtt[28]=0.035171
+     rtt[29]=0.035344
+     rtt[30]=0.035404
+     rtt[31]=0.035525
+     rtt[32]=0.035684
+     rtt[33]=0.035685
+     rtt[34]=0.035685
+     rtt[35]=0.035705
+     rtt[36]=0.036005
+     rtt[37]=0.036125
+     rtt[38]=0.036156
+     rtt[39]=0.036205
+     rtt[40]=0.036467
+     rtt[41]=0.036604
+     rtt[42]=0.036747
+     rtt[43]=0.037014
+     rtt[44]=0.037436
+     rtt[45]=0.037828
+     rtt[46]=0.037912
+     rtt[47]=0.038028
+     rtt[48]=0.03854
+     rtt[49]=0.038631
+     rtt[50]=0.039011
+     rtt[51]=0.039252
+     rtt[52]=0.039273
+     rtt[53]=0.039431
+     rtt[54]=0.039702
+     rtt[55]=0.039983
+     rtt[56]=0.040063
+     rtt[57]=0.040273
+     rtt[58]=0.040401
+     rtt[59]=0.040474
+     rtt[60]=0.040534
+     rtt[61]=0.040534
+     rtt[62]=0.040654
+     rtt[63]=0.041134
+     rtt[64]=0.041415
+     rtt[65]=0.041563
+     rtt[66]=0.041634
+     rtt[67]=0.041778
+     rtt[68]=0.041783
+     rtt[69]=0.041965
+     rtt[70]=0.042158
+     rtt[71]=0.042382
+     rtt[72]=0.042462
+     rtt[73]=0.042657
+     rtt[74]=0.042832
+     rtt[75]=0.043039
+     rtt[76]=0.043043
+     rtt[77]=0.043103
+     rtt[78]=0.043151
+     rtt[79]=0.043214
+     rtt[80]=0.043314
+     rtt[81]=0.043348
+     rtt[82]=0.043377
+     rtt[83]=0.043377
+     rtt[84]=0.0434
+     rtt[85]=0.043474
+     rtt[86]=0.04353
+     rtt[87]=0.043609
+     rtt[88]=0.043619
+     rtt[89]=0.043707
+     rtt[90]=0.043851
+     rtt[91]=0.043865
+     rtt[92]=0.043888
+     rtt[93]=0.044024
+     rtt[94]=0.044025
+     rtt[95]=0.044053
+     rtt[96]=0.044065
+     rtt[97]=0.04413
+     rtt[98]=0.04416
+     rtt[99]=0.044162
+     rtt[100]=0.044165
+     rtt[101]=0.044223
+     rtt[102]=0.044225
+     rtt[103]=0.044242
+     rtt[104]=0.044303
+     rtt[105]=0.044305
+     rtt[106]=0.044305
+     rtt[107]=0.044356
+     rtt[108]=0.044359
+     rtt[109]=0.044539
+     rtt[110]=0.044572
+     rtt[111]=0.044586
+     rtt[112]=0.04474
+     rtt[113]=0.044994
+     rtt[114]=0.045167
+     rtt[115]=0.045208
+     rtt[116]=0.045217
+     rtt[117]=0.045243
+     rtt[118]=0.045244
+     rtt[119]=0.045264
+     rtt[120]=0.045307
+     rtt[121]=0.045374
+     rtt[122]=0.045418
+     rtt[123]=0.045455
+     rtt[124]=0.045537
+     rtt[125]=0.045705
+     rtt[126]=0.045737
+     rtt[127]=0.045772
+     rtt[128]=0.045788
+     rtt[129]=0.045863
+     rtt[130]=0.045876
+     rtt[131]=0.045895
+     rtt[132]=0.045944
+     rtt[133]=0.045996
+     rtt[134]=0.046015
+     rtt[135]=0.046038
+     rtt[136]=0.046079
+     rtt[137]=0.046154
+     rtt[138]=0.046222
+     rtt[139]=0.046465
+     rtt[140]=0.04649
+     rtt[141]=0.046499
+     rtt[142]=0.046499
+     rtt[143]=0.046523
+     rtt[144]=0.046605
+     rtt[145]=0.046625
+     rtt[146]=0.046637
+     rtt[147]=0.046663
+     rtt[148]=0.046998
+     rtt[149]=0.04703
+     rtt[150]=0.047271
+     rtt[151]=0.047278
+     rtt[152]=0.047308
+     rtt[153]=0.047402
+     rtt[154]=0.047441
+     rtt[155]=0.047517
+     rtt[156]=0.047521
+     rtt[157]=0.047522
+     rtt[158]=0.047731
+     rtt[159]=0.047732
+     rtt[160]=0.04778
+     rtt[161]=0.04782
+     rtt[162]=0.047849
+     rtt[163]=0.04785
+     rtt[164]=0.047887
+     rtt[165]=0.0479
+     rtt[166]=0.047922
+     rtt[167]=0.048043
+     rtt[168]=0.048072
+     rtt[169]=0.04811
+     rtt[170]=0.048173
+     rtt[171]=0.048215
+     rtt[172]=0.048223
+     rtt[173]=0.048267
+     rtt[174]=0.04831
+     rtt[175]=0.048312
+     rtt[176]=0.04832
+     rtt[177]=0.048385
+     rtt[178]=0.048486
+     rtt[179]=0.048601
+     rtt[180]=0.048609
+     rtt[181]=0.048611
+     rtt[182]=0.048611
+     rtt[183]=0.048632
+     rtt[184]=0.048638
+     rtt[185]=0.048769
+     rtt[186]=0.048784
+     rtt[187]=0.048801
+     rtt[188]=0.048809
+     rtt[189]=0.048881
+     rtt[190]=0.048939
+     rtt[191]=0.048969
+     rtt[192]=0.048971
+     rtt[193]=0.049004
+     rtt[194]=0.049019
+     rtt[195]=0.049031
+     rtt[196]=0.049228
+     rtt[197]=0.049232
+     rtt[198]=0.049292
+     rtt[199]=0.049343
+     rtt[200]=0.049409
+     rtt[201]=0.049469
+     rtt[202]=0.049471
+     rtt[203]=0.049475
+     rtt[204]=0.049665
+     rtt[205]=0.049677
+     rtt[206]=0.049736
+     rtt[207]=0.049811
+     rtt[208]=0.049894
+     rtt[209]=0.049899
+     rtt[210]=0.04994
+     rtt[211]=0.049963
+     rtt[212]=0.050017
+     rtt[213]=0.050041
+     rtt[214]=0.050082
+     rtt[215]=0.050126
+     rtt[216]=0.050142
+     rtt[217]=0.050287
+     rtt[218]=0.050305
+     rtt[219]=0.050334
+     rtt[220]=0.050407
+     rtt[221]=0.050456
+     rtt[222]=0.050505
+     rtt[223]=0.050538
+     rtt[224]=0.050563
+     rtt[225]=0.050677
+     rtt[226]=0.050692
+     rtt[227]=0.050705
+     rtt[228]=0.050718
+     rtt[229]=0.050759
+     rtt[230]=0.050859
+     rtt[231]=0.05093
+     rtt[232]=0.051015
+     rtt[233]=0.051023
+     rtt[234]=0.051066
+     rtt[235]=0.051073
+     rtt[236]=0.051076
+     rtt[237]=0.051169
+     rtt[238]=0.051195
+     rtt[239]=0.051225
+     rtt[240]=0.051247
+     rtt[241]=0.051335
+     rtt[242]=0.051338
+     rtt[243]=0.051381
+     rtt[244]=0.051489
+     rtt[245]=0.051505
+     rtt[246]=0.051506
+     rtt[247]=0.051717
+     rtt[248]=0.05178
+     rtt[249]=0.051824
+     rtt[250]=0.051836
+     rtt[251]=0.051933
+     rtt[252]=0.051998
+     rtt[253]=0.052057
+     rtt[254]=0.052087
+     rtt[255]=0.052113
+     rtt[256]=0.052172
+     rtt[257]=0.052188
+     rtt[258]=0.052256
+     rtt[259]=0.05227
+     rtt[260]=0.052306
+     rtt[261]=0.052321
+     rtt[262]=0.052328
+     rtt[263]=0.052338
+     rtt[264]=0.052345
+     rtt[265]=0.052389
+     rtt[266]=0.052391
+     rtt[267]=0.05242
+     rtt[268]=0.052427
+     rtt[269]=0.052431
+     rtt[270]=0.052434
+     rtt[271]=0.052458
+     rtt[272]=0.052496
+     rtt[273]=0.052589
+     rtt[274]=0.052687
+     rtt[275]=0.052706
+     rtt[276]=0.052709
+     rtt[277]=0.052764
+     rtt[278]=0.052766
+     rtt[279]=0.052799
+     rtt[280]=0.052816
+     rtt[281]=0.052845
+     rtt[282]=0.052858
+     rtt[283]=0.052889
+     rtt[284]=0.052904
+     rtt[285]=0.052918
+     rtt[286]=0.052937
+     rtt[287]=0.05295
+     rtt[288]=0.053094
+     rtt[289]=0.053121
+     rtt[290]=0.053142
+     rtt[291]=0.053257
+     rtt[292]=0.053268
+     rtt[293]=0.053328
+     rtt[294]=0.053353
+     rtt[295]=0.053438
+     rtt[296]=0.053458
+     rtt[297]=0.05359
+     rtt[298]=0.053599
+     rtt[299]=0.05364
+     rtt[300]=0.053646
+     rtt[301]=0.053657
+     rtt[302]=0.053657
+     rtt[303]=0.053671
+     rtt[304]=0.053673
+     rtt[305]=0.05371
+     rtt[306]=0.05373
+     rtt[307]=0.053776
+     rtt[308]=0.053824
+     rtt[309]=0.053859
+     rtt[310]=0.05394
+     rtt[311]=0.05394
+     rtt[312]=0.053954
+     rtt[313]=0.054044
+     rtt[314]=0.054068
+     rtt[315]=0.054088
+     rtt[316]=0.0541
+     rtt[317]=0.054119
+     rtt[318]=0.054127
+     rtt[319]=0.05427
+     rtt[320]=0.054348
+     rtt[321]=0.054388
+     rtt[322]=0.054415
+     rtt[323]=0.054454
+     rtt[324]=0.054462
+     rtt[325]=0.054498
+     rtt[326]=0.054501
+     rtt[327]=0.054549
+     rtt[328]=0.054562
+     rtt[329]=0.05461
+     rtt[330]=0.054629
+     rtt[331]=0.054702
+     rtt[332]=0.054772
+     rtt[333]=0.054905
+     rtt[334]=0.054942
+     rtt[335]=0.055009
+     rtt[336]=0.055116
+     rtt[337]=0.055276
+     rtt[338]=0.055323
+     rtt[339]=0.055444
+     rtt[340]=0.0556
+     rtt[341]=0.055644
+     rtt[342]=0.055727
+     rtt[343]=0.055762
+     rtt[344]=0.055914
+     rtt[345]=0.056033
+     rtt[346]=0.0562
+     rtt[347]=0.056232
+     rtt[348]=0.056273
+     rtt[349]=0.056283
+     rtt[350]=0.056318
+     rtt[351]=0.056333
+     rtt[352]=0.056365
+     rtt[353]=0.056448
+     rtt[354]=0.056485
+     rtt[355]=0.056503
+     rtt[356]=0.056506
+     rtt[357]=0.056523
+     rtt[358]=0.056587
+     rtt[359]=0.056601
+     rtt[360]=0.056682
+     rtt[361]=0.05678
+     rtt[362]=0.056844
+     rtt[363]=0.056889
+     rtt[364]=0.056906
+     rtt[365]=0.056983
+     rtt[366]=0.056987
+     rtt[367]=0.057013
+     rtt[368]=0.057069
+     rtt[369]=0.05712
+     rtt[370]=0.057199
+     rtt[371]=0.057203
+     rtt[372]=0.057214
+     rtt[373]=0.057254
+     rtt[374]=0.057346
+     rtt[375]=0.05743
+     rtt[376]=0.057539
+     rtt[377]=0.057543
+     rtt[378]=0.057704
+     rtt[379]=0.05793
+     rtt[380]=0.058038
+     rtt[381]=0.058076
+     rtt[382]=0.058125
+     rtt[383]=0.058131
+     rtt[384]=0.058346
+     rtt[385]=0.058348
+     rtt[386]=0.058472
+     rtt[387]=0.058597
+     rtt[388]=0.0586
+     rtt[389]=0.058628
+     rtt[390]=0.058777
+     rtt[391]=0.05886
+     rtt[392]=0.058879
+     rtt[393]=0.05888
+     rtt[394]=0.058931
+     rtt[395]=0.058939
+     rtt[396]=0.058952
+     rtt[397]=0.059029
+     rtt[398]=0.05929
+     rtt[399]=0.059309
+     rtt[400]=0.059386
+     rtt[401]=0.05945
+     rtt[402]=0.059495
+     rtt[403]=0.059607
+     rtt[404]=0.059632
+     rtt[405]=0.05972
+     rtt[406]=0.059731
+     rtt[407]=0.059782
+     rtt[408]=0.060011
+     rtt[409]=0.060138
+     rtt[410]=0.060181
+     rtt[411]=0.06029
+     rtt[412]=0.060328
+     rtt[413]=0.060353
+     rtt[414]=0.060413
+     rtt[415]=0.060444
+     rtt[416]=0.060724
+     rtt[417]=0.061007
+     rtt[418]=0.061176
+     rtt[419]=0.061274
+     rtt[420]=0.061355
+     rtt[421]=0.061392
+     rtt[422]=0.061555
+     rtt[423]=0.061564
+     rtt[424]=0.061632
+     rtt[425]=0.061738
+     rtt[426]=0.062119
+     rtt[427]=0.062505
+     rtt[428]=0.062649
+     rtt[429]=0.062703
+     rtt[430]=0.062898
+     rtt[431]=0.062958
+     rtt[432]=0.06302
+     rtt[433]=0.063085
+     rtt[434]=0.063309
+     rtt[435]=0.063356
+     rtt[436]=0.063409
+     rtt[437]=0.063433
+     rtt[438]=0.064175
+     rtt[439]=0.064361
+     rtt[440]=0.064478
+     rtt[441]=0.064927
+     rtt[442]=0.06539
+     rtt[443]=0.065578
+     rtt[444]=0.065635
+     rtt[445]=0.065656
+     rtt[446]=0.065684
+     rtt[447]=0.065765
+     rtt[448]=0.066653
+     rtt[449]=0.066768
+     rtt[450]=0.066883
+     rtt[451]=0.067056
+     rtt[452]=0.067173
+     rtt[453]=0.06814
+     rtt[454]=0.068238
+     rtt[455]=0.068333
+     rtt[456]=0.068466
+     rtt[457]=0.068714
+     rtt[458]=0.068926
+     rtt[459]=0.068997
+     rtt[460]=0.069456
+     rtt[461]=0.069919
+     rtt[462]=0.070034
+     rtt[463]=0.070499
+     rtt[464]=0.071594
+     rtt[465]=0.071788
+     rtt[466]=0.073135
+     rtt[467]=0.073178
+     rtt[468]=0.07521
+     rtt[469]=0.076085
+     rtt[470]=0.076219
+     rtt[471]=0.076341
+     rtt[472]=0.076521
+     rtt[473]=0.076521
+     rtt[474]=0.077733
+     rtt[475]=0.079099
+     rtt[476]=0.079428
+     rtt[477]=0.08131
+     rtt[478]=0.081883
+     rtt[479]=0.082301
+     rtt[480]=0.082332
+     rtt[481]=0.082572
+     rtt[482]=0.082943
+     rtt[483]=0.084486
+     rtt[484]=0.085327
+     rtt[485]=0.08571
+     rtt[486]=0.089811
+     rtt[487]=0.089869
+     rtt[488]=0.093113
+     rtt[489]=0.098844
+     rtt[490]=0.100225
+     rtt[491]=0.101398
+     rtt[492]=0.103394
+     rtt[493]=0.108471
+     rtt[494]=0.109353
+     rtt[495]=0.112077
+     rtt[496]=0.113811
+     rtt[497]=0.117328
+     rtt[498]=0.145405
+     rtt[499]=0.15362
+     rtt[500]=0.193771
+
+UDP Ping:  Statistics over 501 repetitions of 768 byte messages
+
+RTT : percentile 10: 0.039011, median: 0.051836, percentile 90: 0.066883, average: 0.053408, variance: 0.000251312
+
+RTT histogram:
+0.0178185 4
+0.0266161 9
+0.0354138 42
+0.0442114 126
+0.0530091 194
+0.0618068 73
+0.0706044 20
+0.0794021 15
+0.0881997 5
+0.0969974 3
+0.105795 4
+0.114593 3
+0.12339 0
+0.132188 0
+0.140986 0
+0.149783 2
+0.158581 0
+0.167379 0
+0.176176 0
+0.184974 0
+0.193771 1
+
+   median Throughput : 29631.9 KB/s   overall Throughput : 28759.7 KB/s
+

@@ -1,0 +1,104 @@
+µbash v2.2: laboratorio di Sistemi di Elaborazione e
+Trasmissione dell’Informazione (SETI)
+a.a. 2023/2024
+5 novembre 2023
+Introduzione
+Lo scopo di questo laboratorio `e implementare, testandola adeguatamente, una piccola shell che chiameremo
+µbash, per prendere familiarit`a con le system call POSIX di base per la gestione dei processi.
+Come nel precedente laboratorio ping pong, avrete a disposizione uno scheletro di implementazione, dove le
+parti di codice da completare sono delimitate da commenti del tipo:
+/* ** TO BE DONE START ** */
+/* ** TO BE DONE END ** */
+e, tipicamente, precedute da una breve spiegazione che assume che abbiate letto questo documento.
+Sintassi e funzionalita':
+ La sintassi dei comandi e' stata pensata per facilitarne il “parsing” e non la comodita'
+d’uso da parte degli utenti. 
+Per esempio, richiediamo che non ci sia nessun blank fra il carattere > e il nome del
+file dove redirigere lo standard output di un comando, quindi ls >foo `e un comando valido, mentre ls > foo
+non lo `e (nella vera bash entrambe le forme sono equivalenti).
+
+Inoltre, a differenza delle shell comunemente usate, non gestiremo l’espansione dei nomi di file, le sequenze di
+escape, le stringhe, i gruppi di processi, processi in foreground/background e tante altre cose.
+
+Gestione degli errori:
+ Per la gestione degli errori usate l’approccio semplificato gia' visto in ping-pong: 
+quando una funzione di libreria o system call fallisce, per ragioni indipendenti dall’input dell’utente, non cercate di
+recuperare la situazione ma uscite segnalando il problema. Ovvero, uscire dalla shell perche' fallisce, 
+per esempio, una chdir(2), a causa di un errore di digitazione da parte dell’utente, sembra un po’ eccessivo, mentre e' ok in
+caso di fallimento di fork(2) o malloc(3).
+
+Librerie e strumenti:
+ Non dovrete utilizzare librerie di terze parti, ad eccezione della GNU Readline (gia' utilizzata nel Makefile). 
+
+Per installarne la versione da sviluppatore, su Ubuntu o analogo sistema Debian-based, potete usare: sudo apt install libreadline-dev
+Come dialetto del C assumiamo ISO 2011, con estensioni GNU (ovvero, -std=gnu11).
+
+Debugging e gestione della memoria:
+ Per facilitare la risoluzione di problemi il Makefile compila con i
+simboli per il debug (-ggdb) e abilita solo ottimizzazioni compatibili con il debugging (-Og).
+Ricordatevi di controllare sempre il valore di ritorno di ogni funzione/syscall e rilasciare immediatamente le risorse (per esempio, i file descriptor) 
+quando non pi`u necessarie. Fate particolare attenzione alla gestione della memoria dinamica; 
+l’uso di strumenti come address sanitizer (cio`e usare l’opzione -fsanitize=address)
+o valgrind (se, per qualche ragione, address sanitizer non fosse disponibile) `e obbligatorio.
+
+Non saranno considerate valide le consegne con ovvi problemi legati all’uso della memoria, dove “ovvi” significa:
+“si trovano subito con address-sanitizer e/o valgrind”.
+Come gia' detto piu' volte a lezione, sviluppate/testate su una macchina (eventualmente virtuale) Linux, perch´e
+negli a.a. precedenti abbiamo avuto comportamenti strani su alcuni Mac.
+
+Descrizione di µbash
+µbash processa i comandi, leggendoli da standard input, linea per linea, finch´e non raggiunge la fine del file
+(ctrl-D da terminale). 
+Prima di leggere una linea, stampa un prompt che visualizza la directory corrente, vedete
+getcwd(2), seguita dalla stringa " $ ". 
+Di getcwd potete usare la versione di glibc (la GNU libc `e la libreria
+C standard sotto Linux), che estende POSIX.1-20011
+!Scoprite da soli perche' dovreste volerlo fare!
+
+Come le shell “vere”, µbash offre sia comandi built-in (ma, nel nostro caso, uno solo: cd), 
+sia la possibilit`a di eseguire comandi/programmi esterni, passando argomenti e redirigendo I/O in file o pipe.
+L’unico comando built-in `e cd, che prende un solo argomento: il pathname della directory di destinazione
+(quindi, a differenza di quello in bash, non ci sono argomenti opzionali e non dovete modificare le variabili
+d’ambiente).
+Per semplicita', il comando cd puo' essere usato solo come primo e unico comando di una linea,
+senza nessuna redirezione dell’I/O (nel caso l’utente cerchi di usare redirezioni o usi cd in pipe con altri comandi,
+dovete segnalare un errore). Per esempio, sono comandi legali:
+• cd foo
+• cd /non/importa/se/non/esiste
+mentre non lo sono:
+• cd foo >bar — errore: redirezione con comando cd
+• cd /etc | grep pippo — errore: cd usato con altri comandi
+Per la sua implementazione, vedete chdir(2).
+
+Comandi esterni:
+Tutte le linee, non vuote, vengono suddivise in una sequenza di comandi separati dal carattere pipe (|):
+l = c1 | c2 | . . . | cn. Ovviamente, nel caso n = 1 non ci sar`a nessun separatore. Il risultato del parsing
+di una linea sara' un oggetto di tipo line t, composto, a sua volta, da n comandi di tipo command t.
+Dopo aver separato l in una sequenza di comandi, ogni comando c e', a sua volta, suddiviso in una sequenza
+di argomenti separati da blank (spazi o tab): c = a1 a2 . . . ak. A questo punto, se un certo aj inizia con il
+carattere. . .
+dollaro ($) allora aj va sostituito con il valore della variabile d’ambiente corrispondente. 
+Per esempio, se un argomento fosse $foo, andrebbe sostituito con il valore della variabile d’ambiente foo, si veda getenv(3).
+
+minore (<) allora aj va tolto dalla lista degli argomenti e considerato una redirezione dello standard input. Per
+esempio, se un argomento fosse <foo (notare l’assenza di spazi fra < e foo), per l’esecuzione del comando
+corrispondente lo standard input dovrebbe corrispondere al file foo. E un errore specificare pi`u di una `
+redirezione dell’input per ogni comando. Per la redirezione vedete open(2), dup/dup2(2) e close(2).
+
+maggiore (>) allora aj va tolto dalla lista degli argomenti e considerato una redirezione dello standard output.
+Per esempio, se un argomento fosse >foo, per l’esecuzione del comando corrispondente lo standard output
+dovrebbe corrispondere al file foo. E un errore specificare pi`u di una redirezione dell’output per ogni `
+comando.
+
+In una sequenza di comandi, solo il primo comando pu`o redirigere lo standard input e solo l’ultimo comando
+pu`o redirigere lo standard output (e nessuno `e costretto a farlo). Ovviamente, se n = 1 il singolo comando pu`o
+redirigere entrambi.
+Per tutti i comandi da c2 a cn, lo standard input di ci deve corrispondere allo standard output di ci−1, si veda
+pipe(2). Per impostare FD CLOEXEC vedere la descrizione di F GETFD e F SETFD in fcntl(2).
+Dopo aver rimosso le redirezioni, si considerano gli argomenti rimanenti: a'1 a'2 ... a'x. Deve essere 0 < x ≤ k,
+altrimenti, se x = 0, vuol dire che in c non `e stato specificato nessun vero comando, ma solo redirezioni.
+A questo punto, a'1 e' il nome del file da eseguire e a′2 . . . a′x i suoi argomenti. Ricordate che, per convenzione,
+argv[0]=a′1, argv[1]=a′2, etc.
+Dopo aver eseguito i comandi specificati in una linea, vedere exec(3), aspettate la terminazione di tutti i
+processi figli, vedere wait(2), segnalando se un processo termina con uno status diverso da 0 (usare WIFIEXITED
+e WEXITSTATUS), oppure `e stato ucciso da un segnale (usare WIFSIGNALED e WTERMSIG).
