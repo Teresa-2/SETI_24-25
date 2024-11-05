@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
 
-	gai_rv = getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
+	gai_rv = getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
 	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 /*** TO BE DONE END ***/

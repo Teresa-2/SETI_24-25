@@ -72,7 +72,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** Store the current time in recv_time ***/
 /*** TO BE DONE START ***/
 
-if(clock_gettime(CLOCK_REALTIME,&recv_time) !=0 ) fail_errno(strerror(errno)); 
+if(clock_gettime(CLOCK_MONOTNIC,&recv_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
@@ -112,7 +112,7 @@ gai_hints.ai_socktype = SOCK_STREAM;
 
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
-	gai_rv= getaddrinfo(*argv[1],*argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
+	gai_rv= getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
 	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
 
 /*** TO BE DONE END ***/
