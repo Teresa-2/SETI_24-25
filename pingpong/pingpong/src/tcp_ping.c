@@ -56,9 +56,9 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
 /*** TO BE DONE START ***/
 
 	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-	sent_bytes= send(tcp_socket, message, msg_size, 0); 
+	sent_bytes= blocking_write_all(tcp_socket, message, msg_size); 
 	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
-	if(sent_bytes<0) fail_errno("Error sending data");  	
+	if(sent_bytes==-1) fail_errno("Error sending data");  	
 
 /*** TO BE DONE END ***/
 
