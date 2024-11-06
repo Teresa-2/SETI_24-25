@@ -72,7 +72,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** Store the current time in recv_time ***/
 /*** TO BE DONE START ***/
 
-if(clock_gettime(CLOCK_MONOTNIC,&recv_time) !=0 ) fail_errno(strerror(errno)); 
+if(clock_gettime(CLOCK_MONOTONIC,&recv_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
@@ -156,6 +156,7 @@ gai_hints.ai_socktype = SOCK_STREAM;
 	if (nr < 0)
 		fail_errno("TCP Ping could not receive answer from Pong server");
 		
+	printf("Received answer: '%.*s'\n", (int)nr, answer);
 
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
@@ -167,8 +168,11 @@ gai_hints.ai_socktype = SOCK_STREAM;
 	//errore come in udp, cambio strncmp con strcmp perché la risposta deve esattamente essere OK
 	//if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
 
-	if (strcmp("OK",answer) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
-		fail_errno("... Pong Server denied :-(\n");
+	
+
+	if (strncmp("OK",answer,2) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
+		fail_errno("... Pong Server denied :-( FUNZIONA??!! \n");
+
 
 /*** TO BE DONE END ***/
 

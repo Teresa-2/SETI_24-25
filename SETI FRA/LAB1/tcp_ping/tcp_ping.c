@@ -166,7 +166,7 @@ int main(int argc, char **argv)
 /*** TO BE DONE START ***/
 
 	if(strncmp(answer,"OK", 2) != 0)
-		fail_errno(" ... Pong server denied :-(\n");
+		fail_errno(" ... Pong server denied :-( 2\n");
 /*** TO BE DONE END ***/
 
     /*** else ***/
