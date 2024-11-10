@@ -42,6 +42,9 @@ ThroughFile="../data/${protocol}_throughput.dat"
 PngName="../data/LB${protocol}.png"
 }
 
+# DA CHIEDERE
+# è giusto come viene fatto il calcolo con l'applicazion bc?
+
 # Determination of T(N1) and T(N2)
 FirstT=${HeadLine[1]} #T(N1)
 LastT=${TailLine[1]} #T(N2)
@@ -73,19 +76,8 @@ gnuplot <<-eNDgNUPLOTcOMMAND
 # TO BE DONE START
   
   # DA CHIEDERE
-  # 
+  # è giusto come viene fatto il plot?
    plot lbmodel(x) title "Latency-Bandwidth model with L=$Latency and B=$Band" with linespoints, \
-       "../data/tcp_throughput.dat" using 1:2 title "TCP median Throughput" with linespoints, \
-       "../data/tcp_throughput.dat" using 1:3 title "TCP average Throughput" with linespoints, \
-       "../data/udp_throughput.dat" using 1:2 title "UDP median Throughput" with linespoints, \
-       "../data/udp_throughput.dat" using 1:3 title "UDP average Throughput" with linespoints
-  
-
-  
-  
-  
-  
-  plot lbmodel(x) title "Latency-Bandwidth model with L=$Latency and B=$Band" with linespoints, \
        "../data/tcp_throughput.dat" using 1:2 title "TCP median Throughput" with linespoints, \
        "../data/tcp_throughput.dat" using 1:3 title "TCP average Throughput" with linespoints, \
        "../data/udp_throughput.dat" using 1:2 title "UDP median Throughput" with linespoints, \
@@ -95,3 +87,16 @@ gnuplot <<-eNDgNUPLOTcOMMAND
   clear
 
 eNDgNUPLOTcOMMAND
+
+# DA CHIEDERE (OPZIONALE) 
+# # i dati ottenuti sono:
+# - LBtcp + LBudp
+# - throughput.png
+# è tutto? è quello che dovevamo ottenere?
+
+# DA CHIEDERE
+# è normale che il nostro UDP non riesca a inviare messaggi di quella dimensione? (cioè non riesce a partire da 1536 byte)
+
+# DA CHIEDERE
+# La consegna è martedì. ma se consegno mercoledì o giovedì è un problema? cosa comporta?
+# eventuali penalità sul voto? spiegare bene cosa succede in base ad ogni scelta.
