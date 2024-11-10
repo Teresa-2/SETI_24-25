@@ -77,7 +77,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Store the current time in recv_time ***/
 /*** TO BE DONE START ***/
 
-	if(clock_gettime(CLOCK_REALTIME,&recv_time) !=0 ) fail_errno(strerror(errno)); 
+	if(clock_gettime(CLOCK_MONOTONIC,&recv_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
 
@@ -235,7 +235,12 @@ int main(int argc, char *argv[])
     /*** Write the request on the TCP socket ***/
 /** TO BE DONE START ***/
 
-	nr = blocking_write_all(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
+	/*nr = blocking_write_all(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
+	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
+		fail_errno("Problem with Write"); 
+	}*/
+
+	nr = write(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
 	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
 		fail_errno("Problem with Write"); 
 	}
@@ -253,8 +258,8 @@ int main(int argc, char *argv[])
 /*** TO BE DONE START ***/
 
 	//nuova versione da verificare
-	if (strcmp("OK",answer) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
-		fail_errno("... Pong Server denied :-(\n");
+	if (strncmp("OK",answer,2) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
+		fail_errno("... Pong Server denied :-( 1111\n");
 	
 	/* originale*/
 	//DA ERRORE perché strncmp non funzionava con gli argomenti che gli sono stati passati

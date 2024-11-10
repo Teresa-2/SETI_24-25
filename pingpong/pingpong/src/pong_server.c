@@ -117,14 +117,15 @@ int open_udp_socket(int *pong_port)
 		char port_number_as_str[6];
 		sprintf(port_number_as_str, "%d", port_number);
 /*** TO BE DONE START ***/
+		
+		gai_rv = getaddrinfo("localhost", port_number_as_str,&gai_hints,&pong_addrinfo); 
+		if(gai_rv!= 0) fail_errno(strerror(errno)); 
+		
 		//NOTA DA TOGLIERE: create DGRAM socket, call getaddrinfo() to set port number, and bind() 
 		udp_socket= socket(gai_hints.ai_family,gai_hints.ai_socktype, gai_hints.ai_protocol); 
 		if(udp_socket==-1) fail_errno(strerror(errno)); 
 
 		*pong_port=port_number; //NOTA: salvando la port effimera per poter usare il server 
-
-		gai_rv = getaddrinfo("localhost", port_number_as_str,&gai_hints,&pong_addrinfo); 
-		if(gai_rv!= 0) fail_errno(strerror(errno)); 
 
 		//DA CHIEDERE: le variabili gai_rv e bind_rv non vengono mai usate in pong_server, dobbiamo comunque inizializzarle con questi valori?? 
 		bind_rv = bind(udp_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen); 

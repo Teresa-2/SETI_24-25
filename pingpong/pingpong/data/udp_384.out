@@ -1,135 +1,559 @@
 UDP Ping trying to connect to server seti.dibris.unige.it (130.251.61.30) on TCP port 1491
- ... connected to Pong server: asking for 101 repetitions of 384 _bytes UDP messages
- ... Pong server agreed to ping-pong using port 51139 :-)
-Round trip time was 37.903 milliseconds in repetition 1
-Round trip time was 35.114 milliseconds in repetition 2
-Round trip time was 37.440 milliseconds in repetition 3
-Round trip time was 34.176 milliseconds in repetition 4
-Round trip time was 36.819 milliseconds in repetition 5
-Round trip time was 38.847 milliseconds in repetition 6
-Round trip time was 41.080 milliseconds in repetition 7
-Round trip time was 36.218 milliseconds in repetition 8
-Round trip time was 33.467 milliseconds in repetition 9
-Round trip time was 36.278 milliseconds in repetition 10
-Round trip time was 33.544 milliseconds in repetition 11
-Round trip time was 37.137 milliseconds in repetition 12
-Round trip time was 36.890 milliseconds in repetition 13
-Round trip time was 35.480 milliseconds in repetition 14
-Round trip time was 37.259 milliseconds in repetition 15
-Round trip time was 35.438 milliseconds in repetition 16
-Round trip time was 33.751 milliseconds in repetition 17
-Round trip time was 31.865 milliseconds in repetition 18
-Round trip time was 40.219 milliseconds in repetition 19
-Round trip time was 32.576 milliseconds in repetition 20
-Round trip time was 31.027 milliseconds in repetition 21
-Round trip time was 36.306 milliseconds in repetition 22
-Round trip time was 30.533 milliseconds in repetition 23
-Round trip time was 35.570 milliseconds in repetition 24
-Round trip time was 28.946 milliseconds in repetition 25
-Round trip time was 38.713 milliseconds in repetition 26
-Round trip time was 32.291 milliseconds in repetition 27
-Round trip time was 34.139 milliseconds in repetition 28
-Round trip time was 32.536 milliseconds in repetition 29
-Round trip time was 35.014 milliseconds in repetition 30
-Round trip time was 33.803 milliseconds in repetition 31
-Round trip time was 32.792 milliseconds in repetition 32
-Round trip time was 31.755 milliseconds in repetition 33
-Round trip time was 34.801 milliseconds in repetition 34
-Round trip time was 32.123 milliseconds in repetition 35
-Round trip time was 37.019 milliseconds in repetition 36
-Round trip time was 32.976 milliseconds in repetition 37
-Round trip time was 27.359 milliseconds in repetition 38
-Round trip time was 40.745 milliseconds in repetition 39
-Round trip time was 33.464 milliseconds in repetition 40
-Round trip time was 33.532 milliseconds in repetition 41
-Round trip time was 31.884 milliseconds in repetition 42
-Round trip time was 32.939 milliseconds in repetition 43
-Round trip time was 34.604 milliseconds in repetition 44
-Round trip time was 32.331 milliseconds in repetition 45
-Round trip time was 36.861 milliseconds in repetition 46
-Round trip time was 32.220 milliseconds in repetition 47
-Round trip time was 30.883 milliseconds in repetition 48
-Round trip time was 38.056 milliseconds in repetition 49
-Round trip time was 34.447 milliseconds in repetition 50
-Round trip time was 35.838 milliseconds in repetition 51
-Round trip time was 31.762 milliseconds in repetition 52
-Round trip time was 35.164 milliseconds in repetition 53
-Round trip time was 34.315 milliseconds in repetition 54
-Round trip time was 32.916 milliseconds in repetition 55
-Round trip time was 32.487 milliseconds in repetition 56
-Round trip time was 33.683 milliseconds in repetition 57
-Round trip time was 39.877 milliseconds in repetition 58
-Round trip time was 41.720 milliseconds in repetition 59
-Round trip time was 35.483 milliseconds in repetition 60
-Round trip time was 38.986 milliseconds in repetition 61
-Round trip time was 39.412 milliseconds in repetition 62
-Round trip time was 44.158 milliseconds in repetition 63
-Round trip time was 33.997 milliseconds in repetition 64
-Round trip time was 29.437 milliseconds in repetition 65
-Round trip time was 32.609 milliseconds in repetition 66
-Round trip time was 41.202 milliseconds in repetition 67
-Round trip time was 34.347 milliseconds in repetition 68
-Round trip time was 33.027 milliseconds in repetition 69
-Round trip time was 29.442 milliseconds in repetition 70
-Round trip time was 37.154 milliseconds in repetition 71
-Round trip time was 29.805 milliseconds in repetition 72
-Round trip time was 37.707 milliseconds in repetition 73
-Round trip time was 32.597 milliseconds in repetition 74
-Round trip time was 38.735 milliseconds in repetition 75
-Round trip time was 33.980 milliseconds in repetition 76
-Round trip time was 34.511 milliseconds in repetition 77
-Round trip time was 34.323 milliseconds in repetition 78
-Round trip time was 44.057 milliseconds in repetition 79
-Round trip time was 47.033 milliseconds in repetition 80
-Round trip time was 40.486 milliseconds in repetition 81
-Round trip time was 30.724 milliseconds in repetition 82
-Round trip time was 37.911 milliseconds in repetition 83
-Round trip time was 35.375 milliseconds in repetition 84
-Round trip time was 37.089 milliseconds in repetition 85
-Round trip time was 30.187 milliseconds in repetition 86
-Round trip time was 32.019 milliseconds in repetition 87
-Round trip time was 33.093 milliseconds in repetition 88
-Round trip time was 31.968 milliseconds in repetition 89
-Round trip time was 33.830 milliseconds in repetition 90
-Round trip time was 41.582 milliseconds in repetition 91
-Round trip time was 29.742 milliseconds in repetition 92
-Round trip time was 34.138 milliseconds in repetition 93
-Round trip time was 27.718 milliseconds in repetition 94
-Round trip time was 33.167 milliseconds in repetition 95
-Round trip time was 33.111 milliseconds in repetition 96
-Round trip time was 33.722 milliseconds in repetition 97
-Round trip time was 30.287 milliseconds in repetition 98
-Round trip time was 35.423 milliseconds in repetition 99
-Round trip time was 34.629 milliseconds in repetition 100
-Round trip time was 37.081 milliseconds in repetition 101
+ ... connected to Pong server: asking for 501 repetitions of 384 _bytes UDP messages
+ ... Pong server agreed to ping-pong using port 51280 :-)
+Round trip time was 41.968 milliseconds in repetition 1
+Round trip time was 33.237 milliseconds in repetition 2
+Round trip time was 31.048 milliseconds in repetition 3
+Round trip time was 34.322 milliseconds in repetition 4
+Round trip time was 32.564 milliseconds in repetition 5
+Round trip time was 32.403 milliseconds in repetition 6
+Round trip time was 34.890 milliseconds in repetition 7
+Round trip time was 37.271 milliseconds in repetition 8
+Round trip time was 32.801 milliseconds in repetition 9
+Round trip time was 33.590 milliseconds in repetition 10
+Round trip time was 38.798 milliseconds in repetition 11
+Round trip time was 35.061 milliseconds in repetition 12
+Round trip time was 37.546 milliseconds in repetition 13
+Round trip time was 37.164 milliseconds in repetition 14
+Round trip time was 39.244 milliseconds in repetition 15
+Round trip time was 30.592 milliseconds in repetition 16
+Round trip time was 35.967 milliseconds in repetition 17
+Round trip time was 36.303 milliseconds in repetition 18
+Round trip time was 35.540 milliseconds in repetition 19
+Round trip time was 34.796 milliseconds in repetition 20
+Round trip time was 38.475 milliseconds in repetition 21
+Round trip time was 36.611 milliseconds in repetition 22
+Round trip time was 42.262 milliseconds in repetition 23
+Round trip time was 33.022 milliseconds in repetition 24
+Round trip time was 36.951 milliseconds in repetition 25
+Round trip time was 48.501 milliseconds in repetition 26
+Round trip time was 33.928 milliseconds in repetition 27
+Round trip time was 38.703 milliseconds in repetition 28
+Round trip time was 36.533 milliseconds in repetition 29
+Round trip time was 36.864 milliseconds in repetition 30
+Round trip time was 37.541 milliseconds in repetition 31
+Round trip time was 38.947 milliseconds in repetition 32
+Round trip time was 36.495 milliseconds in repetition 33
+Round trip time was 34.662 milliseconds in repetition 34
+Round trip time was 38.213 milliseconds in repetition 35
+Round trip time was 37.478 milliseconds in repetition 36
+Round trip time was 31.884 milliseconds in repetition 37
+Round trip time was 38.287 milliseconds in repetition 38
+Round trip time was 39.585 milliseconds in repetition 39
+Round trip time was 32.978 milliseconds in repetition 40
+Round trip time was 41.056 milliseconds in repetition 41
+Round trip time was 37.924 milliseconds in repetition 42
+Round trip time was 34.864 milliseconds in repetition 43
+Round trip time was 37.683 milliseconds in repetition 44
+Round trip time was 33.190 milliseconds in repetition 45
+Round trip time was 36.925 milliseconds in repetition 46
+Round trip time was 32.780 milliseconds in repetition 47
+Round trip time was 32.098 milliseconds in repetition 48
+Round trip time was 35.004 milliseconds in repetition 49
+Round trip time was 31.833 milliseconds in repetition 50
+Round trip time was 29.945 milliseconds in repetition 51
+Round trip time was 38.488 milliseconds in repetition 52
+Round trip time was 31.466 milliseconds in repetition 53
+Round trip time was 37.557 milliseconds in repetition 54
+Round trip time was 34.631 milliseconds in repetition 55
+Round trip time was 34.047 milliseconds in repetition 56
+Round trip time was 38.229 milliseconds in repetition 57
+Round trip time was 38.182 milliseconds in repetition 58
+Round trip time was 34.950 milliseconds in repetition 59
+Round trip time was 35.779 milliseconds in repetition 60
+Round trip time was 34.693 milliseconds in repetition 61
+Round trip time was 29.770 milliseconds in repetition 62
+Round trip time was 30.396 milliseconds in repetition 63
+Round trip time was 32.237 milliseconds in repetition 64
+Round trip time was 29.958 milliseconds in repetition 65
+Round trip time was 34.550 milliseconds in repetition 66
+Round trip time was 37.837 milliseconds in repetition 67
+Round trip time was 30.365 milliseconds in repetition 68
+Round trip time was 42.658 milliseconds in repetition 69
+Round trip time was 37.210 milliseconds in repetition 70
+Round trip time was 35.054 milliseconds in repetition 71
+Round trip time was 34.475 milliseconds in repetition 72
+Round trip time was 34.004 milliseconds in repetition 73
+Round trip time was 36.370 milliseconds in repetition 74
+Round trip time was 34.563 milliseconds in repetition 75
+Round trip time was 35.180 milliseconds in repetition 76
+Round trip time was 114.179 milliseconds in repetition 77
+Round trip time was 38.827 milliseconds in repetition 78
+Round trip time was 35.476 milliseconds in repetition 79
+Round trip time was 30.982 milliseconds in repetition 80
+Round trip time was 32.177 milliseconds in repetition 81
+Round trip time was 36.969 milliseconds in repetition 82
+Round trip time was 33.993 milliseconds in repetition 83
+Round trip time was 37.040 milliseconds in repetition 84
+Round trip time was 32.362 milliseconds in repetition 85
+Round trip time was 31.951 milliseconds in repetition 86
+Round trip time was 35.388 milliseconds in repetition 87
+Round trip time was 32.102 milliseconds in repetition 88
+Round trip time was 32.066 milliseconds in repetition 89
+Round trip time was 36.132 milliseconds in repetition 90
+Round trip time was 35.817 milliseconds in repetition 91
+Round trip time was 34.402 milliseconds in repetition 92
+Round trip time was 37.649 milliseconds in repetition 93
+Round trip time was 32.225 milliseconds in repetition 94
+Round trip time was 29.866 milliseconds in repetition 95
+Round trip time was 34.491 milliseconds in repetition 96
+Round trip time was 60.911 milliseconds in repetition 97
+Round trip time was 33.747 milliseconds in repetition 98
+Round trip time was 33.863 milliseconds in repetition 99
+Round trip time was 38.694 milliseconds in repetition 100
+Round trip time was 33.307 milliseconds in repetition 101
+Round trip time was 94.454 milliseconds in repetition 102
+Round trip time was 40.393 milliseconds in repetition 103
+Round trip time was 42.179 milliseconds in repetition 104
+Round trip time was 42.717 milliseconds in repetition 105
+Round trip time was 36.902 milliseconds in repetition 106
+Round trip time was 41.167 milliseconds in repetition 107
+Round trip time was 37.031 milliseconds in repetition 108
+Round trip time was 39.732 milliseconds in repetition 109
+Round trip time was 30.487 milliseconds in repetition 110
+Round trip time was 36.331 milliseconds in repetition 111
+Round trip time was 35.940 milliseconds in repetition 112
+Round trip time was 32.153 milliseconds in repetition 113
+Round trip time was 37.203 milliseconds in repetition 114
+Round trip time was 29.936 milliseconds in repetition 115
+Round trip time was 37.313 milliseconds in repetition 116
+Round trip time was 39.681 milliseconds in repetition 117
+Round trip time was 32.220 milliseconds in repetition 118
+Round trip time was 31.648 milliseconds in repetition 119
+Round trip time was 30.500 milliseconds in repetition 120
+Round trip time was 36.190 milliseconds in repetition 121
+Round trip time was 30.547 milliseconds in repetition 122
+Round trip time was 34.475 milliseconds in repetition 123
+Round trip time was 30.327 milliseconds in repetition 124
+Round trip time was 34.620 milliseconds in repetition 125
+Round trip time was 30.486 milliseconds in repetition 126
+Round trip time was 31.987 milliseconds in repetition 127
+Round trip time was 32.107 milliseconds in repetition 128
+Round trip time was 29.607 milliseconds in repetition 129
+Round trip time was 38.234 milliseconds in repetition 130
+Round trip time was 31.675 milliseconds in repetition 131
+Round trip time was 31.037 milliseconds in repetition 132
+Round trip time was 33.733 milliseconds in repetition 133
+Round trip time was 35.168 milliseconds in repetition 134
+Round trip time was 32.805 milliseconds in repetition 135
+Round trip time was 33.263 milliseconds in repetition 136
+Round trip time was 33.363 milliseconds in repetition 137
+Round trip time was 35.336 milliseconds in repetition 138
+Round trip time was 35.737 milliseconds in repetition 139
+Round trip time was 37.917 milliseconds in repetition 140
+Round trip time was 40.550 milliseconds in repetition 141
+Round trip time was 33.956 milliseconds in repetition 142
+Round trip time was 35.845 milliseconds in repetition 143
+Round trip time was 31.497 milliseconds in repetition 144
+Round trip time was 36.296 milliseconds in repetition 145
+Round trip time was 33.846 milliseconds in repetition 146
+Round trip time was 35.666 milliseconds in repetition 147
+Round trip time was 39.401 milliseconds in repetition 148
+Round trip time was 34.294 milliseconds in repetition 149
+Round trip time was 37.802 milliseconds in repetition 150
+Round trip time was 33.134 milliseconds in repetition 151
+Round trip time was 34.720 milliseconds in repetition 152
+Round trip time was 35.323 milliseconds in repetition 153
+Round trip time was 29.701 milliseconds in repetition 154
+Round trip time was 35.907 milliseconds in repetition 155
+Round trip time was 35.486 milliseconds in repetition 156
+Round trip time was 32.621 milliseconds in repetition 157
+Round trip time was 32.124 milliseconds in repetition 158
+Round trip time was 32.949 milliseconds in repetition 159
+Round trip time was 33.063 milliseconds in repetition 160
+Round trip time was 29.760 milliseconds in repetition 161
+Round trip time was 30.117 milliseconds in repetition 162
+Round trip time was 34.000 milliseconds in repetition 163
+Round trip time was 33.873 milliseconds in repetition 164
+Round trip time was 37.093 milliseconds in repetition 165
+Round trip time was 38.424 milliseconds in repetition 166
+Round trip time was 32.824 milliseconds in repetition 167
+Round trip time was 39.649 milliseconds in repetition 168
+Round trip time was 36.932 milliseconds in repetition 169
+Round trip time was 37.169 milliseconds in repetition 170
+Round trip time was 32.788 milliseconds in repetition 171
+Round trip time was 32.453 milliseconds in repetition 172
+Round trip time was 33.507 milliseconds in repetition 173
+Round trip time was 36.170 milliseconds in repetition 174
+Round trip time was 39.645 milliseconds in repetition 175
+Round trip time was 36.406 milliseconds in repetition 176
+Round trip time was 33.159 milliseconds in repetition 177
+Round trip time was 33.049 milliseconds in repetition 178
+Round trip time was 32.416 milliseconds in repetition 179
+Round trip time was 37.559 milliseconds in repetition 180
+Round trip time was 38.253 milliseconds in repetition 181
+Round trip time was 37.083 milliseconds in repetition 182
+Round trip time was 39.598 milliseconds in repetition 183
+Round trip time was 35.506 milliseconds in repetition 184
+Round trip time was 37.614 milliseconds in repetition 185
+Round trip time was 29.401 milliseconds in repetition 186
+Round trip time was 31.886 milliseconds in repetition 187
+Round trip time was 32.398 milliseconds in repetition 188
+Round trip time was 32.756 milliseconds in repetition 189
+Round trip time was 46.831 milliseconds in repetition 190
+Round trip time was 66.236 milliseconds in repetition 191
+Round trip time was 45.095 milliseconds in repetition 192
+Round trip time was 31.938 milliseconds in repetition 193
+Round trip time was 35.368 milliseconds in repetition 194
+Round trip time was 29.974 milliseconds in repetition 195
+Round trip time was 32.274 milliseconds in repetition 196
+Round trip time was 32.603 milliseconds in repetition 197
+Round trip time was 30.179 milliseconds in repetition 198
+Round trip time was 33.034 milliseconds in repetition 199
+Round trip time was 33.965 milliseconds in repetition 200
+Round trip time was 35.100 milliseconds in repetition 201
+Round trip time was 32.357 milliseconds in repetition 202
+Round trip time was 39.671 milliseconds in repetition 203
+Round trip time was 33.564 milliseconds in repetition 204
+Round trip time was 34.311 milliseconds in repetition 205
+Round trip time was 34.661 milliseconds in repetition 206
+Round trip time was 35.713 milliseconds in repetition 207
+Round trip time was 32.261 milliseconds in repetition 208
+Round trip time was 37.548 milliseconds in repetition 209
+Round trip time was 33.148 milliseconds in repetition 210
+Round trip time was 58.735 milliseconds in repetition 211
+Round trip time was 77.896 milliseconds in repetition 212
+Round trip time was 36.628 milliseconds in repetition 213
+Round trip time was 32.851 milliseconds in repetition 214
+Round trip time was 32.775 milliseconds in repetition 215
+Round trip time was 40.762 milliseconds in repetition 216
+Round trip time was 35.849 milliseconds in repetition 217
+Round trip time was 43.705 milliseconds in repetition 218
+Round trip time was 28.958 milliseconds in repetition 219
+Round trip time was 45.596 milliseconds in repetition 220
+Round trip time was 50.395 milliseconds in repetition 221
+Round trip time was 34.649 milliseconds in repetition 222
+Round trip time was 57.482 milliseconds in repetition 223
+Round trip time was 123.115 milliseconds in repetition 224
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 40.707 milliseconds in repetition 225
+Round trip time was 32.225 milliseconds in repetition 226
+Round trip time was 46.351 milliseconds in repetition 227
+Round trip time was 49.382 milliseconds in repetition 228
+Round trip time was 57.918 milliseconds in repetition 229
+Round trip time was 35.965 milliseconds in repetition 230
+Round trip time was 39.735 milliseconds in repetition 231
+Round trip time was 39.239 milliseconds in repetition 232
+Round trip time was 52.905 milliseconds in repetition 233
+Round trip time was 34.753 milliseconds in repetition 234
+Round trip time was 36.267 milliseconds in repetition 235
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 39.953 milliseconds in repetition 236
+Round trip time was 52.937 milliseconds in repetition 237
+Round trip time was 50.800 milliseconds in repetition 238
+Round trip time was 35.530 milliseconds in repetition 239
+Round trip time was 36.592 milliseconds in repetition 240
+Round trip time was 33.680 milliseconds in repetition 241
+Round trip time was 42.334 milliseconds in repetition 242
+Round trip time was 53.293 milliseconds in repetition 243
+Round trip time was 30.803 milliseconds in repetition 244
+Round trip time was 42.104 milliseconds in repetition 245
+Round trip time was 36.501 milliseconds in repetition 246
+Round trip time was 41.265 milliseconds in repetition 247
+Round trip time was 36.784 milliseconds in repetition 248
+Round trip time was 35.795 milliseconds in repetition 249
+Round trip time was 33.013 milliseconds in repetition 250
+Round trip time was 37.066 milliseconds in repetition 251
+Round trip time was 33.740 milliseconds in repetition 252
+Round trip time was 33.822 milliseconds in repetition 253
+Round trip time was 35.773 milliseconds in repetition 254
+Round trip time was 30.807 milliseconds in repetition 255
+Round trip time was 36.243 milliseconds in repetition 256
+Round trip time was 31.395 milliseconds in repetition 257
+Round trip time was 36.733 milliseconds in repetition 258
+Round trip time was 31.899 milliseconds in repetition 259
+Round trip time was 33.906 milliseconds in repetition 260
+Round trip time was 33.916 milliseconds in repetition 261
+Round trip time was 34.294 milliseconds in repetition 262
+Round trip time was 34.509 milliseconds in repetition 263
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 32.703 milliseconds in repetition 264
+Round trip time was 33.069 milliseconds in repetition 265
+Round trip time was 36.816 milliseconds in repetition 266
+Round trip time was 34.251 milliseconds in repetition 267
+Round trip time was 35.538 milliseconds in repetition 268
+Round trip time was 36.613 milliseconds in repetition 269
+Round trip time was 35.456 milliseconds in repetition 270
+Round trip time was 32.891 milliseconds in repetition 271
+Round trip time was 32.034 milliseconds in repetition 272
+Round trip time was 37.925 milliseconds in repetition 273
+Round trip time was 31.823 milliseconds in repetition 274
+Round trip time was 29.128 milliseconds in repetition 275
+Round trip time was 32.091 milliseconds in repetition 276
+Round trip time was 32.186 milliseconds in repetition 277
+Round trip time was 31.626 milliseconds in repetition 278
+Round trip time was 45.096 milliseconds in repetition 279
+Round trip time was 50.108 milliseconds in repetition 280
+Round trip time was 27.506 milliseconds in repetition 281
+Round trip time was 32.121 milliseconds in repetition 282
+Round trip time was 34.922 milliseconds in repetition 283
+Round trip time was 36.941 milliseconds in repetition 284
+Round trip time was 143.667 milliseconds in repetition 285
+Round trip time was 36.203 milliseconds in repetition 286
+Round trip time was 38.515 milliseconds in repetition 287
+Round trip time was 40.714 milliseconds in repetition 288
+Round trip time was 59.694 milliseconds in repetition 289
+Round trip time was 73.617 milliseconds in repetition 290
+Round trip time was 37.926 milliseconds in repetition 291
+Round trip time was 36.673 milliseconds in repetition 292
+Round trip time was 33.855 milliseconds in repetition 293
+Round trip time was 47.280 milliseconds in repetition 294
+Round trip time was 40.382 milliseconds in repetition 295
+Round trip time was 35.019 milliseconds in repetition 296
+Round trip time was 34.734 milliseconds in repetition 297
+Round trip time was 36.454 milliseconds in repetition 298
+Round trip time was 30.835 milliseconds in repetition 299
+Round trip time was 29.400 milliseconds in repetition 300
+Round trip time was 32.628 milliseconds in repetition 301
+Round trip time was 33.910 milliseconds in repetition 302
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 31.485 milliseconds in repetition 303
+Round trip time was 38.705 milliseconds in repetition 304
+Round trip time was 31.099 milliseconds in repetition 305
+Round trip time was 33.021 milliseconds in repetition 306
+Round trip time was 31.633 milliseconds in repetition 307
+Round trip time was 37.619 milliseconds in repetition 308
+Round trip time was 30.647 milliseconds in repetition 309
+Round trip time was 34.492 milliseconds in repetition 310
+Round trip time was 34.937 milliseconds in repetition 311
+Round trip time was 34.751 milliseconds in repetition 312
+Round trip time was 35.141 milliseconds in repetition 313
+Round trip time was 34.630 milliseconds in repetition 314
+Round trip time was 31.260 milliseconds in repetition 315
+Round trip time was 36.543 milliseconds in repetition 316
+Round trip time was 31.663 milliseconds in repetition 317
+Round trip time was 164.240 milliseconds in repetition 318
+Round trip time was 49.002 milliseconds in repetition 319
+Round trip time was 31.328 milliseconds in repetition 320
+Round trip time was 33.788 milliseconds in repetition 321
+Round trip time was 42.642 milliseconds in repetition 322
+Round trip time was 63.416 milliseconds in repetition 323
+Round trip time was 45.354 milliseconds in repetition 324
+Round trip time was 37.166 milliseconds in repetition 325
+Round trip time was 46.268 milliseconds in repetition 326
+Round trip time was 50.579 milliseconds in repetition 327
+Round trip time was 38.496 milliseconds in repetition 328
+Round trip time was 49.627 milliseconds in repetition 329
+Round trip time was 50.474 milliseconds in repetition 330
+Round trip time was 44.528 milliseconds in repetition 331
+Round trip time was 55.026 milliseconds in repetition 332
+Round trip time was 41.565 milliseconds in repetition 333
+Round trip time was 40.914 milliseconds in repetition 334
+Round trip time was 40.065 milliseconds in repetition 335
+Round trip time was 52.215 milliseconds in repetition 336
+Round trip time was 49.527 milliseconds in repetition 337
+Round trip time was 28.734 milliseconds in repetition 338
+Round trip time was 29.834 milliseconds in repetition 339
+Round trip time was 33.090 milliseconds in repetition 340
+Round trip time was 30.483 milliseconds in repetition 341
+Round trip time was 42.753 milliseconds in repetition 342
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 34.269 milliseconds in repetition 343
+Round trip time was 37.490 milliseconds in repetition 344
+Round trip time was 34.944 milliseconds in repetition 345
+Round trip time was 32.947 milliseconds in repetition 346
+Round trip time was 32.662 milliseconds in repetition 347
+Round trip time was 34.296 milliseconds in repetition 348
+Round trip time was 35.054 milliseconds in repetition 349
+Round trip time was 34.458 milliseconds in repetition 350
+Round trip time was 30.295 milliseconds in repetition 351
+Round trip time was 39.474 milliseconds in repetition 352
+Round trip time was 63.222 milliseconds in repetition 353
+Round trip time was 52.702 milliseconds in repetition 354
+Round trip time was 35.999 milliseconds in repetition 355
+Round trip time was 122.147 milliseconds in repetition 356
+Round trip time was 36.093 milliseconds in repetition 357
+Round trip time was 32.739 milliseconds in repetition 358
+Round trip time was 35.324 milliseconds in repetition 359
+Round trip time was 35.346 milliseconds in repetition 360
+Round trip time was 38.499 milliseconds in repetition 361
+Round trip time was 37.797 milliseconds in repetition 362
+Round trip time was 39.362 milliseconds in repetition 363
+Round trip time was 30.658 milliseconds in repetition 364
+Round trip time was 37.054 milliseconds in repetition 365
+Round trip time was 32.965 milliseconds in repetition 366
+Round trip time was 33.660 milliseconds in repetition 367
+Round trip time was 36.173 milliseconds in repetition 368
+Round trip time was 34.926 milliseconds in repetition 369
+Round trip time was 36.398 milliseconds in repetition 370
+Round trip time was 38.675 milliseconds in repetition 371
+Round trip time was 35.216 milliseconds in repetition 372
+Round trip time was 32.448 milliseconds in repetition 373
+Round trip time was 38.185 milliseconds in repetition 374
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 40.191 milliseconds in repetition 375
+Round trip time was 40.437 milliseconds in repetition 376
+Round trip time was 36.189 milliseconds in repetition 377
+Round trip time was 30.288 milliseconds in repetition 378
+Round trip time was 37.527 milliseconds in repetition 379
+Round trip time was 39.268 milliseconds in repetition 380
+Round trip time was 38.836 milliseconds in repetition 381
+Round trip time was 38.816 milliseconds in repetition 382
+Round trip time was 37.990 milliseconds in repetition 383
+Round trip time was 35.351 milliseconds in repetition 384
+Round trip time was 40.711 milliseconds in repetition 385
+Round trip time was 44.267 milliseconds in repetition 386
+Round trip time was 37.914 milliseconds in repetition 387
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 43.908 milliseconds in repetition 388
+Round trip time was 39.365 milliseconds in repetition 389
+Round trip time was 35.460 milliseconds in repetition 390
+Round trip time was 34.447 milliseconds in repetition 391
+Round trip time was 34.919 milliseconds in repetition 392
+Round trip time was 33.153 milliseconds in repetition 393
+Round trip time was 35.053 milliseconds in repetition 394
+Round trip time was 35.269 milliseconds in repetition 395
+Round trip time was 38.396 milliseconds in repetition 396
+Round trip time was 35.628 milliseconds in repetition 397
+Round trip time was 38.193 milliseconds in repetition 398
+
+ ... received 0 bytes instead of 384 (lost count = 1); re-trying ...
+ ... re-trying ...
+Round trip time was 35.435 milliseconds in repetition 399
+Round trip time was 32.349 milliseconds in repetition 400
+Round trip time was 34.463 milliseconds in repetition 401
+Round trip time was 29.171 milliseconds in repetition 402
+Round trip time was 34.000 milliseconds in repetition 403
+Round trip time was 35.055 milliseconds in repetition 404
+Round trip time was 35.115 milliseconds in repetition 405
+Round trip time was 34.543 milliseconds in repetition 406
+Round trip time was 31.732 milliseconds in repetition 407
+Round trip time was 41.374 milliseconds in repetition 408
+Round trip time was 33.376 milliseconds in repetition 409
+Round trip time was 35.685 milliseconds in repetition 410
+Round trip time was 36.075 milliseconds in repetition 411
+Round trip time was 35.534 milliseconds in repetition 412
+Round trip time was 42.907 milliseconds in repetition 413
+Round trip time was 33.826 milliseconds in repetition 414
+Round trip time was 35.946 milliseconds in repetition 415
+Round trip time was 38.951 milliseconds in repetition 416
+Round trip time was 39.783 milliseconds in repetition 417
+Round trip time was 33.802 milliseconds in repetition 418
+Round trip time was 33.217 milliseconds in repetition 419
+Round trip time was 31.642 milliseconds in repetition 420
+Round trip time was 35.401 milliseconds in repetition 421
+Round trip time was 35.539 milliseconds in repetition 422
+Round trip time was 41.564 milliseconds in repetition 423
+Round trip time was 32.766 milliseconds in repetition 424
+Round trip time was 36.018 milliseconds in repetition 425
+Round trip time was 39.192 milliseconds in repetition 426
+Round trip time was 42.035 milliseconds in repetition 427
+Round trip time was 39.530 milliseconds in repetition 428
+Round trip time was 38.788 milliseconds in repetition 429
+Round trip time was 41.671 milliseconds in repetition 430
+Round trip time was 52.384 milliseconds in repetition 431
+Round trip time was 42.441 milliseconds in repetition 432
+Round trip time was 39.541 milliseconds in repetition 433
+Round trip time was 39.736 milliseconds in repetition 434
+Round trip time was 34.675 milliseconds in repetition 435
+Round trip time was 37.030 milliseconds in repetition 436
+Round trip time was 41.196 milliseconds in repetition 437
+Round trip time was 82.680 milliseconds in repetition 438
+Round trip time was 52.662 milliseconds in repetition 439
+Round trip time was 35.332 milliseconds in repetition 440
+Round trip time was 66.700 milliseconds in repetition 441
+Round trip time was 41.792 milliseconds in repetition 442
+Round trip time was 59.207 milliseconds in repetition 443
+Round trip time was 37.122 milliseconds in repetition 444
+Round trip time was 37.384 milliseconds in repetition 445
+Round trip time was 34.689 milliseconds in repetition 446
+Round trip time was 42.884 milliseconds in repetition 447
+Round trip time was 39.272 milliseconds in repetition 448
+Round trip time was 35.264 milliseconds in repetition 449
+Round trip time was 40.937 milliseconds in repetition 450
+Round trip time was 41.116 milliseconds in repetition 451
+Round trip time was 37.569 milliseconds in repetition 452
+Round trip time was 34.961 milliseconds in repetition 453
+Round trip time was 38.009 milliseconds in repetition 454
+Round trip time was 29.811 milliseconds in repetition 455
+Round trip time was 32.028 milliseconds in repetition 456
+Round trip time was 33.121 milliseconds in repetition 457
+Round trip time was 30.158 milliseconds in repetition 458
+Round trip time was 32.387 milliseconds in repetition 459
+Round trip time was 37.457 milliseconds in repetition 460
+Round trip time was 29.632 milliseconds in repetition 461
+Round trip time was 32.647 milliseconds in repetition 462
+Round trip time was 32.661 milliseconds in repetition 463
+Round trip time was 32.116 milliseconds in repetition 464
+Round trip time was 32.630 milliseconds in repetition 465
+Round trip time was 32.999 milliseconds in repetition 466
+Round trip time was 37.240 milliseconds in repetition 467
+Round trip time was 34.791 milliseconds in repetition 468
+Round trip time was 31.854 milliseconds in repetition 469
+Round trip time was 33.577 milliseconds in repetition 470
+Round trip time was 34.474 milliseconds in repetition 471
+Round trip time was 37.918 milliseconds in repetition 472
+Round trip time was 35.147 milliseconds in repetition 473
+Round trip time was 35.711 milliseconds in repetition 474
+Round trip time was 40.639 milliseconds in repetition 475
+Round trip time was 40.357 milliseconds in repetition 476
+Round trip time was 37.176 milliseconds in repetition 477
+Round trip time was 36.330 milliseconds in repetition 478
+Round trip time was 45.574 milliseconds in repetition 479
+Round trip time was 38.272 milliseconds in repetition 480
+Round trip time was 39.552 milliseconds in repetition 481
+Round trip time was 36.567 milliseconds in repetition 482
+Round trip time was 38.927 milliseconds in repetition 483
+Round trip time was 40.727 milliseconds in repetition 484
+Round trip time was 41.683 milliseconds in repetition 485
+Round trip time was 34.477 milliseconds in repetition 486
+Round trip time was 32.946 milliseconds in repetition 487
+Round trip time was 31.003 milliseconds in repetition 488
+Round trip time was 30.827 milliseconds in repetition 489
+Round trip time was 34.266 milliseconds in repetition 490
+Round trip time was 31.525 milliseconds in repetition 491
+Round trip time was 35.293 milliseconds in repetition 492
+Round trip time was 31.674 milliseconds in repetition 493
+Round trip time was 33.073 milliseconds in repetition 494
+Round trip time was 32.059 milliseconds in repetition 495
+Round trip time was 39.069 milliseconds in repetition 496
+Round trip time was 34.430 milliseconds in repetition 497
+Round trip time was 33.941 milliseconds in repetition 498
+Round trip time was 37.455 milliseconds in repetition 499
+Round trip time was 34.963 milliseconds in repetition 500
+Round trip time was 32.066 milliseconds in repetition 501
 
  ... clock resolution was 1e-06
-UDP Ping:  Statistics over 101 repetitions of 384 byte messages
+UDP Ping:  Statistics over 501 repetitions of 384 byte messages
 
-RTT : percentile 10: 30.7236, median: 34.3152, percentile 90: 39.8769, average: 34.8932, variance: 13.042
+RTT : percentile 10: 31.5247, median: 35.4602, percentile 90: 42.907, average: 37.985, variance: 145.537
 
 RTT histogram:
-27.359 2
-28.3427 0
-29.3264 5
-30.3101 4
-31.2937 4
-32.2774 13
-33.2611 15
-34.2448 14
-35.2284 10
-36.2121 4
-37.1958 10
-38.1795 4
-39.1631 5
-40.1468 3
-41.1305 4
-42.1142 1
-43.0978 0
-44.0815 2
-45.0652 0
-46.0489 0
-47.0325 1
+27.5059 39
+34.3427 310
+41.1794 106
+48.0161 19
+54.8528 10
+61.6895 6
+68.5263 2
+75.363 2
+82.1997 1
+89.0364 0
+95.8731 1
+102.71 0
+109.547 0
+116.383 1
+123.22 2
+130.057 0
+136.893 0
+143.73 1
+150.567 0
+157.404 0
+164.24 1
 
-   median Throughput : 22.3807 KB/s   overall Throughput : 22.01 KB/s
+   median Throughput : 21.6581 KB/s   overall Throughput : 20.2185 KB/s
 
