@@ -18,27 +18,21 @@ LastN=${TailLine[0]} #N2
 # L0 = (D(N1)*N2 - D(N2)*N1)/(N2-N1)
 # T(N) * D(N) = N pertanto D(N) = N / T(N)
 
-
-
-# DA CHIEDERE
-# è giusto come viene fatto il calcolo con l'applicazion bc?
-
 # Determination of T(N1) and T(N2)
 FirstT=${HeadLine[1]} #T(N1)
 LastT=${TailLine[1]} #T(N2)
 
 # Determination of D(N1) and D(N2)
-FirstD=${echo "scale=15; $FirstN / $FirstT" | bc} #D(N1)
-LastD=${echo "scale=15; $LastN / $LastT" | bc} #D(N2)
+FirstD=$(echo "scale=10; $FirstN / $FirstT" | bc) #D(N1)
+LastD=$(echo "scale=10; $LastN / $LastT" | bc) #D(N2)
 
 # Determination of B
-Band=${bc<<<"scale=15; ($LastN - $FirstN) / ($LastD - $FirstD)"}
+Band=$(echo "scale=10; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
 
 # Determination of L0
-Latency=${bc<<<"scale=15; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)"}
+Latency=$(echo "scale=10; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
 
 # TO BE DONE END
-
 
 # Plotting the results
 gnuplot <<-eNDgNUPLOTcOMMAND
@@ -51,16 +45,17 @@ gnuplot <<-eNDgNUPLOTcOMMAND
   set xrange[$FirstN:$LastN]
   lbmodel(x)= x / ($Latency + (x/$Band))
 
-# TO BE DONE START 
+# TO BE DONE START
+
   # DA CHIEDERE
   # è giusto come viene fatto il plot?
     lbf(x) = x / ( $Latency + x / $Band )
     plot lbf(x) title "Latency-Bandwidth model with L=$Latency and B=$Band" with linespoints, \
        "../data/$1_throughput.dat" using 1:2 title "median Throughput" with linespoints
+
 # TO BE DONE END
 
   clear
-
 
 eNDgNUPLOTcOMMAND
 
@@ -71,8 +66,7 @@ eNDgNUPLOTcOMMAND
 # è tutto? è quello che dovevamo ottenere?
 
 # DA CHIEDERE
-# è normale che il nostro UDP non riesca a inviare messaggi di quella dimensione? (cioè non riesce a partire da 1536 byte)
+# è normale che il nostro UDP non riesca a inviare messaggi di quella dimensione? (cioè non riesce a partire da 1536 byte) sì
 
 # DA CHIEDERE
-# La consegna è martedì. ma se consegno mercoledì o giovedì è un problema? cosa comporta?
-# eventuali penalità sul voto? spiegare bene cosa succede in base ad ogni scelta.
+# La consegna è martedì. ma se consegno mercoledì o giovedì è un problema? cosa comporta? nessuna penalità tutto ok.
