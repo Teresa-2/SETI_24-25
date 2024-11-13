@@ -47,8 +47,6 @@ gnuplot <<-eNDgNUPLOTcOMMAND
 
 # TO BE DONE START
 
-  # DA CHIEDERE
-  # è giusto come viene fatto il plot?
     lbf(x) = x / ( $Latency + x / $Band )
     plot lbf(x) title "Latency-Bandwidth model with L=$Latency and B=$Band" with linespoints, \
        "../data/$1_throughput.dat" using 1:2 title "median Throughput" with linespoints
@@ -58,15 +56,3 @@ gnuplot <<-eNDgNUPLOTcOMMAND
   clear
 
 eNDgNUPLOTcOMMAND
-
-# DA CHIEDERE (OPZIONALE) 
-# # i dati ottenuti sono:
-# - LBtcp + LBudp
-# - throughput.png
-# è tutto? è quello che dovevamo ottenere?
-
-# DA CHIEDERE
-# è normale che il nostro UDP non riesca a inviare messaggi di quella dimensione? (cioè non riesce a partire da 1536 byte) sì
-
-# DA CHIEDERE
-# La consegna è martedì. ma se consegno mercoledì o giovedì è un problema? cosa comporta? nessuna penalità tutto ok.

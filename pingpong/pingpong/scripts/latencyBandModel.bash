@@ -14,22 +14,15 @@ FirstN=${HeadLine[0]} #N1
 LastN=${TailLine[0]} #N2
 
 # TO BE DONE START
-# B = (N2-N1)/(D(N2)-D(N1))
-# L0 = (D(N1)*N2 - D(N2)*N1)/(N2-N1)
-# T(N) * D(N) = N pertanto D(N) = N / T(N)
 
-# Determination of T(N1) and T(N2)
-FirstT=${HeadLine[1]} #T(N1)
-LastT=${TailLine[1]} #T(N2)
+FirstT=${HeadLine[1]}
+LastT=${TailLine[1]}
 
-# Determination of D(N1) and D(N2)
-FirstD=$(echo "scale=10; $FirstN / $FirstT" | bc) #D(N1)
-LastD=$(echo "scale=10; $LastN / $LastT" | bc) #D(N2)
+FirstD=$(echo "scale=10; $FirstN / $FirstT" | bc)
+LastD=$(echo "scale=10; $LastN / $LastT" | bc)
 
-# Determination of B
 Band=$(echo "scale=10; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
 
-# Determination of L0
 Latency=$(echo "scale=10; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
 
 # TO BE DONE END
@@ -47,8 +40,6 @@ gnuplot <<-eNDgNUPLOTcOMMAND
 
 # TO BE DONE START
 
-  # DA CHIEDERE
-  # è giusto come viene fatto il plot?
     lbf(x) = x / ( $Latency + x / $Band )
     plot lbf(x) title "Latency-Bandwidth model with L=$Latency and B=$Band" with linespoints, \
        "../data/$1_throughput.dat" using 1:2 title "median Throughput" with linespoints
@@ -58,15 +49,3 @@ gnuplot <<-eNDgNUPLOTcOMMAND
   clear
 
 eNDgNUPLOTcOMMAND
-
-# DA CHIEDERE (OPZIONALE) 
-# # i dati ottenuti sono:
-# - LBtcp + LBudp
-# - throughput.png
-# è tutto? è quello che dovevamo ottenere?
-
-# DA CHIEDERE
-# è normale che il nostro UDP non riesca a inviare messaggi di quella dimensione? (cioè non riesce a partire da 1536 byte) sì
-
-# DA CHIEDERE
-# La consegna è martedì. ma se consegno mercoledì o giovedì è un problema? cosa comporta? nessuna penalità tutto ok.

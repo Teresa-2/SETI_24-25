@@ -28,13 +28,8 @@ void fail_errno(const char * const msg)
 	exit(EXIT_FAILURE);
 }
 
-// NOTA: fail_errno stampa il messaggio msg seguito da una descrizione dell'errore corrispondente al valore corrente di errno. Il messaggio viene stampato su stderr e il programma termina con EXIT_FAILURE
-// NOTA: metodo preferenziale di fail tra i due qui proposti
-
 void fail(const char *const msg)
 {
 	fprintf(stderr, "%s\n", msg);
 	exit(EXIT_FAILURE);
 }
-
-//NOTA: fprintf(FILE *stream, const char *format, ...) stampa il messaggio formattato specificato da format e dagli argomenti successivi sullo stream specificato (stderr in questo caso).

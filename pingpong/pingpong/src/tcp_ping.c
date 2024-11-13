@@ -38,8 +38,6 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** write msg_no at the beginning of the message buffer ***/
 /*** TO BE DONE START ***/
 
-	//NOTA: il metodo scrive una stringa formattata in un buffer. In particolare, formatta il numero interno msg_no come una stringa e lo memorizza nel buffer 'message'. Poichè 'message' è un array di char, la call trasformerà msg_no in forato char 
-
 	if(sprintf(message, "%d", msg_no)<0) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
@@ -47,7 +45,6 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE: perché non va bene CLOCK_MONOTONIC?
 	if(clock_gettime(CLOCK_MONOTONIC, &send_time) ==-1 ) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
@@ -55,9 +52,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int tcp_sock
     /*** Send the message through the socket ***/
 /*** TO BE DONE START ***/
 
-	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-	sent_bytes= blocking_write_all(tcp_socket, message, msg_size); 
-	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
+	sent_bytes = blocking_write_all(tcp_socket, message, msg_size); 
 	if(sent_bytes==-1) fail_errno("Error sending data");  	
 
 /*** TO BE DONE END ***/
@@ -89,20 +84,19 @@ int main(int argc, char **argv)
 	struct sockaddr_in *ipv4;
 	int tcp_socket;
 	char request[MAX_REQ], answer[MAX_ANSW];
-	ssize_t nr; //NOTA: utilizzato per rappr numero di byte di READ e WRITE
-
+	ssize_t nr; 
 	if (argc < 4)
 		fail("Incorrect parameters provided. Use: tcp_ping PONG_ADDR PONG_PORT SIZE [NO_REP]\n");
 	for (nr = 4, norep = REPEATS; nr < argc; nr++)
 		if (*argv[nr] >= '1' && *argv[nr] <= '9')
-			sscanf(argv[nr], "%d", &norep); //NOTA: trasforma una stringa in un numero e la mette nella zona puntata da norep
+			sscanf(argv[nr], "%d", &norep);
 	if (norep < MINREPEATS)
 		norep = MINREPEATS;
 	else if (norep > MAXREPEATS)
 		norep = MAXREPEATS;
 
     /*** Initialize hints in order to specify socket options ***/
-	memset(&gai_hints, 0, sizeof gai_hints); //NOTA: Inizializza tutti a zero e alloca alla struttura &gai_hints uno spazio di memoria pari a sizeof gai_hints espressa in byte  
+	memset(&gai_hints, 0, sizeof gai_hints); 
 
 /*** TO BE DONE START ***/ 
 gai_hints.ai_family = AF_INET; 
@@ -112,8 +106,8 @@ gai_hints.ai_socktype = SOCK_STREAM;
 
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
-	gai_rv= getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
-	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
+	gai_rv= getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo);
+	if(gai_rv!=0) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
 
@@ -123,30 +117,30 @@ gai_hints.ai_socktype = SOCK_STREAM;
 
     /*** create a new TCP socket and connect it with the server ***/
 /*** TO BE DONE START ***/
-	tcp_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
+	tcp_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol);
 	if(tcp_socket==-1){ 
-		fail_errno("Problem with socket creation during the connection inizialization");
+		fail_errno("Problem with socket creation during the connection inizialization in TCP");
 	}
-	if(connect(tcp_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
+	if(connect(tcp_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {
 		fail_errno("Problem with socket connection in TCP");
 	}
 
 /*** TO BE DONE END ***/
 
-	freeaddrinfo(server_addrinfo); //NOTA: libera l'indirizzo
-	if (sscanf(argv[3], "%d", &msgsz) != 1) //NOTA: restituisce il numero di variabili a cui è riuscito ad asegnare un valore (in questo caso ne ha una sola. Se non è uguale a 1, quindi, ha fallito)
+	freeaddrinfo(server_addrinfo);
+	if (sscanf(argv[3], "%d", &msgsz) != 1)
 		fail("Incorrect format of size parameter");
 	if (msgsz < MINSIZE)
 		msgsz = MINSIZE;
 	else if (msgsz > MAXTCPSIZE)
 		msgsz = MAXTCPSIZE;
 	printf(" ... connected to Pong server: asking for %d repetitions of %d bytes TCP messages\n", norep, msgsz);
-	sprintf(request, "TCP %d %d\n", msgsz, norep); //NOTA: stampa request, TCP msgsz, norep e poi un byte nullo
+	sprintf(request, "TCP %d %d\n", msgsz, norep);
 
     /*** Write the request on socket ***/
 /*** TO BE DONE START ***/
-	nr = blocking_write_all(tcp_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
-	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
+	nr = blocking_write_all(tcp_socket, request, strlen(request)); 
+	if(nr!=strlen(request) || nr<0) {
 		fail_errno("Problem with Write"); 
 	}
 
@@ -159,20 +153,10 @@ gai_hints.ai_socktype = SOCK_STREAM;
 	printf("Received answer: '%.*s'\n", (int)nr, answer);
 
     /*** Check if the answer is OK, and fail if it is not ***/
-/*** TO BE DONE START ***/
-	/*NOTA: prende due stringhe, le confrontano: 
-		- se ritorna 0, successo 
-		- in caso contrario, le due stringhe non sono identiche
-	*/
-	//TERESA
-	//errore come in udp, cambio strncmp con strcmp perché la risposta deve esattamente essere OK
-	//if(strncmp("OK",answer), size_of(answer)!= 0) fail_errno("... Pong Server denied :-(\n"); 
+/*** TO BE DONE START ***/	
 
-	
-
-	if (strncmp("OK",answer,2) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
-		fail_errno("... Pong Server denied :-( FUNZIONA??!! \n");
-
+	if (strncmp("OK",answer,2) != 0)
+		fail_errno("... Pong Server denied :-( \n");
 
 /*** TO BE DONE END ***/
 

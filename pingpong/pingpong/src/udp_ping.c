@@ -49,7 +49,6 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Store the current time in send_time ***/
 /*** TO BE DONE START ***/
 
-	//DA CHIEDERE: controllare MONOTONIC/TYPE
 	if(clock_gettime(CLOCK_MONOTONIC,&send_time) !=0 ) fail_errno(strerror(errno)); 
 
 /*** TO BE DONE END ***/
@@ -57,10 +56,7 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Send the message through the socket ***/
 /*** TO BE DONE START ***/
 
-	//NOTA: ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-	//TERESA: il 1° parametro della send era tcp_socket, ho modificato inserendo ping_socket
 	sent_bytes= send(ping_socket, message, msg_size, 0); 
-	//NOTA: con i flags equivalenti a zero, la send è equivalente alla write 
 	if(sent_bytes<0) fail_errno("Error sending data");  
 
 /*** TO BE DONE END ***/
@@ -68,7 +64,6 @@ double do_ping(size_t msg_size, int msg_no, char message[msg_size], int ping_soc
 	/*** Receive answer through the socket (non blocking mode) ***/
 /*** TO BE DONE START ***/
 
-//DA CHIEDERE: ha senso? o anziché msg_size, va passato strlen(answer_buffer)?
 	recv_bytes = read (ping_socket, &answer_buffer, msg_size);
 	recv_errno = errno;
 
@@ -120,7 +115,7 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
 /*** TO BE DONE START ***/
 
 	gai_hints.ai_family = AF_INET; 
-	gai_hints.ai_socktype = SOCK_DGRAM; //NOTA: la UDP usa la DGRAM 
+	gai_hints.ai_socktype = SOCK_DGRAM;
 
 /*** TO BE DONE END ***/
 
@@ -160,8 +155,8 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
     /*** connect the ping_socket UDP socket with the server ***/
 /*** TO BE DONE START ***/
 
-	if(connect(ping_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
-		fail_errno("Problem with socket connection in UDP");
+	if(connect(ping_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen)!=0) {
+		fail_errno("Problem with socket and server connection in UDP");
 	}
 
 /*** TO BE DONE END ***/
@@ -206,8 +201,8 @@ int main(int argc, char *argv[])
     /*** call getaddrinfo() in order to get Pong Server address in binary form ***/
 /*** TO BE DONE START ***/
 
-	gai_rv = getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo); //NOTA: restituisce 0 se ha successo 
-	if(gai_rv!=0) fail_errno(strerror(errno)); //NOTE: controllo del valore di ritorno e stampa di errore in caso di insuccesso 
+	gai_rv = getaddrinfo(argv[1],argv[2],&gai_hints,&server_addrinfo);
+	if(gai_rv!=0) fail_errno(strerror(errno));
 
 /*** TO BE DONE END ***/
 
@@ -218,12 +213,12 @@ int main(int argc, char *argv[])
     /*** create a new TCP socket and connect it with the server ***/
 /*** TO BE DONE START ***/
 
-	ask_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol); //NOTA: in caso di insuccesso, restituisce un errore
+	ask_socket=socket(server_addrinfo->ai_family,server_addrinfo->ai_socktype,server_addrinfo->ai_protocol); 
 	if(ask_socket==-1){ 
-		fail_errno("Problem with socket creation during the connection inizialization"); //DA RIVEDERE IL MESSAGGIO
+		fail_errno("Problem with socket creation during the connection inizialization in UDP");
 	}
-	if(connect(ask_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {//NOTA: in caso di successo, resituisce 0, sennò -1
-		fail_errno("Problem with socket connection"); //DA RIVEDERE IL MESSAGGIO
+	if(connect(ask_socket,server_addrinfo->ai_addr,server_addrinfo->ai_addrlen)!=0) {
+		fail_errno("Problem with socket connection in UDP");
 	}
 
 /*** TO BE DONE END ***/
@@ -235,13 +230,9 @@ int main(int argc, char *argv[])
     /*** Write the request on the TCP socket ***/
 /** TO BE DONE START ***/
 
-	/*nr = blocking_write_all(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
-	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
-		fail_errno("Problem with Write"); 
-	}*/
-
-	nr = write(ask_socket, request, strlen(request)); //a differenza della write, blocking_write_all ripete la write finchè non ha scritto tutti i byte richiesti
-	if(nr!=strlen(request) || nr<0) { //se non sono stati scritti tutti i byte, da errore
+	nr = blocking_write_all(ask_socket, request, strlen(request));
+	/*nr = write(ask_socket, request, strlen(request));*/
+	if(nr!=strlen(request) || nr<0) {
 		fail_errno("Problem with Write"); 
 	}
 
@@ -257,15 +248,8 @@ int main(int argc, char *argv[])
     /*** Check if the answer is OK, and fail if it is not ***/
 /*** TO BE DONE START ***/
 
-	//nuova versione da verificare
-	if (strncmp("OK",answer,2) != 0) //NOTA: se le stringhe sono uguali, strcmp restituisce 0
-		fail_errno("... Pong Server denied :-( 1111\n");
-	
-	/* originale*/
-	//DA ERRORE perché strncmp non funzionava con gli argomenti che gli sono stati passati
-	//TERESA: c'era una parentesi in più al posto sbagliato
-	/*if(strncmp("OK",answer, size_of(answer)) != 0)
-		fail_errno("... Pong Server denied :-(\n");*/
+	if (strncmp("OK",answer,2) != 0)
+		fail_errno("... Pong Server denied :-( \n");
 
 /*** TO BE DONE END ***/
 

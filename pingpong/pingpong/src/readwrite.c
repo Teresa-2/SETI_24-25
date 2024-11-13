@@ -64,28 +64,19 @@ ssize_t blocking_write_all(int fd, const void *ptr, size_t n)
 	return n - n_left;
 }
 
-/*NOTA: tenta di scrivere tutti i dati forniti in modalita' non bloccante su un file descriptor 
-fd: file descroptor in cui scrivere 
-ptr: puntatore ai dati su cui scrivere 
-n: dimensione dei dati da scrivere
-return: 
-CASO 1 :  numero di byte effettivamente scritti, che è la differenza tra il numero totale di byte da scrivere (n) e il numero di byte rimanenti (n_left)
-CASO 2: -1 come errore cioè la write ha fallito per errore bloccante o non è stato scritto alcun byte
-*/
 ssize_t nonblocking_write_all(int fd, const void *ptr, size_t n)
 {
-	size_t n_left = n; //NOTA: n_left sono i dai rimanenti da scrivere (espressi in numero di byte)
+	size_t n_left = n;
 	while (n_left > 0) {
 		ssize_t n_written = write(fd, ptr, n_left);
-		if (n_written < 0) { //NOTA: se la write da' errore (return value = -1), verifichiamo se l'errore è bloccante o meno 
+		if (n_written < 0) {
 
 /*** TO BE DONE START ***/
-// DA CHIEDERE: vanno bene questi due errori, a parte EWOULDBLOCK 
-			if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR){  //NOTA: se l'errore è non bloccante, va a riga 89 grazie alla continue 
+			if(errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR){
 					printf("non-blocking error (data couldn't be written immediately)\n");
 					continue;
 			}
-			else return -1; //NOTA: se l'errore è bloccante, la write fallisce 
+			else return -1;
 			
 /*** TO BE DONE END ***/
 
