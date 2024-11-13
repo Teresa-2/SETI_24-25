@@ -1,4 +1,0 @@
-- commentare assolutamente
-    readwrite.c > riga 84
-    in particolare perché abbiamo scelto di usare anche come controllo errno == EINTR
-    (è utile/inutile al tempo stesso)
