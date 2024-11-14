@@ -18,12 +18,12 @@ LastN=${TailLine[0]} #N2
 FirstT=${HeadLine[1]}
 LastT=${TailLine[1]}
 
-FirstD=$(echo "scale=10; $FirstN / $FirstT" | bc)
-LastD=$(echo "scale=10; $LastN / $LastT" | bc)
+FirstD=$(echo "scale=15; $FirstN / $FirstT" | bc)
+LastD=$(echo "scale=15; $LastN / $LastT" | bc)
 
-Band=$(echo "scale=10; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
+Band=$(echo "scale=15; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
 
-Latency=$(echo "scale=10; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
+Latency=$(echo "scale=15; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
 
 # TO BE DONE END
 

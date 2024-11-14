@@ -23,14 +23,14 @@ FirstT=${HeadLine[1]} #T(N1)
 LastT=${TailLine[1]} #T(N2)
 
 # Determination of D(N1) and D(N2)
-FirstD=$(echo "scale=10; $FirstN / $FirstT" | bc) #D(N1)
-LastD=$(echo "scale=10; $LastN / $LastT" | bc) #D(N2)
+FirstD=$(echo "scale=15; $FirstN / $FirstT" | bc) #D(N1)
+LastD=$(echo "scale=15; $LastN / $LastT" | bc) #D(N2)
 
 # Determination of B
-Band=$(echo "scale=10; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
+Band=$(echo "scale=15; ($LastN - $FirstN) / ($LastD - $FirstD)" | bc)
 
 # Determination of L0
-Latency=$(echo "scale=10; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
+Latency=$(echo "scale=15; ($FirstD * $LastN - $LastD * $FirstN) / ($LastN - $FirstN)" | bc)
 
 # TO BE DONE END
 
