@@ -80,8 +80,8 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 	}
 
 /*** TO BE DONE 8.0 START ***/
-
-
+	create_listening_socket(port_as_str); 
+	drop_privileges(); 
 /*** TO BE DONE 8.0 END ***/
 
 #ifdef INCaPACHE_8_1
@@ -114,6 +114,7 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 		/*** create PTHREAD number i, running client_connection_thread() ***/
 /*** TO BE DONE 8.0 START ***/
 
+client_connection_thread((void *) &connection_no[i]);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -146,12 +147,12 @@ void check_uids()
 
 int main(int argc, char **argv)
 {
-	int p_to_file[2], p_from_file[2];
+	int p_to_file[2], p_from_file[2]; 
 	const char *port_as_str;
 	const char *const default_port = "8000";
-	char *www_root;
+	char *www_root; //NOTA: puntatore a directory di Pagine HTML di prova
 	pid_t pid;
-	signal(SIGPIPE, SIG_IGN);
+	signal(SIGPIPE, SIG_IGN); 
 #ifdef PRETEND_TO_BE_ROOT
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */
@@ -162,13 +163,13 @@ int main(int argc, char **argv)
 	}
 	port_as_str = argc == 3 ? argv[2] : default_port;
 	www_root = argv[1];
-	if (pipe(p_to_file))
+	if (pipe(p_to_file)) 
 		fail_errno("Cannot create pipe to-file");
 	if (pipe(p_from_file))
 		fail_errno("Cannot create pipe from-file");
-	if (chdir(www_root))
+	if (chdir(www_root)) //NOTA: cambia la directory corrente in quella specificata 
 		fail_errno("Cannot chdir to www-root directory");
-	www_root = getcwd(NULL, 0);
+	www_root = getcwd(NULL, 0); //NOTA: getcwd(char *buf,size_t size). 
 	if (!www_root)
 		fail_errno("Cannot get current directory");
 	pid = fork();

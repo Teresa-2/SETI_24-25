@@ -48,6 +48,11 @@ int get_new_UID(void)
      *** Be careful in order to avoid race conditions ***/
 /*** TO BE DONE 8.0 START ***/
 
+	pthread_mutex_lock(&cookie_mutex);
+	retval= (CurUID+1)%MAX_COOKIES; 
+	CurUID=retval; 
+	UserTracker[retval] = 0; 
+	pthread_mutex_unlock(&cookie_mutex);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -65,6 +70,9 @@ int keep_track_of_UID(int myUID)
      *** Be careful in order to avoid race conditions ***/
 /*** TO BE DONE 8.0 START ***/
 
+	pthread_mutex_lock(&cookie_mutex);
+	newcount = ++UserTracker[myUID]; 
+	pthread_mutex_unlock(&cookie_mutex);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -96,7 +104,7 @@ void send_response(int client_fd, int response_code, int cookie,
 	/*** Compute date of servicing current HTTP Request using a variant of gmtime() ***/
 /*** TO BE DONE 8.0 START ***/
 
-
+	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request"); 
 /*** TO BE DONE 8.0 END ***/
 
 	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm);
@@ -130,6 +138,8 @@ void send_response(int client_fd, int response_code, int cookie,
 			/*** compute file_size and file_modification_time ***/
 /*** TO BE DONE 8.0 START ***/
 
+	file_size = stat_p->st_size; 
+	file_modification_time = stat_p->st_mtim;
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -156,6 +166,17 @@ void send_response(int client_fd, int response_code, int cookie,
 			/*** compute file_size, mime_type, and file_modification_time of HTML_404 ***/
 /*** TO BE DONE 8.0 START ***/
 
+			stat_p = &stat_buffer;
+					if (stat(HTML_404, stat_p)) {//Get file attributes about HTML_404 and put them in stat_p
+						debug("stat failed (HTML_404)");
+										response_code = RESPONSE_CODE_NOT_FOUND;
+										//goto int_err;
+					}
+					mime_type = strdup(HTML_mime);//Get the mime type of HTML_404
+					debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_404, mime_type);
+					file_modification_time = stat_p -> st_mtime;
+					file_size = stat_p -> st_size;
+					debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_404, (unsigned long)file_size, mime_type);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -176,6 +197,17 @@ void send_response(int client_fd, int response_code, int cookie,
 			/*** compute file_size, mime_type, and file_modification_time of HTML_501 ***/
 /*** TO BE DONE 8.0 START ***/
 
+			stat_p = &stat_buffer;
+						if (stat(HTML_501, stat_p)) {
+							debug("stat failed (HTML_501)");
+											response_code = RESPONSE_CODE_NOT_IMPLEMENTED;
+											//goto int_err;
+						}
+						mime_type = strdup(HTML_mime);
+						debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_501, mime_type);
+						file_modification_time = stat_p -> st_mtime;
+						file_size = stat_p -> st_size;
+						debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_501, (unsigned long)file_size, mime_type);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -187,7 +219,10 @@ void send_response(int client_fd, int response_code, int cookie,
         if ( cookie >= 0 ) {
             /*** set permanent cookie in order to identify this client ***/
 /*** TO BE DONE 8.0 START ***/
-           
+	//DA CAPIRE 
+	//sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i", cookie);
+	sprintf(http_header, "\r\nSet-Cookie: UserID=%i", cookie);
+	strcat(http_header, COOKIE_EXPIRE);
 
 /*** TO BE DONE 8.0 END ***/
 
