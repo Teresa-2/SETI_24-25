@@ -242,6 +242,15 @@ void send_response(int client_fd, int response_code, int cookie,
 		     see gmtime and strftime ***/
 /*** TO BE DONE 8.0 START ***/
 
+	//  size_t strftime(char *s, size_t max, const char *format,const struct tm *tm);
+	//  struct tm *gmtime(const time_t *timep);
+	if(!gmtime_r(&file_modification_time, &file_modification_tm)){
+		fail("Could not convert file modification time to broken-down time in send response"); //NOTA: modificare errore 
+	}
+
+	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){
+		fail("Could not convert file modification time to string in send response");
+	}
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -272,7 +281,11 @@ void send_response(int client_fd, int response_code, int cookie,
 
 		/*** send fd file on client_fd, then close fd; see syscall sendfile  ***/
 /*** TO BE DONE 8.0 START ***/
+	//ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
+	if(sendfile(client_fd, fd, NULL, file_size) == -1) fail("could not send data from fd file to client_fd"); 
+
+	if(fd<0){ fail_errno("close failed")}
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -331,6 +344,9 @@ void manage_http_requests(int client_fd
 		 *** filename, and protocol ***/
 /*** TO BE DONE 8.0 START ***/
 
+	method_str= strtok_r(http_request_line, ' ', &strtokr_save);
+	filename= strtok_r(NULL, ' ', &strtokr_save);
+	protocol = strtok_r(NULL, " \r\n ", &strtokr_save);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -369,6 +385,7 @@ void manage_http_requests(int client_fd
 			    if ( strcmp(option_name, "Cookie") == 0 ) {
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
+
 
 
 /*** TO BE DONE 8.0 END ***/
