@@ -78,6 +78,11 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** connection_no[i] ***/
 /*** TO BE DONE 8.1 START ***/
 
+	i = find_unused_thread_idx(conn_no);
+	pthread_join(thread_ids[i], NULL);
+	connection_no[i] = FREE_SLOT;
+	--no_response_threads[conn_no];
+	++no_free_threads;
 
 /*** TO BE DONE 8.1 END ***/
 

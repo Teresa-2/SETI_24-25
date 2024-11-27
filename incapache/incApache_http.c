@@ -104,7 +104,9 @@ void send_response(int client_fd, int response_code, int cookie,
 	/*** Compute date of servicing current HTTP Request using a variant of gmtime() ***/
 /*** TO BE DONE 8.0 START ***/
 
-	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request"); 
+	printf("SONO IN SEND_RESPONSE\n");
+
+	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request");
 /*** TO BE DONE 8.0 END ***/
 
 	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm);
@@ -140,6 +142,11 @@ void send_response(int client_fd, int response_code, int cookie,
 
 	file_size = stat_p->st_size; 
 	file_modification_time = stat_p->st_mtime;
+	
+	/* NOTA: non viene mai stampato a terminale!
+	printf("STAMPA DELL'HEADER CHE NON FUNZIONA");
+	printf("%s\n", http_header);
+	*/
 
 /*** TO BE DONE 8.0 END ***/
 

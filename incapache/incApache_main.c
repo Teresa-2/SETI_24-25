@@ -80,6 +80,8 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 	}
 
 /*** TO BE DONE 8.0 START ***/
+	//printf("SONO IN RUN_WEBSERVER\n");
+
 	create_listening_socket(port_as_str); 
 	drop_privileges(); 
 /*** TO BE DONE 8.0 END ***/
@@ -152,11 +154,14 @@ int main(int argc, char **argv)
 	const char *const default_port = "8000";
 	char *www_root; //NOTA: puntatore a directory di Pagine HTML di prova
 	pid_t pid;
+	//printf("sono nel main\n");
 	signal(SIGPIPE, SIG_IGN);
+	//printf("ho superato signal\n");
 #ifdef PRETEND_TO_BE_ROOT
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */
 	check_uids();
+	//printf("ho superato check_uids\n");
 	if (argc < 2 || argc > 3) {
 		fprintf(stderr, "Usage: %s <www-root> [<port-number>]\nDefault port: %s\n", *argv, default_port);
 		return EXIT_FAILURE;
