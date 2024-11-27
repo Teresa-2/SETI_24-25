@@ -461,8 +461,10 @@ void manage_http_requests(int client_fd
 				 *** Use something like timegm() to convert from struct tm to time_t
 				 ***/
 /*** TO BE DONE 8.0 START ***/
-
-																								
+ 	
+			if(difftime(timegm(&since_tm),file_modification_time) == 0){
+				http_method = METHOD_NOT_CHANGED; 
+			}																
 
 /*** TO BE DONE 8.0 END ***/
 
