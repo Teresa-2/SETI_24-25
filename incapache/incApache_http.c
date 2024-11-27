@@ -386,92 +386,8 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
 
-}
-					option_val = strtok_r(NULL, " ", &strtokr_save);
-					if(option_val != NULL && strncmp(option_val, "Expires", 7) != 0) {
-						debug("	   ... Optionval= ");
-						for(int i = 0; i < strlen(option_val); ++i) {
-							debug("%c", option_val[i]);
-						}
-						debug("\n");
-					}		
-				//cheching if client provided a expiration date for the cookie, otherwise we let it do by the system
-					if (option_val != NULL && strncmp(option_val, "Expires", 7 ) == 0) {
-						struct tm cookie_Expire_Date_tm;
-						myDebug("       ... option_name= ");
-						for (int i = 0; i < strlen(option_val); ++i) {
-							printf("%c", option_val[i]);
-						}
-						myDebug("\n 	 ... option_val= ");
-						debug(" ");
-    					option_val = strtok_r(NULL, "\r\n", &strtokr_save);
-						for (int i = 0; i < strlen(option_val); ++i) {
-							printf("%c", option_val[i]);
-						}
-						printf("\n");
-    					if (option_val != NULL ) {
-							strptime(option_val, "%a, %d %b %Y %T GMT", &cookie_Expire_Date_tm);
-							myDebug("Seconds: %d\n", cookie_Expire_Date_tm.tm_sec);
-    						myDebug("Minutes: %d\n", cookie_Expire_Date_tm.tm_min);
-							myDebug("Hours: %d\n", cookie_Expire_Date_tm.tm_hour);
-							myDebug("Day of the month: %d\n", cookie_Expire_Date_tm.tm_mday);
-							myDebug("Month: %d\n", cookie_Expire_Date_tm.tm_mon);
-							myDebug("Year: %d\n", cookie_Expire_Date_tm.tm_year);
-							myDebug("Day of the week: %d\n", cookie_Expire_Date_tm.tm_wday);
-							myDebug("Day of the year: %d\n", cookie_Expire_Date_tm.tm_yday);
-							myDebug("Daylight saving time flag: %d\n", cookie_Expire_Date_tm.tm_isdst);
-							if ( cookie_Expire_Date_tm.tm_isdst != 1 && cookie_Expire_Date_tm.tm_isdst != -1 && cookie_Expire_Date_tm.tm_isdst != 0) {
-								debug("Daylight saving time flag= %d\n", cookie_Expire_Date_tm.tm_isdst);
-								cookie_Expire_Date_tm.tm_isdst = -1;
-								debug("Strptime failed, adjusted daylight field\n");
-							}
-							time_t cookie_Expire_Date_time_t = my_timegm(&cookie_Expire_Date_tm);
-#ifdef FORSE				if(cookie_Expire_Date_time_t == -1){
-								debug("       ... Bad Request!\n");
-							SEND_RESPONSE(client_fd, RESPONSE_CODE_BAD_REQUEST, UIDcookie,
-#ifdef INCaPACHE_8_1
-				     		1, connection_no, thread_idx,
-#endif
-				      		NULL, NULL);
-							free(http_request_line);
-							break;
-#endif						}
-								//fail("Error in converting cookie expire date to time_t\n");
-							time_t now_t = time(NULL);
-							debug("...checking if expired: cookie_Expire_Date_tm = %ld, ", cookie_Expire_Date_time_t);
-							debug("now_t = %ld\n", now_t);
-					  		if(now_t > cookie_Expire_Date_time_t){
-								UIDcookie = -1;
-					    		printf("\nCookie has expired \n");
-					   		} //if not expired we keep che UIDcookie got previously by the request 
-						}
-						else {
-							debug("       ... Bad Request!\n");
-							SEND_RESPONSE(client_fd, RESPONSE_CODE_BAD_REQUEST, UIDcookie,
-#ifdef INCaPACHE_8_1
-				     		1, connection_no, thread_idx,
-#endif
-				      		NULL, NULL);
-							free(http_request_line);
-							break;
-						}
-    				} else { if(!isAlreadySet(UIDcookie)){//setto io la data di scadenza del coockie
-							debug("The string does not continue with 'Expires and is the first request'\n");
-							const time_t ten_hours = 60*60*10;
-							time_t now_t = time(NULL);
-							char time_as_string[MAX_TIME_STR];
-							struct tm cookie_Expire_Date_tm;
-							time_t expire_date_time_t = now_t + ten_hours;
-							gmtime_r(&expire_date_time_t, &cookie_Expire_Date_tm);
-							strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &cookie_Expire_Date_tm);
-							printf("Expires: ");
-							for (int i = 0; i < strlen(time_as_string); ++i) {
-								printf("%c", time_as_string[i]);
-							}
-							printf("\n");
-						}
-    				
-					continue;
+	strtok_r(NULL, "UserID=", &strtokr_save); 
+	UIDcookie = atoi(strtok_r(NULL, ";", &strtokr_save)); //converte la porzione di una stringa a un intero
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -484,24 +400,11 @@ void manage_http_requests(int client_fd
                                  ***/
 /*** TO BE DONE 8.0 START ***/
 
-				if ( strncmp(option_name, "If-Modified-Since", 17) == 0 ) {
-					//option_val = strtok_r(NULL, " ", &strtokr_save);
-					myDebug("	  ... option_name= ");
-					debug("	  ...METHOD_CONDITIONAL: ");
-					for (int i = 0; i < strlen(option_name); ++i) {
-						debug("%c", option_name[i]);
-					}
-					myDebug("\n");
-				    option_val = strtok_r(NULL, "\r\n", &strtokr_save);
-					myDebug("    	... option_val= ");
-					for (int i = 0; i < strlen(option_val); ++i) {
-						debug("%c", option_val[i]);
-					}
-					debug("\n");
-				    if ( option_val != NULL ) {
-						strptime(option_val, " %a, %d %b %Y %T GMT", &since_tm);
-						http_method = METHOD_CONDITIONAL; /* add METHOD_CONDITIONAL flag to http_method */
-					}
+				if(strcmp(option_name, "If-Modified-Since")==0){
+					http_method |= METHOD_CONDITIONAL;
+					char* datestr=strtok_r(NULL,";",&strtokr_save);
+					if(!strptime(datestr," %a, %d %b %Y %H:%M:%S %Z", &since_tm))
+						fail("Could not store date in since_tm"); 
 				}
 
 /*** TO BE DONE 8.0 END ***/
@@ -559,26 +462,7 @@ void manage_http_requests(int client_fd
 				 ***/
 /*** TO BE DONE 8.0 START ***/
 
-time_t file_modification_time = stat_p -> st_mtime;
-				time_t since_time = my_timegm(&since_tm);
-				if (since_time < 0) {
-					debug("       ... Bad Request!\n");
-			SEND_RESPONSE(client_fd, RESPONSE_CODE_BAD_REQUEST, UIDcookie,
-#ifdef INCaPACHE_7_1
-				      1, connection_no, thread_idx,
-#endif
-				      NULL, NULL);
-			free(http_request_line);
-			break;
-				}
-				myDebug("    ... stat_p -> st_mtime data: %ld\n", file_modification_time);
-				myDebug("    ... since_tm data: %ld\n", since_time);
-				myDebug("    ... difftime data: %f\n", difftime(since_time, file_modification_time));
-				debug(" ... checking conditional get : mtime = %ld, since = %ld\n", file_modification_time, since_time);
-				if((since_time - file_modification_time) >= 0)
-					http_method = METHOD_NOT_CHANGED;
-				else 
-					http_method = METHOD_GET;																								
+																								
 
 /*** TO BE DONE 8.0 END ***/
 
