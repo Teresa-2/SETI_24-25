@@ -198,16 +198,16 @@ void send_response(int client_fd, int response_code, int cookie,
 /*** TO BE DONE 8.0 START ***/
 
 			stat_p = &stat_buffer;
-						if (stat(HTML_501, stat_p)) {
-							debug("stat failed (HTML_501)");
-											response_code = RESPONSE_CODE_NOT_IMPLEMENTED;
-											//goto int_err;
-						}
-						mime_type = strdup(HTML_mime);
-						debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_501, mime_type);
-						file_modification_time = stat_p -> st_mtime;
-						file_size = stat_p -> st_size;
-						debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_501, (unsigned long)file_size, mime_type);
+			if (stat(HTML_501, stat_p)) {
+				debug("stat failed (HTML_501)");
+						response_code = RESPONSE_CODE_NOT_IMPLEMENTED;
+								//goto int_err;
+			}
+			mime_type = strdup(HTML_mime);
+			debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_501, mime_type);
+			file_modification_time = stat_p -> st_mtime;
+			file_size = stat_p -> st_size;
+			debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_501, (unsigned long)file_size, mime_type);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -344,8 +344,8 @@ void manage_http_requests(int client_fd
 		 *** filename, and protocol ***/
 /*** TO BE DONE 8.0 START ***/
 
-	method_str= strtok_r(http_request_line, ' ', &strtokr_save);
-	filename= strtok_r(NULL, ' ', &strtokr_save);
+	method_str= strtok_r(http_request_line, " ", &strtokr_save);
+	filename= strtok_r(NULL, " ", &strtokr_save);
 	protocol = strtok_r(NULL, " \r\n ", &strtokr_save);
 
 /*** TO BE DONE 8.0 END ***/
@@ -462,7 +462,7 @@ void manage_http_requests(int client_fd
 				 ***/
 /*** TO BE DONE 8.0 START ***/
  	
-			if(difftime(timegm(&since_tm),file_modification_time) == 0){
+			if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0){
 				http_method = METHOD_NOT_CHANGED; 
 			}																
 

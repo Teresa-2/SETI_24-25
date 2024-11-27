@@ -153,6 +153,7 @@ int main(int argc, char **argv)
 	char *www_root; //NOTA: puntatore a directory di Pagine HTML di prova
 	pid_t pid;
 	signal(SIGPIPE, SIG_IGN); 
+	printf("sono a riga 156");
 #ifdef PRETEND_TO_BE_ROOT
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */
