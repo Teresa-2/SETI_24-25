@@ -78,11 +78,79 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** connection_no[i] ***/
 /*** TO BE DONE 8.1 START ***/
 
-	i = find_unused_thread_idx(conn_no);
+	//hp versione 2024
+	for (i = MAX_CONNECTIONS; i < MAX_THREADS; ++i) {
+		if (connection_no[i] == conn_no) {
+			pthread_join(thread_ids[i], NULL);
+			connection_no[i] = FREE_SLOT;
+			--no_response_threads[conn_no];
+			++no_free_threads;
+		}
+	}
+	
+	pthread_mutex_lock(&threads_mutex);
+	pthread_mutex_unlock(&threads_mutex);
+
+	//versione 2023 fra (commentato lolloSofi)
+	pthread_mutex_lock(&threads_mutex);
+
+	i = MAX_CONNECTIONS;
+	while (i < MAX_THREADS) {
+		if (connection_no[i] == conn_no && to_join[i] == NULL) {
+
+			for (int a = MAX_CONNECTIONS; a < MAX_THREADS; ++a) {
+				debug(" |to_join[%d] = %#lx\t|connection_no[%d] = %d\n", a, to_join[a], a, connection_no[a]);
+			}
+
+			size_t j = MAX_CONNECTIONS;
+			if (j == i) ++j;
+			while (j < MAX_THREADS) {
+				if (connection_no[j] == conn_no) {
+					if (to_join[j] != NULL) { //NOTA: forse ripetitivo, ma evita che venga fatto il controllo del successo if il quale richede due accessi in memoria (quindi è molto dispendioso)
+						if (thread_ids[i] == *to_join[j]) {
+							break;
+						}
+					}
+				}
+				++j;
+				if (j == i) {
+					++j;
+				}
+				debug(" ****** i = %ld, j = %ld\n", i, j);
+			}
+			/*while (to_join[i] != NULL) {
+				pthread_mutex_unlock(&threads_mutex);
+				//wait_for_seconds(1);
+				pthread_mutex_lock(&threads_mutex);
+			}*/
+			debug("  *** trying to join thread %ld in join_all...\n", i);
+			if (pthread_join(thread_ids[i], NULL))
+				fail_errno("Could not join thread in join_all");
+			debug("  *** thread %ld joined\n", i);
+			connection_no[i] = FREE_SLOT;
+			--no_response_threads[conn_no];
+			
+			if (j != MAX_THREADS) {
+				to_join[j] = NULL;
+				--no_free_threads;
+			}
+				i = j;
+		}
+		else
+			++i;
+	}
+
+	for (int a = MAX_CONNECTIONS; a < MAX_THREADS; ++a) {
+				debug(" |to_join[%d] = %#lx\t|connection_no[%d] = %d\n", a, to_join[a], a, connection_no[a]);
+			}
+
+	pthread_mutex_unlock(&threads_mutex);
+
+	/*i = find_unused_thread_idx(conn_no);
 	pthread_join(thread_ids[i], NULL);
 	connection_no[i] = FREE_SLOT;
 	--no_response_threads[conn_no];
-	++no_free_threads;
+	++no_free_threads;*/
 
 /*** TO BE DONE 8.1 END ***/
 

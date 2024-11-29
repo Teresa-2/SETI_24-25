@@ -26,7 +26,8 @@
 #endif
 
 #define _XOPEN_SOURCE 500 /* glibc2 needs this */
-#define _BSD_SOURCE /* glibc2 needs this */
+/*#define _BSD_SOURCE glibc2 needs this */
+#define _DEFAULT_SOURCE /* glibc2 needs this */
 #define _XOPEN_SOURCE_EXTENDED /* glibc2 needs this */
 
 #include <stdio.h>

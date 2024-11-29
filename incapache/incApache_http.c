@@ -81,7 +81,7 @@ int keep_track_of_UID(int myUID)
 
 
 void send_response(int client_fd, int response_code, int cookie,
-#ifdef INCaPACHE_7_1
+#ifdef INCaPACHE_8_1
 		   int is_http1_0, int thread_no,
 #endif
 		   char *filename, struct stat *stat_p)
