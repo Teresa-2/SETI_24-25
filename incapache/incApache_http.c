@@ -227,9 +227,10 @@ void send_response(int client_fd, int response_code, int cookie,
             /*** set permanent cookie in order to identify this client ***/
 /*** TO BE DONE 8.0 START ***/
 	//DA CAPIRE 
-	//sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i", cookie);
-	sprintf(http_header, "\r\nSet-Cookie: UserID=%i", cookie);
-	strcat(http_header, COOKIE_EXPIRE);
+	sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i", cookie);
+	//manca 200 OK o codice di errore associato nella versione sottostante
+	//sprintf(http_header, "\r\nSet-Cookie: UserID=%i", cookie);
+	//strcat(http_header, COOKIE_EXPIRE);
 
 /*** TO BE DONE 8.0 END ***/
 
