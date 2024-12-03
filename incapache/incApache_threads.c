@@ -220,7 +220,8 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
-void *client_connection_thread(void *vp)
+
+void *client_connection_thread(void *vp) //NOTA: crea pthread (del connection_no) il cui indice è specificato nell'argomento del metodo
 {
 	int client_fd;
 	struct sockaddr_storage client_addr;
@@ -232,7 +233,7 @@ void *client_connection_thread(void *vp)
 	/*** properly initialize the thread queue to_join ***/
 /*** TO BE DONE 8.1 START ***/
 
-
+	
 
 /*** TO BE DONE 8.1 END ***/
 
