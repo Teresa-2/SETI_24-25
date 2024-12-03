@@ -104,55 +104,58 @@ void send_response(int client_fd, int response_code, int cookie,
 	/*** Compute date of servicing current HTTP Request using a variant of gmtime() ***/
 /*** TO BE DONE 8.0 START ***/
 
-	printf("SONO IN SEND_RESPONSE\n");
+	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request"); //NOTA: gmtime_r converte una data fornita in forma di calendario in formato UTC e la salva in una struct. A differenza della funzione gmtime che restituisce un puntatore a una struct statica (che può essere sovrascritta da altre chiamate a funzioni di tempo, per esempio), gmtime_r restituisce un puntatore a una struct passata come argomento dall'utente garantendo che tale valore non venga sovrascritto da altre chiamate
+	//NOTA: il tempo salvato in now_t viene convertito in UTC e salvato nella struct now_tm
 
-	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request");
 /*** TO BE DONE 8.0 END ***/
 
-	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm);
+	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm) //NOTA: la funzione strftime converte il tempo salvato nella struct now_tm (che è in forma destrutturata e nel formato specificato dal terzo argomento del metodo, cioè l'UTC) e lo salva in time_as_string (che è un array di char)
+	//NOTA: il formato %a, %d %b %Y %T GMT è il formato standard per la data in UTC: %a è il giorno della settimana abbreviato, %d è il giorno del mese, %b è il mese abbreviato, %Y è l'anno, %T è l'ora, i minuti e i secondi e GMT è il fuso orario. NON ESISTE un metodo più veloce per specificare UTC.
+	 
 #ifdef INCaPACHE_8_1
-	strcat(http_header, is_http1_0 ? "0 " : "1 ");
+	strcat(http_header, is_http1_0 ? "0 " : "1 "); 	//NOTA: aggiungo alla stringa http_header il valore di is_http1_0 (che è un intero che viene passato come argomento alla send_response) convertito in stringa. Se is_http1_0 è 0, concateno "0" alla stringa http_header, altrimenti concateno "1". Questo valore indica se la richiesta è stata fatta con HTTP/1.0 o HTTP/1.1, quindi indica la versione del protocollo HTTP utilizzata.
 #else /* #ifdef INCaPACHE_8_1 */
-	strcat(http_header, "0 ");
+	strcat(http_header, "0 "); //NOTA: se non è definita la costante INCaPACHE_8_1, concateno alla stringa http_header il valore "0" perché siamo sicuramente in presenza di una richiesta HTTP/1.0
 #endif /* #ifdef INCaPACHE_8_1 */
-	switch (response_code) {
-	case RESPONSE_CODE_OK:
-		if (filename != NULL) {
-			if (stat_p == NULL) {
-				stat_p = &stat_buffer;
-				if (stat(filename, stat_p)) {
+	switch (response_code) { //NOTA: in base al valore intero di response_code passato come argomento al metodo send_response, concateno alla stringa http_header il codice di risposta HTTP corrispondente. RESPONSE CODE possibili possono essere: 200, 404, 400, 501, ...
+	case RESPONSE_CODE_OK: //NOTA: se il codice di risposta è 200, concateno alla stringa http_header il codice di risposta "200 OK"
+		if (filename != NULL) 
+		{ //NOTA: se il nome del file che il client chiede di visualizzare dal server non è nullo, allora il client ha fatto una richiesta corretta di visualizzazione di un file e il server procede a rispondere con il file richiesto
+			if (stat_p == NULL) { //NOTA: se la struct stat_p passata come argomento al metodo è nulla, allora il server non ha informazioni sul file richiesto e deve aprirlo per ottenere informazioni aggiuntive (cioè i metadati)
+				stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p
+				if (stat(filename, stat_p)) { //NOTA: recupero tutti i metadati dal file "filename" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
 				    debug("stat failed");
-                                    response_code = RESPONSE_CODE_INTERNAL_ERROR;
-                                    goto int_err;
+                                    response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
+                                    goto int_err; //NOTA: salto alla label int_err
 				}
-			} else {
-				fd = open(filename, O_RDONLY);
-				if (fd<0) {
+			} else { //NOTA: se la struct stat_p passata come argomento al metodo NON è nulla, allora il server ha già i metadati sul file richiesto
+				fd = open(filename, O_RDONLY); //NOTA: apro il file richiesto e lo rendo disponibile successivamente in sola lettura, inoltre salvo il file descriptor in fd. il fd restituito dalla open sarà di default il valore intero più piccolo disponibile tra quelli liberi (per non sprecare memoria), sempre a partire da 2. Il fd è un valore intero che identifica il file aperto e ha valore maggiore di 2 (0 = stdin, 1 = stdout, 2 = stderr). Se la funzione open fallisce, restituisce un valore negativo (-1). O_RDONLY è una costante che indica che il file deve essere aperto in sola lettura (quindi solo read per le open)
+				if (fd<0) { //NOTA: se la open ha fallito, fd = -1 quindi il file richiesto non è stato aperto correttamente
 				    debug("send_response: cannot open file for reading (has the file vanished?)");
-                                    response_code = RESPONSE_CODE_INTERNAL_ERROR;
-                                    goto int_err;
+                                    response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la open fallisce, il codice di risposta HTTP è 500 (Internal Error)
+                                    goto int_err; //NOTA: salto alla label int_err
                                   }
 				debug("    ... send_response(%d, %s): opened file %d\n", response_code, filename, fd);
 			}
-			mime_type = get_mime_type(filename);
+			mime_type = get_mime_type(filename); //NOTA: recupero il mime type del file richiesto e lo salvo in mime_type. get_mime_type è un metodo che restituisce il mime type di un file in base all'estensione del file. Se il file non ha un'estensione riconosciuta, restituisce "text/plain" come mime type. 
+
 			debug("    ... send_response(%d, %s): got mime type %s\n", response_code, filename, mime_type);
 
 			/*** compute file_size and file_modification_time ***/
 /*** TO BE DONE 8.0 START ***/
-
-	file_size = stat_p->st_size; 
-	file_modification_time = stat_p->st_mtime;
+			file_size = stat_p->st_size; //NOTA: recupero la grandezza del file richiesto dai metadati (salvati in stat_p) e la salvo in file_size
+			if (file_size < 0 ) {
+				debug("send_response: file size cannot be negative\n");
+				goto int_err;
+			}
+			file_modification_time = stat_p->st_mtime; //NOTA: recupero il tempo di ultima modifica del file richiesto dai metadati (salvati in stat_p) e lo salvo in file_modification_time
+			// NOTA: non mettiamo il controllo sul tempo (che in particolare indica il numero di secondi trascorsi dall'epoch) perché può essere sia negativo che positivo, con variazioni che dipendono dal SO
 	
-	/* NOTA: non viene mai stampato a terminale!
-	printf("STAMPA DELL'HEADER CHE NON FUNZIONA");
-	printf("%s\n", http_header);
-	*/
-
 /*** TO BE DONE 8.0 END ***/
 
 			debug("      ... send_response(%3d,%s) : file opened, size=%lu, mime=%s\n", response_code, filename, (unsigned long)file_size, mime_type);
 		        strcat(http_header, "200 OK");
-		} else
+		} else //NOTA: se il nome del file richiesto era nullo (cioè filename == NULL) allora il client ha fatto una richiesta di un file vuoto e il server risponde con un codice di risposta 200 OK ma senza alcun file (in quanto vuoto)
 		    strcat(http_header, "200 OK");
 		break;
 	case RESPONSE_CODE_MOVED_PERMANENTLY:
@@ -168,21 +171,25 @@ void send_response(int client_fd, int response_code, int cookie,
 		break;
 	case RESPONSE_CODE_NOT_FOUND:
 		strcat(http_header, "404 Not Found");
-		if ((fd = open(HTML_404, O_RDONLY)) >= 0) {
+		if ((fd = open(HTML_404, O_RDONLY)) >= 0) { //NOTA: se il file HTML_404 esiste e può essere aperto in sola lettura, allora il server risponde con il file HTML_404
 
 			/*** compute file_size, mime_type, and file_modification_time of HTML_404 ***/
 /*** TO BE DONE 8.0 START ***/
-
-			stat_p = &stat_buffer;
-					if (stat(HTML_404, stat_p)) {//Get file attributes about HTML_404 and put them in stat_p
+			stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p.
+					if (stat(HTML_404, stat_p)) { //NOTA: recupero tutti i metadati dal file "HTML_404" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
 						debug("stat failed (HTML_404)");
-										response_code = RESPONSE_CODE_NOT_FOUND;
-										//goto int_err;
+										response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
+										goto int_err; //NOTA: salto alla label int_err
 					}
-					mime_type = strdup(HTML_mime);//Get the mime type of HTML_404
+					mime_type = strdup(HTML_mime); //NOTA: il mime type del file HTML_404 è "text/html", una variabile definita nel metodo. Il metodo strdup duplica la stringa passata come argomento e restituisce un puntatore alla nuova stringa. In questo caso, restituisce un puntatore alla stringa "text/html" che viene salvato in mime_type (che è una variabile locale al metodo che punta ad una stringa allocata dinamicamente)
 					debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_404, mime_type);
-					file_modification_time = stat_p -> st_mtime;
-					file_size = stat_p -> st_size;
+					
+					file_size = stat_p -> st_size; //NOTA: recupero la grandezza del file HTML_404 dai metadati (salvati in stat_p) e la salvo in file_size
+					if (file_size < 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
+						debug("send_response: file size cannot be negative\n");
+						goto int_err;
+					}
+					file_modification_time = stat_p -> st_mtime; //NOTA: recupero il tempo di ultima modifica del file HTML_404 dai metadati (salvati in stat_p) e lo salvo in file_modification_time, come prima non posso fare controlli sui valori ottenuti
 					debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_404, (unsigned long)file_size, mime_type);
 
 /*** TO BE DONE 8.0 END ***/
@@ -190,13 +197,15 @@ void send_response(int client_fd, int response_code, int cookie,
 		}
 		break;
 	case RESPONSE_CODE_INTERNAL_ERROR:
-            int_err:
+            int_err: //NOTA: label int_err a cui si salta in caso di errori interni
 		strcat(http_header, "500 Internal Error");
 		break;
 	default:
 
 /*** TO BE OPTIONALLY CHANGED START ***/
+
 		strcat(http_header, "501 Method Not Implemented\r\nAllow: HEAD,GET");
+
 /*** TO BE OPTIONALLY CHANGED END ***/
 
 		if ((fd = open(HTML_501, O_RDONLY)) >= 0) {
@@ -204,20 +213,26 @@ void send_response(int client_fd, int response_code, int cookie,
 			/*** compute file_size, mime_type, and file_modification_time of HTML_501 ***/
 /*** TO BE DONE 8.0 START ***/
 
-			stat_p = &stat_buffer;
-			if (stat(HTML_501, stat_p)) {
+			stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p.
+			
+			if (stat(HTML_501, stat_p)) { //NOTA: recupero tutti i metadati dal file "HTML_404" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
 				debug("stat failed (HTML_501)");
-						response_code = RESPONSE_CODE_NOT_IMPLEMENTED;
-								//goto int_err;
+				response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
+				goto int_err; //NOTA: salto alla label int_err
 			}
-			mime_type = strdup(HTML_mime);
+			
+			mime_type = strdup(HTML_mime); //NOTA: il mime type del file HTML_404 è "text/html", una variabile definita nel metodo. Il metodo strdup duplica la stringa passata come argomento e restituisce un puntatore alla nuova stringa. In questo caso, restituisce un puntatore alla stringa "text/html" che viene salvato in mime_type (che è una variabile locale al metodo che punta ad una stringa allocata dinamicamente)
 			debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_501, mime_type);
-			file_modification_time = stat_p -> st_mtime;
-			file_size = stat_p -> st_size;
+					
+			file_size = stat_p -> st_size; //NOTA: recupero la grandezza del file HTML_404 dai metadati (salvati in stat_p) e la salvo in file_size
+			if (file_size < 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
+				debug("send_response: file size cannot be negative\n");
+				goto int_err;
+			}			
+			file_modification_time = stat_p -> st_mtime; //NOTA: recupero il tempo di ultima modifica del file HTML_404 dai metadati (salvati in stat_p) e lo salvo in file_modification_time, come prima non posso fare controlli sui valori ottenuti
 			debug("      ... send_response(%3d,%s) : file opened, size=%lu, MIME=%s\n", response_code, HTML_501, (unsigned long)file_size, mime_type);
 
 /*** TO BE DONE 8.0 END ***/
-
 		}
 		break;
 	}
