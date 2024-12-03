@@ -192,7 +192,7 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 
     }
 
-    void *response_thread(void *vp)
+    void *response_thread(void *vp) //NOTA: viene invocato nella creazione di un thread e fa iniziare l'esecuzione del thread di risposta
     {
 	size_t thread_no = ((int *) vp) - connection_no;
 	int connection_idx = *((int *) vp);
@@ -204,7 +204,7 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 		      thread_params[i].is_http1_0,
 		      (int)thread_no,
 		      thread_params[i].filename,
-		      thread_params[i].p_stat);
+		      thread_params[i].p_stat); //NOTA: invoca il metodo send_response() passando i parametri necessari per la risposta presenti nel thread di risposta e inviando la risposta al client
 	debug(" ... response_thread() freeing filename and stat\n");
 	free(thread_params[i].filename);
 	free(thread_params[i].p_stat);
@@ -320,7 +320,7 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 
 /*** TO BE DONE 8.1 END ***/
 
-	if (pthread_create(thread_ids + new_thread_idx, NULL, response_thread, connection_no + new_thread_idx))
+	if (pthread_create(thread_ids + new_thread_idx, NULL, response_thread, connection_no + new_thread_idx)) //NOTA: crea un nuovo thread (di risposta) nel processo chiamante; response_thread è la chiamata al metodo response_thread() sovrastante che si occupa di iniziare l'esecuzione del thread
 		fail_errno("Could not create response thread");
 	pthread_mutex_unlock(&threads_mutex);
 	debug(" ... send_resp_thread(): new thread created\n");
