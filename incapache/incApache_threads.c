@@ -78,7 +78,9 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** connection_no[i] ***/
 /*** TO BE DONE 8.1 START ***/
 
-	//hp versione 2024
+	//DA CHIEDERE: versione + sintetica ha sempre senso??
+	pthread_mutex_lock(&threads_mutex);
+
 	for (i = MAX_CONNECTIONS; i < MAX_THREADS; ++i) {
 		if (connection_no[i] == conn_no) {
 			pthread_join(thread_ids[i], NULL);
@@ -88,10 +90,10 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 		}
 	}
 	
-	pthread_mutex_lock(&threads_mutex);
 	pthread_mutex_unlock(&threads_mutex);
 
-	//versione 2023 fra (commentato lolloSofi)
+/*
+	//DA CHIEDERE: versione vecchia 
 	pthread_mutex_lock(&threads_mutex);
 
 	i = MAX_CONNECTIONS;
@@ -122,7 +124,7 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 				pthread_mutex_unlock(&threads_mutex);
 				//wait_for_seconds(1);
 				pthread_mutex_lock(&threads_mutex);
-			}*/
+			}*//*
 			debug("  *** trying to join thread %ld in join_all...\n", i);
 			if (pthread_join(thread_ids[i], NULL))
 				fail_errno("Could not join thread in join_all");
@@ -145,6 +147,8 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 			}
 
 	pthread_mutex_unlock(&threads_mutex);
+
+	*/
 
 	/*i = find_unused_thread_idx(conn_no);
 	pthread_join(thread_ids[i], NULL);
@@ -233,7 +237,7 @@ void *client_connection_thread(void *vp) //NOTA: crea pthread (del connection_no
 	/*** properly initialize the thread queue to_join ***/
 /*** TO BE DONE 8.1 START ***/
 
-	
+	for(int i=0; i<MAX_THREADS; i++) to_join[i]=NULL; //NOTA: forse i=MAX_CONNECTIONS
 
 /*** TO BE DONE 8.1 END ***/
 
@@ -317,7 +321,9 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 
 	/*** enqueue the current thread in the "to_join" data structure ***/
 /*** TO BE DONE 8.1 START ***/
-
+//RIGUARDA ARRAY
+	to_join[new_thread_idx]=*to_join[connection_idx]; 
+	to_join[connection_idx]=&thread_ids[new_thread_idx];
 
 /*** TO BE DONE 8.1 END ***/
 
