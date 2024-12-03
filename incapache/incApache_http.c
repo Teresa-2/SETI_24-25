@@ -244,9 +244,7 @@ void send_response(int client_fd, int response_code, int cookie,
 
 		/*** TO BE DONE 8.0 START ***/
 
-			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID = %i", cookie); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e l'identificativo dell'user
-
-			//DA CAPIRE: il cookie che viene assegnato è veramente permanente? Nel HTTP 1.0 non è possibile che un client faccia più richieste, quindi ogni client ha un proprio cookie che lo identifica. Nell'HTTP 1.1 un client potrebbe fare più richieste, quindi potrebbe riutilizzare il proprio cookie, ma non lo abbiamo ancora testato. se il cookie è permanente, allora il metodo è corretto; altrimenti va rifatto 
+			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID = %i%s", cookie, COOKIE_EXPIRE); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e la scadenza del cookie. (cookie = UserID)
 
 		/*** TO BE DONE 8.0 END ***/
 
