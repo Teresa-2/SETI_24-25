@@ -169,6 +169,26 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** no_free_threads, no_response_threads[conn_no], and connection_no[i],
 	 *** avoiding race conditions ***/
 /*** TO BE DONE 8.1 START ***/
+	
+	pthread_mutex_lock(&threads_mutex);
+
+	conn_no = connection_no[thrd_no];
+
+	if (&to_join[thrd_no] != NULL) {
+		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) {
+			if (thread_ids[i] == &to_join[thrd_no]) {
+				break;
+			}
+		}
+	//attendere la terminazione del thread che è in posizione i
+	pthread_join(thread_ids[i], NULL);
+	no_free_threads++;
+	no_response_threads[conn_no]--;
+	connection_no[i] = FREE_SLOT;
+	}
+
+	pthread_mutex_unlock(&threads_mutex);
+
 
 
 /*** TO BE DONE 8.1 END ***/

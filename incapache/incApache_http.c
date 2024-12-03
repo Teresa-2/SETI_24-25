@@ -109,7 +109,7 @@ void send_response(int client_fd, int response_code, int cookie,
 
 /*** TO BE DONE 8.0 END ***/
 
-	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm) //NOTA: la funzione strftime converte il tempo salvato nella struct now_tm (che è in forma destrutturata e nel formato specificato dal terzo argomento del metodo, cioè l'UTC) e lo salva in time_as_string (che è un array di char)
+	strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &now_tm); //NOTA: la funzione strftime converte il tempo salvato nella struct now_tm (che è in forma destrutturata e nel formato specificato dal terzo argomento del metodo, cioè l'UTC) e lo salva in time_as_string (che è un array di char)
 	//NOTA: il formato %a, %d %b %Y %T GMT è il formato standard per la data in UTC: %a è il giorno della settimana abbreviato, %d è il giorno del mese, %b è il mese abbreviato, %Y è l'anno, %T è l'ora, i minuti e i secondi e GMT è il fuso orario. NON ESISTE un metodo più veloce per specificare UTC.
 	 
 #ifdef INCaPACHE_8_1
@@ -144,8 +144,8 @@ void send_response(int client_fd, int response_code, int cookie,
 			/*** compute file_size and file_modification_time ***/
 /*** TO BE DONE 8.0 START ***/
 			file_size = stat_p->st_size; //NOTA: recupero la grandezza del file richiesto dai metadati (salvati in stat_p) e la salvo in file_size
-			if (file_size < 0 ) {
-				debug("send_response: file size cannot be negative\n");
+			if (file_size <= 0 ) {
+				debug("send_response: file size cannot be zero or negative\n");
 				goto int_err;
 			}
 			file_modification_time = stat_p->st_mtime; //NOTA: recupero il tempo di ultima modifica del file richiesto dai metadati (salvati in stat_p) e lo salvo in file_modification_time
@@ -185,8 +185,8 @@ void send_response(int client_fd, int response_code, int cookie,
 					debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_404, mime_type);
 					
 					file_size = stat_p -> st_size; //NOTA: recupero la grandezza del file HTML_404 dai metadati (salvati in stat_p) e la salvo in file_size
-					if (file_size < 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
-						debug("send_response: file size cannot be negative\n");
+					if (file_size <= 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
+						debug("send_response: file size cannot be zero or negative\n");
 						goto int_err;
 					}
 					file_modification_time = stat_p -> st_mtime; //NOTA: recupero il tempo di ultima modifica del file HTML_404 dai metadati (salvati in stat_p) e lo salvo in file_modification_time, come prima non posso fare controlli sui valori ottenuti
@@ -225,8 +225,8 @@ void send_response(int client_fd, int response_code, int cookie,
 			debug("    ... send_response(%d, %s): got MIME type %s\n", response_code, HTML_501, mime_type);
 					
 			file_size = stat_p -> st_size; //NOTA: recupero la grandezza del file HTML_404 dai metadati (salvati in stat_p) e la salvo in file_size
-			if (file_size < 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
-				debug("send_response: file size cannot be negative\n");
+			if (file_size <= 0 ) { //NOTA: se la grandezza del file è negativa, c'è stato un errore nella lettura dei metadati oppure i metadati sono corrotti
+				debug("send_response: file size cannot be zero or negative\n");
 				goto int_err;
 			}			
 			file_modification_time = stat_p -> st_mtime; //NOTA: recupero il tempo di ultima modifica del file HTML_404 dai metadati (salvati in stat_p) e lo salvo in file_modification_time, come prima non posso fare controlli sui valori ottenuti
@@ -236,25 +236,26 @@ void send_response(int client_fd, int response_code, int cookie,
 		}
 		break;
 	}
-	strcat(http_header, "\r\nDate: ");
-	strcat(http_header, time_as_string);
-        if ( cookie >= 0 ) {
-            /*** set permanent cookie in order to identify this client ***/
-/*** TO BE DONE 8.0 START ***/
-	//DA CAPIRE 
-	sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i", cookie);
-	//manca 200 OK o codice di errore associato nella versione sottostante
-	//sprintf(http_header, "\r\nSet-Cookie: UserID=%i", cookie);
-	//strcat(http_header, COOKIE_EXPIRE);
+	strcat(http_header, "\r\nDate: "); //NOTA: aggiungo alla stringa http_header la data di servizio della richiesta HTTP
+	strcat(http_header, time_as_string); //NOTA: la data di servizio della richiesta HTTP è stata calcolata precedentemente e salvata in time_as_string (cfr l. 112), quindi la concateno alla stringa http_header
+        if ( cookie >= 0 ) { //NOTA: se il cookie è maggiore o uguale a 0, allora il client ha un cookie valido e il server lo salva nella risposta; altrimenti il cookie non è ancora stato assegnato al client (il client sta facendo la sua prima richiesta al server)
+        
+	/*** set permanent cookie in order to identify this client ***/
 
-/*** TO BE DONE 8.0 END ***/
+		/*** TO BE DONE 8.0 START ***/
+
+			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID = %i", cookie); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e l'identificativo dell'user
+
+			//DA CAPIRE: il cookie che viene assegnato è veramente permanente? Nel HTTP 1.0 non è possibile che un client faccia più richieste, quindi ogni client ha un proprio cookie che lo identifica. Nell'HTTP 1.1 un client potrebbe fare più richieste, quindi potrebbe riutilizzare il proprio cookie, ma non lo abbiamo ancora testato. se il cookie è permanente, allora il metodo è corretto; altrimenti va rifatto 
+
+		/*** TO BE DONE 8.0 END ***/
 
         }
 #ifdef INCaPACHE_8_1
-	strcat(http_header, "\r\nServer: incApache 8.1 for SETI.\r\n");
-	if (response_code >= 500 || is_http1_0)
+	strcat(http_header, "\r\nServer: incApache 8.1 for SETI.\r\n"); //NOTA: aggiungo alla stringa http_header il nome del server (incApache 8.1 for SETI) e un ritorno a capo
+	if (response_code >= 500 || is_http1_0) //NOTA: se il codice di risposta è maggiore o uguale a 500 (cioè se è un errore del server) oppure la richiesta è stata fatta con HTTP/1.0, allora la connessione viene chiusa dopo la risposta
 		strcat(http_header, "Connection: close\r\n");
-#else
+#else //NOTA: se non è definita la costante INCaPACHE_8_1, allora il server risponde con la versione 8.0
 	strcat(http_header, "\r\nServer: incApache 8.0 for SETI.\r\n");
 	strcat(http_header, "Connection: close\r\n");
 #endif
@@ -268,20 +269,23 @@ void send_response(int client_fd, int response_code, int cookie,
 	//  size_t strftime(char *s, size_t max, const char *format,const struct tm *tm);
 	//  struct tm *gmtime(const time_t *timep);
 	if(!gmtime_r(&file_modification_time, &file_modification_tm)){
-		fail("Could not convert file modification time to broken-down time in send response"); //NOTA: modificare errore 
+		fail("Could not convert file modification time to broken-down time in send response");
+		//NOTA: modificare errore 
 	}
 
 	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){
 		fail("Could not convert file modification time to string in send response");
 	}
 
+	debug("      ... send_response: file modification time converted in GMT standard format %s\n", time_as_string);
+
 /*** TO BE DONE 8.0 END ***/
 
-		strcat(http_header, time_as_string);
+		strcat(http_header, time_as_string); //NOTA: la data di ultima modifica del file richiesto è stata convertita in formato standard GMT e salvata in time_as_string, quindi la concateno alla stringa http_header che termina con "Last-Modified: "
 		strcat(http_header, "\r\n");
 	}
 	strcat(http_header, "\r\n");
-	debug("      ... send_response(%d, %s) : header prepared\n", response_code, filename);
+	debug("      ... send_response(%d, %s) : header prepared\n", response_code, filename); //NOTA: stampo a video che l'header è stato preparato
 	printf("Sending the following response:\n%s\n",http_header);
 	header_size = strlen(http_header);
 #ifdef INCaPACHE_8_1
