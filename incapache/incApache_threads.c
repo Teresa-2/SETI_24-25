@@ -170,26 +170,23 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** avoiding race conditions ***/
 /*** TO BE DONE 8.1 START ***/
 	
-	pthread_mutex_lock(&threads_mutex);
+	pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
 
-	conn_no = connection_no[thrd_no];
+	conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vorrei terminare
 
-	if (&to_join[thrd_no] != NULL) {
-		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) {
+	if (&to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
+		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) { //NOTA: determinazione dell'indice del thread precedente all'interno dell'array thread_ids
 			if (thread_ids[i] == &to_join[thrd_no]) {
 				break;
 			}
 		}
-	//attendere la terminazione del thread che è in posizione i
-	pthread_join(thread_ids[i], NULL);
-	no_free_threads++;
-	no_response_threads[conn_no]--;
-	connection_no[i] = FREE_SLOT;
+	pthread_join(thread_ids[i], NULL); //NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante)
+	no_free_threads++; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
+	no_response_threads[conn_no]--; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
+	connection_no[i] = FREE_SLOT; //NOTA: libero la posizione i nella coda dei thread
 	}
-
-	pthread_mutex_unlock(&threads_mutex);
-
-
+	
+	pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
 
 /*** TO BE DONE 8.1 END ***/
 
@@ -236,6 +233,7 @@ void *client_connection_thread(void *vp)
 /*** TO BE DONE 8.1 START ***/
 
 
+
 /*** TO BE DONE 8.1 END ***/
 
 	pthread_mutex_unlock(&threads_mutex);
@@ -274,6 +272,7 @@ char *get_mime_type(char *filename)
 
 	/*** What is missing here to avoid race conditions ? ***/
 /*** TO BE DONE 8.0 START ***/
+
 pthread_mutex_lock(&mime_mutex);
 
 /*** TO BE DONE 8.0 END ***/
