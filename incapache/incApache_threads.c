@@ -180,7 +180,7 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 	if (&to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
 		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) { //NOTA: determinazione dell'indice del thread precedente all'interno dell'array thread_ids
-			if (thread_ids[i] == &to_join[thrd_no]) {
+			if (thread_ids[i] == *to_join[thrd_no]) {
 				break;
 			}
 		}
@@ -322,7 +322,7 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 	/*** enqueue the current thread in the "to_join" data structure ***/
 /*** TO BE DONE 8.1 START ***/
 //RIGUARDA ARRAY
-	to_join[new_thread_idx]=*to_join[connection_idx]; 
+	to_join[new_thread_idx]=to_join[connection_idx]; 
 	to_join[connection_idx]=&thread_ids[new_thread_idx];
 
 /*** TO BE DONE 8.1 END ***/

@@ -48,11 +48,13 @@ int get_new_UID(void)
      *** Be careful in order to avoid race conditions ***/
 /*** TO BE DONE 8.0 START ***/
 
-	pthread_mutex_lock(&cookie_mutex);
-	retval= (CurUID+1)%MAX_COOKIES; 
-	CurUID=retval; 
-	UserTracker[retval] = 0; 
-	pthread_mutex_unlock(&cookie_mutex);
+	//DA CHIEDERE: è giusto che CurUID parta da 1 al primo giro, fino a raggiungere al massimo max cookies -1 ? Al secondo giro ripartirebbe da zero… 
+
+	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
+	retval= (CurUID+1)%MAX_COOKIES; //NOTA: calcolo il nuovo UID incrementando CurUID e facendo il modulo con MAX_COOKIES, in modo da ottenere un valore compreso tra 1 e MAX_COOKIES-1. Non può essere 0 perchè 0 = root
+	CurUID=retval; //NOTA: aggiorno il valore di CurUID con l'ultimo UID calcolato
+	UserTracker[retval] = 0; //NOTA: imposto il valore di UserTracker[retval] a 0, cioè assegno all'utente con UID=retval (cioè quello che si è appena presentato al server) un # accessi = 0
+	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -63,16 +65,16 @@ int get_new_UID(void)
 int keep_track_of_UID(int myUID)
 {
     int newcount;
-    if ( (myUID < 0) || (myUID >= MAX_COOKIES) )
+    if ( (myUID < 0) || (myUID >= MAX_COOKIES) ) //NOTA: se l'UID passato come argomento al metodo è out of range restituisco -1
         return -1;
 
     /*** Increment UserTracker[myUID] and return the computed value.
      *** Be careful in order to avoid race conditions ***/
 /*** TO BE DONE 8.0 START ***/
 
-	pthread_mutex_lock(&cookie_mutex);
-	newcount = ++UserTracker[myUID]; 
-	pthread_mutex_unlock(&cookie_mutex);
+	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
+	newcount = ++UserTracker[myUID]; //NOTA: incremento il contatore del numero di accessi dell'utente con UID=myUID e salvo il nuovo valore in newcount
+	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -244,7 +246,7 @@ void send_response(int client_fd, int response_code, int cookie,
 
 		/*** TO BE DONE 8.0 START ***/
 
-			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID = %i%s", cookie, COOKIE_EXPIRE); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e la scadenza del cookie. (cookie = UserID)
+			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i%s", cookie, COOKIE_EXPIRE); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e la scadenza del cookie. (cookie = UserID)
 
 		/*** TO BE DONE 8.0 END ***/
 
@@ -264,15 +266,12 @@ void send_response(int client_fd, int response_code, int cookie,
 		     see gmtime and strftime ***/
 /*** TO BE DONE 8.0 START ***/
 
-	//  size_t strftime(char *s, size_t max, const char *format,const struct tm *tm);
-	//  struct tm *gmtime(const time_t *timep);
-	if(!gmtime_r(&file_modification_time, &file_modification_tm)){
-		fail("Could not convert file modification time to broken-down time in send response");
-		//NOTA: modificare errore 
+	if(!gmtime_r(&file_modification_time, &file_modification_tm)){ //NOTA: converto il tempo di ultima modifica del file richiesto in formato UTC e lo salvo nella struct file_modification_tm
+		fail("Could not convert file modification time in UTC standard format in send response");
 	}
 
-	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){
-		fail("Could not convert file modification time to string in send response");
+	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){ //NOTA: converto il tempo di ultima modifica del file richiesto in formato standard GMT e lo salvo in time_as_string
+		fail("Could not convert file modification time in UTC standard format to GMT standard format in send response");
 	}
 
 	debug("      ... send_response: file modification time converted in GMT standard format %s\n", time_as_string);
@@ -283,11 +282,11 @@ void send_response(int client_fd, int response_code, int cookie,
 		strcat(http_header, "\r\n");
 	}
 	strcat(http_header, "\r\n");
-	debug("      ... send_response(%d, %s) : header prepared\n", response_code, filename); //NOTA: stampo a video che l'header è stato preparato
-	printf("Sending the following response:\n%s\n",http_header);
-	header_size = strlen(http_header);
+	debug("      ... send_response(%d, %s) : header prepared\n", response_code, filename); //NOTA: stampo a video che l'header è stato preparato, fornisco il codice di risposta del server e il nome del file richiesto dal client
+	printf("Sending the following response:\n%s\n",http_header); //NOTA: stampo a video l'header preparato, ad esempio potrei stampare Sending the following response: \n HTTP/1.0 200 OK
+	header_size = strlen(http_header); //NOTA: calcolo la lunghezza dell'header
 #ifdef INCaPACHE_8_1
-	join_prev_thread(thread_no);
+	join_prev_thread(thread_no); //NOTA: poiché è stata preparata la risposta, il thread ad esso associata viene inserito nella coda dei thread pronti associati al relativo client (indicato da connection_no)
 #endif
 #ifdef OptimizeTCP
 	if ((header_sent=send_all(client_fd, http_header, header_size, (fd >= 0 ? MSG_MORE : 0))) < header_size)
@@ -308,10 +307,9 @@ void send_response(int client_fd, int response_code, int cookie,
 /*** TO BE DONE 8.0 START ***/
 	//ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
-	if(sendfile(client_fd, fd, NULL, file_size) == -1) fail("could not send data from fd file to client_fd"); 
-
-	if(fd<0){ fail_errno("close failed");}
-
+	if(sendfile(client_fd, fd, NULL, file_size) == -1) { fail("could not send data from fd file to client_fd"); } //NOTA: copia il file descriptor contenuto in fd nel file descriptor contenuto in client_fd. Se la copia fallisce, viene segnalato errore. Se la copia avviene nel kernel, sendfile risulta  più efficiente della combinazione di read(2) e write(2), le quali richiederebbero invece di trasferire i dati da/a uno spazio utente
+	if (close(fd) == -1) {fail_errno("close of file descriptor fd has failed");} //NOTA: chiudo il file descriptor contenuto in fd. Se la chiusura fallisce, viene segnalato errore
+	
 /*** TO BE DONE 8.0 END ***/
 
 	}
@@ -335,12 +333,12 @@ void manage_http_requests(int client_fd
 {
 #define METHOD_NONE		 0
 #define METHOD_HEAD		 1
-#define METHOD_GET		 2
+#define METHOD_GET	 2
 #define METHOD_POST		 4
 #define METHOD_NOT_CHANGED	 8
 #define METHOD_CONDITIONAL	16
 #define MethodIsConditional(m) ((m)&METHOD_CONDITIONAL)
-	FILE *client_stream = fdopen(client_fd, "r");
+	FILE *client_stream = fdopen(client_fd, "r"); //NOTA: apro il file descriptor client_fd in lettura e lo salvo in client_stream. Il file descriptor client_fd è il file descriptor associato alla connessione con il client
 	char *http_request_line = NULL;
 	char *strtokr_save;
 	size_t n = 0;
@@ -352,9 +350,9 @@ void manage_http_requests(int client_fd
 	int is_http1_0 = 0;
 	int thread_idx;
 #endif
-	if (!client_stream)
+	if (!client_stream) //NOTA: se la creazione del file stream client_stream fallisce, viene segnalato errore
 		fail_errno("cannot open client stream");
-	while (getline(&http_request_line, &n, client_stream) >= 0) {
+	while (getline(&http_request_line, &n, client_stream) >= 0) { //NOTA: legge una riga alla volta dal client e la salva in http_request_line. Se la lettura fallisce, viene segnalato errore. La lettura avviene fino all'esaurimento dello stream del client e ogni riga è separata da un ritorno a capo dalla successiva. La lunghezza della riga letta è salvata in &n. getline restituisce -1 se la lettura fallisce, altrimenti restituisce la lunghezza della riga letta
 		char *method_str, *filename, *protocol;
 		char *http_option_line = NULL;
 		char *option_name, *option_val;
@@ -362,15 +360,17 @@ void manage_http_requests(int client_fd
 		printf("Received the following request:\n");
 		printf("%s", http_request_line);
 #ifdef INCaPACHE_8_1
-		thread_idx = find_unused_thread_idx(connection_no);
+		thread_idx = find_unused_thread_idx(connection_no); //NOTA: trova un thread libero da associare al client responsabile della richiesta. Se non ci sono thread liberi, restituisce -1
 #endif
 
 		/*** parse first line defining the 3 strings method_str,
 		 *** filename, and protocol ***/
 /*** TO BE DONE 8.0 START ***/
 
-	method_str= strtok_r(http_request_line, " ", &strtokr_save);
-	filename= strtok_r(NULL, " ", &strtokr_save);
+	//NOTA: strtok_r è una funzione che permette di suddividere una stringa in sottostringhe in base a un delimitatore. In questo caso, la stringa da suddividere è http_request_line, il delimitatore è uno spazio e il puntatore strtokr_save serve per mantenere lo stato della stringa da suddividere. strtok_r restituisce un puntatore alla prima sottostringa trovata, NULL se non trova nulla. strtok_r è thread-safe, a differenza di strtok che non lo è.
+
+	method_str = strtok_r(http_request_line, " ", &strtokr_save);
+	filename = strtok_r(NULL, " ", &strtokr_save);
 	protocol = strtok_r(NULL, " \r\n ", &strtokr_save);
 
 /*** TO BE DONE 8.0 END ***/
@@ -386,14 +386,15 @@ void manage_http_requests(int client_fd
 				      1, connection_no, thread_idx,
 #endif
 				      NULL, NULL);
-			free(http_request_line);
+			free(http_request_line); //NOTA: libero la memoria allocata per la stringa http_request_line per procedere alla prossima richiesta da parte di un client
 			break;
 		}
 #ifdef INCaPACHE_8_1
-		is_http1_0 = !strcmp(protocol, "HTTP/1.0");
+		is_http1_0 = !strcmp(protocol, "HTTP/1.0"); //NOTA: se il protocollo è HTTP/1.0, allora is_http1_0 = 1, altrimenti is_http1_0 = 0
 #endif
-		memset(&since_tm, 0, sizeof(since_tm));
-		http_method = METHOD_NONE;
+		memset(&since_tm, 0, sizeof(since_tm)); //NOTA: imposta a 0 tutti i byte della struct since_tm
+		http_method = METHOD_NONE; //NOTA: inizializzo la variabile http_method a nessun metodo
+		//NOTA: assegnazione del metodo HTTP in base alla stringa del metodo passata dal client
 		if (strcmp(method_str, "GET") == 0)
 			http_method = METHOD_GET;
 		else if (strcmp(method_str, "HEAD") == 0)
@@ -490,9 +491,10 @@ void manage_http_requests(int client_fd
 			if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0){
 				http_method = METHOD_NOT_CHANGED; 
 			}																
-
+	debug("http_metod is %d\n", http_method);
+	
 /*** TO BE DONE 8.0 END ***/
-
+			
 			}
 			switch (http_method) {
 			case METHOD_HEAD :
@@ -524,7 +526,6 @@ void manage_http_requests(int client_fd
 			case METHOD_POST :
 
 /*** TO BE OPTIONALLY DONE START ***/
-
 
 /*** TO BE OPTIONALLY DONE END ***/
 
