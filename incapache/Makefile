@@ -5,8 +5,8 @@ CFLAGS= -DHTML_301='"301_Moved_Permanently.html"' \
         -DHTML_500='"500_Internal_Error.html"' \
         -DHTML_501='"501_Method_Not_Implemented.html"' \
 	-DDEBUG \
+        -g3 -O0 -Wall -pedantic \
         # -DINCaPACHE_8_1 \
-        # -g3 -O0 -Wall -pedantic \
         # -DPRETEND_TO_BE_ROOT \
         -DIMAGE='"uncadunca.jpg"' \
         -DSTYLE='"000_style.css"'

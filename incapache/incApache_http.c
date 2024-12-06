@@ -412,12 +412,9 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
 
-	//da fare
-	// salvare strtok_r che rappresenta il nome del cookie, poi confrontare il valore salvato con UserID, con strtok_r estraggo il valore del cookie usando come delimitatore il ;@
-
-	strtok_r(NULL, "=", &strtokr_save);
-	strcmp
-	UIDcookie = atoi(strtok_r(NULL, ";", &strtokr_save)); //converte la porzione di una stringa a un intero
+					option_val = strtok_r(NULL, "", &strtokr_save);
+					char *uid_pos = strstr(option_val, "UserID=");
+					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie);
 
 /*** TO BE DONE 8.0 END ***/
 
