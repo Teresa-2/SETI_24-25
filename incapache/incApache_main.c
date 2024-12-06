@@ -154,9 +154,7 @@ int main(int argc, char **argv)
 	const char *const default_port = "8000";
 	char *www_root; //NOTA: puntatore a directory di Pagine HTML di prova
 	pid_t pid;
-	//printf("sono nel main\n");
 	signal(SIGPIPE, SIG_IGN);
-	//printf("ho superato signal\n");
 #ifdef PRETEND_TO_BE_ROOT
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */

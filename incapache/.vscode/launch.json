@@ -10,6 +10,10 @@
             "cwd": "${workspaceFolder}",
             "request": "launch",
             "program": "${workspaceFolder}/bin/incapache",
+            "args": ["www-root", "8000"],
+            "stopAtEntry": false,
+            "environment": [],
+            "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {
