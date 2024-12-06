@@ -412,7 +412,11 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
 
-	strtok_r(NULL, "UserID=", &strtokr_save); 
+	//da fare
+	// salvare strtok_r che rappresenta il nome del cookie, poi confrontare il valore salvato con UserID, con strtok_r estraggo il valore del cookie usando come delimitatore il ;@
+
+	strtok_r(NULL, "=", &strtokr_save);
+	strcmp
 	UIDcookie = atoi(strtok_r(NULL, ";", &strtokr_save)); //converte la porzione di una stringa a un intero
 
 /*** TO BE DONE 8.0 END ***/
@@ -489,21 +493,20 @@ void manage_http_requests(int client_fd
 				 ***/
 /*** TO BE DONE 8.0 START ***/
 			
-			//SONO QUI! (teresa)
 			debug("Comparing file last modification time with since_tm\n");
-
-			//since_tm = data di ultima modifica del file richiesta dal client; stat_p->st_mtime = data di ultima modifica del file richiesta dal server
 			
 			/*if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0) { //NOTA: se la differenza tra il tempo di ultima modifica del file richiesto dal client e il tempo di ultima modifica del file richiesto è 0, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED; 
 			}*/
 			
 			//versione matta teresa che sembra funzionare
-			if(difftime(stat_p->st_mtime, timegm(&since_tm))<= 0) { //NOTA: se il file che richiede il client è più vecchio o uguale al file che il server ha, allora il file non è stato modificato
+			if(difftime(stat_p->st_mtime, timegm(&since_tm)) <= 0) { //NOTA: se il file che richiede il client è più vecchio o aggiornato come il file che il server ha, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED;	//NOTA: se il file non è stato modificato, il metodo HTTP diventa METHOD_NOT_CHANGED
 			}
+			debug ("sono qui %d/n", difftime(stat_p->st_mtime, timegm(&since_tm)));
 			else {
 				if (http_method == 18) { //NOTA: se il metodo HTTP è 18 (cioè METHOD_CONDITIONAL+METHOD_GET), allora il metodo HTTP condizionale diventa METHOD_GET
+				//DA FARE: sarebbe da scrivere meglio la guardia dell'if perché è un po' brutto 18
 					http_method = METHOD_GET;
 				}
 				http_method = METHOD_HEAD; //NOTA: se il metodo HTTP è 17 (cioè METHOD_CONDITIONAL+METHOD_HEAD), allora il metodo HTTP condizionale diventa METHOD_HEAD
