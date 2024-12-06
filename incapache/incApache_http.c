@@ -402,7 +402,7 @@ void manage_http_requests(int client_fd
 		else if (strcmp(method_str, "POST") == 0)
 			http_method = METHOD_POST;
 		debug("     ... http_method=%d\n", http_method);
-		for (http_option_line = NULL, n = 0;
+		for (http_option_line = NULL, n = 0; //SONO QUI!
 		     getline(&http_option_line, &n, client_stream) >= 0 && strcmp(http_option_line, "\r\n") != 0;
 		     free(http_option_line), http_option_line = NULL, n = 0) {
 			debug("http_option_line: %s", http_option_line);
@@ -426,11 +426,12 @@ void manage_http_requests(int client_fd
                                  ***/
 /*** TO BE DONE 8.0 START ***/
 
-				if(strcmp(option_name, "If-Modified-Since")==0){
-					http_method |= METHOD_CONDITIONAL;
-					char* datestr=strtok_r(NULL,";",&strtokr_save);
-					if(!strptime(datestr," %a, %d %b %Y %H:%M:%S %Z", &since_tm))
+				if(strcmp(option_name, "If-Modified-Since") == 0) { //NOTA: se la richiesta del client contiene la stringa "If-Modified-Since"
+					http_method |= METHOD_CONDITIONAL; //NOTA: aggiungo il flag METHOD_CONDITIONAL al metodo HTTP
+					char* datestr = strtok_r(NULL,";",&strtokr_save); //NOTA: recupero la data di ultima modifica del file richiesta dal client
+					if(!strptime(datestr," %a, %d %b %Y %H:%M:%S %Z", &since_tm)) //NOTA: converto la stringa contenente la data di ultima modifica del file richiesta dal client in una struct tm e la salvo in since_tm
 						fail("Could not store date in since_tm"); 
+					debug("recognised If-Modified-Since option\n");
 				}
 
 /*** TO BE DONE 8.0 END ***/
@@ -438,7 +439,7 @@ void manage_http_requests(int client_fd
 			    }
                         }
 		}
-		free(http_option_line);
+		free(http_option_line); //NOTA: libero la memoria allocata per la stringa http_option_line per procedere alla prossima richiesta da parte di un client
                 if ( UIDcookie >= 0 ) { /*** increment visit count for this user ***/
                     int current_visit_count = keep_track_of_UID(UIDcookie);
 
@@ -487,10 +488,29 @@ void manage_http_requests(int client_fd
 				 *** Use something like timegm() to convert from struct tm to time_t
 				 ***/
 /*** TO BE DONE 8.0 START ***/
- 	
-			if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0){
+			
+			//SONO QUI! (teresa)
+			debug("Comparing file last modification time with since_tm\n");
+
+			//since_tm = data di ultima modifica del file richiesta dal client; stat_p->st_mtime = data di ultima modifica del file richiesta dal server
+			
+			/*if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0) { //NOTA: se la differenza tra il tempo di ultima modifica del file richiesto dal client e il tempo di ultima modifica del file richiesto è 0, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED; 
-			}																
+			}*/
+			
+			//versione matta teresa che sembra funzionare
+			if(difftime(stat_p->st_mtime, timegm(&since_tm))<= 0) { //NOTA: se il file che richiede il client è più vecchio o uguale al file che il server ha, allora il file non è stato modificato
+				http_method = METHOD_NOT_CHANGED;	//NOTA: se il file non è stato modificato, il metodo HTTP diventa METHOD_NOT_CHANGED
+			}
+			else {
+				if (http_method == 18) { //NOTA: se il metodo HTTP è 18 (cioè METHOD_CONDITIONAL+METHOD_GET), allora il metodo HTTP condizionale diventa METHOD_GET
+					http_method = METHOD_GET;
+				}
+				http_method = METHOD_HEAD; //NOTA: se il metodo HTTP è 17 (cioè METHOD_CONDITIONAL+METHOD_HEAD), allora il metodo HTTP condizionale diventa METHOD_HEAD
+			}
+		
+	debug ("stat_p->st_mtime is %ld\n", stat_p->st_mtime);
+	debug ("since_tm is %ld\n", since_tm);																
 	debug("http_metod is %d\n", http_method);
 	
 /*** TO BE DONE 8.0 END ***/

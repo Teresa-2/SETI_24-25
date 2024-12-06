@@ -4,5 +4,5 @@
 
 for i in {1..100} 
 do
-    ./debug/test.sh
+    ./test.sh
 done
