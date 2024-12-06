@@ -5,9 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Attach",
+            "name": "(gdb) Launch",
             "type": "cppdbg",
-            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "request": "launch",
             "program": "${workspaceFolder}/bin/incapache",
             "MIMode": "gdb",
             "setupCommands": [

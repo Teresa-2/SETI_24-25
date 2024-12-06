@@ -161,7 +161,6 @@ int main(int argc, char **argv)
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */
 	check_uids();
-	//printf("ho superato check_uids\n");
 	if (argc < 2 || argc > 3) {
 		fprintf(stderr, "Usage: %s <www-root> [<port-number>]\nDefault port: %s\n", *argv, default_port);
 		return EXIT_FAILURE;

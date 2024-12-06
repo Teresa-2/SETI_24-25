@@ -412,9 +412,11 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
 
-					option_val = strtok_r(NULL, "", &strtokr_save);
-					char *uid_pos = strstr(option_val, "UserID=");
-					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie);
+					//NB: questo metodo permette di trovare il PRIMO cookie presente nella richiesta HTTP (conforme alla struttura già definita Cookie: UserID=) e se ci sono più cookie, questi vengono ignorati. Inoltre accetta solo valori numerici (e non altri valori possibili) da inserire nel cookie del client. Se il cookie non è presente, viene assegnato un nuovo UID al client (in altra parte del codice?)
+
+					option_val = strtok_r(NULL, "", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
+					char *uid_pos = strstr(option_val, "UserID="); //NOTA: cerco la stringa "UserID=" all'interno del valore dell'opzione Cookie
+					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie); //NOTA: se la stringa "UserID=" è presente nel valore dell'opzione Cookie, allora recupero il valore numerico successivo a "UserID=" (cioè il valore che il client passa come cookie) e lo salvo nella variabile UIDcookie
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -500,7 +502,6 @@ void manage_http_requests(int client_fd
 			if(difftime(stat_p->st_mtime, timegm(&since_tm)) <= 0) { //NOTA: se il file che richiede il client è più vecchio o aggiornato come il file che il server ha, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED;	//NOTA: se il file non è stato modificato, il metodo HTTP diventa METHOD_NOT_CHANGED
 			}
-			debug ("sono qui %d/n", difftime(stat_p->st_mtime, timegm(&since_tm)));
 			else {
 				if (http_method == 18) { //NOTA: se il metodo HTTP è 18 (cioè METHOD_CONDITIONAL+METHOD_GET), allora il metodo HTTP condizionale diventa METHOD_GET
 				//DA FARE: sarebbe da scrivere meglio la guardia dell'if perché è un po' brutto 18
@@ -509,9 +510,9 @@ void manage_http_requests(int client_fd
 				http_method = METHOD_HEAD; //NOTA: se il metodo HTTP è 17 (cioè METHOD_CONDITIONAL+METHOD_HEAD), allora il metodo HTTP condizionale diventa METHOD_HEAD
 			}
 		
-	debug ("stat_p->st_mtime is %ld\n", stat_p->st_mtime);
+	/* debug ("stat_p->st_mtime is %ld\n", stat_p->st_mtime);
 	debug ("since_tm is %ld\n", since_tm);																
-	debug("http_metod is %d\n", http_method);
+	debug("http_metod is %d\n", http_method); */
 	
 /*** TO BE DONE 8.0 END ***/
 			
