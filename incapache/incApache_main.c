@@ -80,10 +80,10 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 	}
 
 /*** TO BE DONE 8.0 START ***/
-	//printf("SONO IN RUN_WEBSERVER\n");
 
 	create_listening_socket(port_as_str); 
-	drop_privileges(); 
+	drop_privileges();
+	
 /*** TO BE DONE 8.0 END ***/
 
 #ifdef INCaPACHE_8_1

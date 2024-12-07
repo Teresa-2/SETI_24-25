@@ -333,9 +333,9 @@ void manage_http_requests(int client_fd
 {
 #define METHOD_NONE		 0
 #define METHOD_HEAD		 1
-#define METHOD_GET	 2
+#define METHOD_GET	 	 2
 #define METHOD_POST		 4
-#define METHOD_NOT_CHANGED	 8
+#define METHOD_NOT_CHANGED	 8 //NOTA: il file non è stato modificato
 #define METHOD_CONDITIONAL	16
 #define MethodIsConditional(m) ((m)&METHOD_CONDITIONAL)
 	FILE *client_stream = fdopen(client_fd, "r"); //NOTA: apro il file descriptor client_fd in lettura e lo salvo in client_stream. Il file descriptor client_fd è il file descriptor associato alla connessione con il client
@@ -494,25 +494,22 @@ void manage_http_requests(int client_fd
 			
 			debug("Comparing file last modification time with since_tm\n");
 			
-			/*if(difftime(timegm(&since_tm),stat_p->st_mtime) == 0) { //NOTA: se la differenza tra il tempo di ultima modifica del file richiesto dal client e il tempo di ultima modifica del file richiesto è 0, allora il file non è stato modificato
-				http_method = METHOD_NOT_CHANGED; 
-			}*/
-			
-			//versione matta teresa che sembra funzionare
+			//stat-p = server; since_tm = client
 			if(difftime(stat_p->st_mtime, timegm(&since_tm)) <= 0) { //NOTA: se il file che richiede il client è più vecchio o aggiornato come il file che il server ha, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED;	//NOTA: se il file non è stato modificato, il metodo HTTP diventa METHOD_NOT_CHANGED
 			}
-			else {
+			else { //NOTA: se il server ha la copia del file più recente rispetto a quella del client, entro qui
 				if (http_method == 18) { //NOTA: se il metodo HTTP è 18 (cioè METHOD_CONDITIONAL+METHOD_GET), allora il metodo HTTP condizionale diventa METHOD_GET
 				//DA FARE: sarebbe da scrivere meglio la guardia dell'if perché è un po' brutto 18
 					http_method = METHOD_GET;
-				}
-				http_method = METHOD_HEAD; //NOTA: se il metodo HTTP è 17 (cioè METHOD_CONDITIONAL+METHOD_HEAD), allora il metodo HTTP condizionale diventa METHOD_HEAD
+					}
+				else if (http_method == 17) {
+					http_method = METHOD_HEAD; //NOTA: se il metodo HTTP è 17 (cioè METHOD_CONDITIONAL+METHOD_HEAD), allora il metodo HTTP condizionale diventa METHOD_HEAD
+					}
+				else {
+					fail("The conditional request was not made with an appropriate method (HEAD or GET)");
+					}
 			}
-		
-	/* debug ("stat_p->st_mtime is %ld\n", stat_p->st_mtime);
-	debug ("since_tm is %ld\n", since_tm);																
-	debug("http_metod is %d\n", http_method); */
 	
 /*** TO BE DONE 8.0 END ***/
 			

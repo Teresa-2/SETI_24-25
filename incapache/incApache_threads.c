@@ -164,8 +164,9 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
     {
 	size_t i;
 	int conn_no;
+	
 	debug("start of join_prev_thread(%d)\n", thrd_no);
-
+	
 	/*** check whether there is a previous thread to join before
 	 *** proceeding with the current thread.
 	 *** In that case compute the index i of the thread to join,
@@ -178,12 +179,14 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 	conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vorrei terminare
 
-	if (&to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
+	//NOTA: errore in questo if che manda in segmentation fault
+	if (to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
 		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) { //NOTA: determinazione dell'indice del thread precedente all'interno dell'array thread_ids
-			if (thread_ids[i] == *to_join[thrd_no]) {
+			if (&thread_ids[i] == to_join[thrd_no]) {
 				break;
 			}
 		}
+
 	pthread_join(thread_ids[i], NULL); //NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante)
 	no_free_threads++; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
 	no_response_threads[conn_no]--; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
