@@ -10,7 +10,7 @@
             "cwd": "${workspaceFolder}",
             "request": "launch",
             "program": "${workspaceFolder}/bin/incapache",
-            "args": ["www-root", "8000"],
+            "args": ["www.google.it", "80"],
             "stopAtEntry": false,
             "environment": [],
             "externalConsole": false,
