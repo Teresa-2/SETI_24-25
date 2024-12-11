@@ -7,9 +7,9 @@ CFLAGS= -DHTML_301='"301_Moved_Permanently.html"' \
         -DDEBUG \
         -DINCaPACHE_8_1 \
         -DPRETEND_TO_BE_ROOT \
-        -g3 -O0 -Wall -pedantic \
                 -DIMAGE='"uncadunca.jpg"' \
                 -DSTYLE='"000_style.css"'
+        # -g3 -O0 -Wall -pedantic \
 
 OBJS=incApache_aux.o incApache_http.o incApache_main.o incApache_threads.o
 BIN_DIR=bin

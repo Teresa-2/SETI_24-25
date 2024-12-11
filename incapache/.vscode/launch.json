@@ -10,7 +10,7 @@
             "cwd": "${workspaceFolder}",
             "request": "launch",
             "program": "${workspaceFolder}/bin/incapache",
-            "args": ["/home/teresa/SETI_24-25/incapache/www-root", "80"],
+            "args": ["/home/teresa/SETI_24-25/incapache/www-root", "8000"],
             //"args": ["localhost", "80"],
             "stopAtEntry": false,
             "environment": [],

@@ -371,7 +371,7 @@ void manage_http_requests(int client_fd
 
 	method_str = strtok_r(http_request_line, " ", &strtokr_save);
 	filename = strtok_r(NULL, " ", &strtokr_save);
-	protocol = strtok_r(NULL, " \r\n ", &strtokr_save);
+	protocol = strtok_r(NULL, "\r\n", &strtokr_save); // NOTA: Changed delimiter to "\r\n" instead of " \r\n"
 
 /*** TO BE DONE 8.0 END ***/
 

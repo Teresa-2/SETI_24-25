@@ -120,11 +120,13 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 				}
 				debug(" ****** i = %ld, j = %ld\n", i, j);
 			}
-			/*while (to_join[i] != NULL) {
+				
+				while (to_join[i] != NULL) {
 				pthread_mutex_unlock(&threads_mutex);
 				//wait_for_seconds(1);
 				pthread_mutex_lock(&threads_mutex);
-			}*//*
+			}
+
 			debug("  *** trying to join thread %ld in join_all...\n", i);
 			if (pthread_join(thread_ids[i], NULL))
 				fail_errno("Could not join thread in join_all");
@@ -148,13 +150,13 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 	pthread_mutex_unlock(&threads_mutex);
 
-	*/
-
-	/*i = find_unused_thread_idx(conn_no);
+	i = find_unused_thread_idx(conn_no);
 	pthread_join(thread_ids[i], NULL);
 	connection_no[i] = FREE_SLOT;
 	--no_response_threads[conn_no];
-	++no_free_threads;*/
+	++no_free_threads;
+
+*/
 
 /*** TO BE DONE 8.1 END ***/
 
@@ -165,7 +167,7 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	size_t i;
 	int conn_no;
 	
-	debug("start of join_prev_thread(%d)\n", thrd_no);
+	//debug("start of join_prev_thread(%d)\n", thrd_no);
 	
 	/*** check whether there is a previous thread to join before
 	 *** proceeding with the current thread.
@@ -175,22 +177,34 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 	 *** avoiding race conditions ***/
 /*** TO BE DONE 8.1 START ***/
 	
-	pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
+	//pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
 
-	conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vorrei terminare
+	//conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vorrei terminare
 
 	//NOTA: errore in questo if che manda in segmentation fault
 	if (to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
-		for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) { //NOTA: determinazione dell'indice del thread precedente all'interno dell'array thread_ids
+		/*for (i = MAX_CONNECTIONS; i < MAX_THREADS; i++) { //NOTA: determinazione dell'indice del thread precedente all'interno dell'array thread_ids
 			if (&thread_ids[i] == to_join[thrd_no]) {
 				break;
 			}
-		}
+		}*/
 
-	pthread_join(thread_ids[i], NULL); //NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante)
-	no_free_threads++; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
-	no_response_threads[conn_no]--; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
-	connection_no[i] = FREE_SLOT; //NOTA: libero la posizione i nella coda dei thread
+		pthread_mutex_lock(&threads_mutex);
+		i = to_join[thrd_no] - thread_ids;
+		conn_no = connection_no[thrd_no];
+		pthread_mutex_unlock(&threads_mutex);
+		//if (!pthread_join(*to_join[thrd_no], NULL))
+		
+		if (pthread_join(thread_ids[i], NULL) != 0) fail("error in phtread join"); //NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante) }
+		
+		pthread_mutex_lock(&threads_mutex);
+		++no_free_threads; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
+		--no_response_threads[conn_no]; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
+		
+		connection_no[i] = FREE_SLOT; //NOTA: libero la posizione i nella coda dei thread
+		//NOTA: nuova aggiunta da verificare
+		//to_join[thrd_no] = NULL; //NOTA: resetto il puntatore to_join per il thread corrente
+		pthread_mutex_unlock(&threads_mutex);
 	}
 	
 	pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
@@ -214,7 +228,9 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 		      thread_params[i].p_stat); //NOTA: invoca il metodo send_response() passando i parametri necessari per la risposta presenti nel thread di risposta e inviando la risposta al client
 	debug(" ... response_thread() freeing filename and stat\n");
 	free(thread_params[i].filename);
+	debug(" ... filename free\n"); //aggiunto
 	free(thread_params[i].p_stat);
+	debug(" ... p_stat free\n"); //aggiunto
 	return NULL;
     }
 
@@ -240,7 +256,10 @@ void *client_connection_thread(void *vp) //NOTA: crea pthread (del connection_no
 	/*** properly initialize the thread queue to_join ***/
 /*** TO BE DONE 8.1 START ***/
 
-	for(int i=0; i<MAX_THREADS; i++) to_join[i]=NULL; //NOTA: forse i=MAX_CONNECTIONS
+	for (int i=0; i<MAX_THREADS; i++) 
+	{
+		to_join[i]=NULL; //NOTA: forse i=MAX_CONNECTIONS
+	}
 
 /*** TO BE DONE 8.1 END ***/
 
@@ -325,6 +344,7 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 	/*** enqueue the current thread in the "to_join" data structure ***/
 /*** TO BE DONE 8.1 START ***/
 //RIGUARDA ARRAY
+
 	to_join[new_thread_idx]=to_join[connection_idx]; 
 	to_join[connection_idx]=&thread_ids[new_thread_idx];
 

@@ -2,7 +2,7 @@
 
 # Indirizzo del server e porta
 SERVER="localhost"
-PORT=80
+PORT=8000
 SLEEP=0.1
 
 send_request() {

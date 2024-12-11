@@ -81,7 +81,7 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 
 /*** TO BE DONE 8.0 START ***/
 
-	create_listening_socket(port_as_str); 
+	create_listening_socket(port_as_str);
 	drop_privileges();
 	
 /*** TO BE DONE 8.0 END ***/
@@ -165,12 +165,17 @@ int main(int argc, char **argv)
 	}
 	port_as_str = argc == 3 ? argv[2] : default_port;
 	www_root = argv[1];
+	printf("port_as_str = %s\n", port_as_str); //aggiunto
+    printf("www_root = %s\n", www_root); //aggiunto
 	if (pipe(p_to_file)) 
 		fail_errno("Cannot create pipe to-file");
 	if (pipe(p_from_file))
 		fail_errno("Cannot create pipe from-file");
-	if (chdir(www_root)) //NOTA: cambia la directory corrente in quella specificata 
+	if (chdir(www_root)) { //NOTA: cambia la directory corrente in quella specificata 
+		perror("chdir"); //aggiunto
 		fail_errno("Cannot chdir to www-root directory");
+	}
+	printf("Changed directory to www-root\n"); //aggiunto
 	www_root = getcwd(NULL, 0); //NOTA: getcwd(char *buf,size_t size). 
 	if (!www_root)
 		fail_errno("Cannot get current directory");
@@ -179,8 +184,14 @@ int main(int argc, char **argv)
 		fail_errno("Cannot fork");
 	if (pid == 0)
 		run_file(p_to_file, p_from_file);
-            else
+            else {
+			printf("Before calling run_webserver\n"); //aggiunto
+			printf("port_as_str = %s\n", port_as_str); //aggiunto
+			printf("www_root = %s\n", www_root); //aggiunto
+			printf("p_to_file[0] = %d, p_to_file[1] = %d\n", p_to_file[0], p_to_file[1]); //aggiunto
+			printf("p_from_file[0] = %d, p_from_file[1] = %d\n", p_from_file[0], p_from_file[1]); //aggiunto
 	        run_webserver(port_as_str, www_root, p_to_file, p_from_file);
+			}
 	return EXIT_SUCCESS;
 }
 
