@@ -132,15 +132,15 @@ client_connection_thread((void *) &connection_no[i]);
 		fail_errno("Cannot close MIME reply stream");
 }
 
-void check_uids()
+void check_uids() //NOTA: controlla se l'utente che esegue il programma con PRETEND_TO_BE_ROOT è root o meno e lancia errore se non è root (cioè quando il flag è commentato)
 {
-#ifndef PRETEND_TO_BE_ROOT
-	if (geteuid()) {
+#ifndef PRETEND_TO_BE_ROOT //NOTA: le operazioni all'interno di questo if verranno eseguite SOLO SE la variabile PRETEND_TO_BE_ROOT NON è DEFINITA (If Not Defined = ifndef) nel makefile
+	if (geteuid()) { //NOTA: geteuid() è un metodo creato nel progetto che restituisce l'effective UID dell'utente che sta eseguendo in quel momento il processo. Essendo che per essere ROOT devi avere id=0 questo if controlla che tu sia ROOT o meno. Zero per un if è equivalente ad un false. Pertanto entra nell'if quando l'utente non è root.
 		fprintf(stderr, "The effective UID should be zero (that is, the executable should be owned by root and have the SETUID flag on).\n");
 		exit(EXIT_FAILURE);
 	}
 #endif /* #ifndef PRETEND_TO_BE_ROOT */
-	if (getuid() == 0) {
+	if (getuid() == 0) { //NOTA: se l'utente che esegue il processo è root, allora stampa un messaggio di errore e termina l'esecuzione
 		fprintf(stderr,
 			"The real UID should be non-zero (that is, the executable should be run by a non-root account).\n");
 		exit(EXIT_FAILURE);
@@ -151,14 +151,14 @@ int main(int argc, char **argv)
 {
 	int p_to_file[2], p_from_file[2]; 
 	const char *port_as_str;
-	const char *const default_port = "8000";
+	const char *const default_port = "8000"; //NOTA: porta di default se non viene indicata una porta in cui mettere in ascolto in server
 	char *www_root; //NOTA: puntatore a directory di Pagine HTML di prova
-	pid_t pid;
-	signal(SIGPIPE, SIG_IGN);
-#ifdef PRETEND_TO_BE_ROOT
+	pid_t pid; //NOTA: numero univoco associato dal SO ad un programMa quando va in esecuzione (cioè quando diventa un processo)
+	signal(SIGPIPE, SIG_IGN); //NOTA: system call che fa in modo che nel caso in cui venga inviato dal processo un segnale di tipo SIGPIPE esso venga sostituito dal segnale SIG_IGN (= che lo ignora). Quindi se un processo cercasse di accedere ad un socket/pipe chiuso, grazie a questa chiamata di metodo il processo non si blocca ma viene semplicemente ignorato. In questo modo il processo continuerà la sua esecuzione e restituirà il valore di errore (-1) solo se si cercheranno di eseguire le system call WRITE e READ.
+#ifdef PRETEND_TO_BE_ROOT //NOTA: se PRETEND_TO_BE_ROOT è definito, allora il programma si comporta come se fosse root
 	fprintf(stderr, "\n\n\n*** Debug UNSAFE version - DO NOT DISTRIBUTE ***\n\n");
 #endif /* #ifdef PRETEND_TO_BE_ROOT */
-	check_uids();
+	check_uids(); //NOTA: controlla se l'utente che esegue il programma è root o meno
 	if (argc < 2 || argc > 3) {
 		fprintf(stderr, "Usage: %s <www-root> [<port-number>]\nDefault port: %s\n", *argv, default_port);
 		return EXIT_FAILURE;
