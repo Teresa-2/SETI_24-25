@@ -189,21 +189,21 @@ pthread_mutex_t mime_mutex = PTHREAD_MUTEX_INITIALIZER;
 			}
 		}*/
 
-		pthread_mutex_lock(&threads_mutex);
-		i = to_join[thrd_no] - thread_ids;
-		conn_no = connection_no[thrd_no];
+		pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
+		i = to_join[thrd_no] - thread_ids; //NOTA: determinazione dell'indice del thread precedente a cui accodarsi, che è presente all'interno dell'array thread_ids
+		conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vor
 		pthread_mutex_unlock(&threads_mutex);
 		//if (!pthread_join(*to_join[thrd_no], NULL))
 		
-		if (pthread_join(thread_ids[i], NULL) != 0) fail("error in phtread join"); //NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante) }
-		
+		if (pthread_join(thread_ids[i], NULL) != 0) {
+			fail("error in phtread join");//NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante) }
+		}
+
 		pthread_mutex_lock(&threads_mutex);
 		++no_free_threads; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
 		--no_response_threads[conn_no]; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
 		
 		connection_no[i] = FREE_SLOT; //NOTA: libero la posizione i nella coda dei thread
-		//NOTA: nuova aggiunta da verificare
-		//to_join[thrd_no] = NULL; //NOTA: resetto il puntatore to_join per il thread corrente
 		pthread_mutex_unlock(&threads_mutex);
 	}
 	

@@ -179,17 +179,13 @@ int main(int argc, char **argv)
 	www_root = getcwd(NULL, 0); //NOTA: getcwd(char *buf,size_t size). 
 	if (!www_root)
 		fail_errno("Cannot get current directory");
+	printf("Breakpoint 1 reached\n"); // aggiunto: Add this line to identify the breakpoint location
 	pid = fork();
 	if (pid < 0)
 		fail_errno("Cannot fork");
 	if (pid == 0)
 		run_file(p_to_file, p_from_file);
             else {
-			printf("Before calling run_webserver\n"); //aggiunto
-			printf("port_as_str = %s\n", port_as_str); //aggiunto
-			printf("www_root = %s\n", www_root); //aggiunto
-			printf("p_to_file[0] = %d, p_to_file[1] = %d\n", p_to_file[0], p_to_file[1]); //aggiunto
-			printf("p_from_file[0] = %d, p_from_file[1] = %d\n", p_from_file[0], p_from_file[1]); //aggiunto
 	        run_webserver(port_as_str, www_root, p_to_file, p_from_file);
 			}
 	return EXIT_SUCCESS;

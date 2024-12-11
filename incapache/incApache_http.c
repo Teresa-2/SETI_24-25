@@ -51,7 +51,9 @@ int get_new_UID(void)
 	//DA CHIEDERE: è giusto che CurUID parta da 1 al primo giro, fino a raggiungere al massimo max cookies -1 ? Al secondo giro ripartirebbe da zero… 
 
 	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
-	retval= (CurUID+1)%MAX_COOKIES; //NOTA: calcolo il nuovo UID incrementando CurUID e facendo il modulo con MAX_COOKIES, in modo da ottenere un valore compreso tra 1 e MAX_COOKIES-1. Non può essere 0 perchè 0 = root
+	retval= (CurUID++)%MAX_COOKIES; //NOTA: calcolo il nuovo UID incrementando CurUID e facendo il modulo con MAX_COOKIES, in modo da ottenere un valore compreso tra 1 e MAX_COOKIES-1. Non può essere 0 perchè 0 = root
+	//da chiedere se è giusto escludere quando cookie = 0
+	if (retval == 0) retval = 1; //NOTA: se il valore di retval è 0, lo imposto a 1
 	CurUID=retval; //NOTA: aggiorno il valore di CurUID con l'ultimo UID calcolato
 	UserTracker[retval] = 0; //NOTA: imposto il valore di UserTracker[retval] a 0, cioè assegno all'utente con UID=retval (cioè quello che si è appena presentato al server) un # accessi = 0
 	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
