@@ -404,7 +404,7 @@ void manage_http_requests(int client_fd
 		else if (strcmp(method_str, "POST") == 0)
 			http_method = METHOD_POST;
 		debug("     ... http_method=%d\n", http_method);
-		for (http_option_line = NULL, n = 0; //SONO QUI!
+		for (http_option_line = NULL, n = 0;
 		     getline(&http_option_line, &n, client_stream) >= 0 && strcmp(http_option_line, "\r\n") != 0;
 		     free(http_option_line), http_option_line = NULL, n = 0) {
 			debug("http_option_line: %s", http_option_line);
