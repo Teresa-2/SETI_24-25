@@ -46,24 +46,30 @@ char *my_strdup(const char *const s)
 	return result;
 }
 
-ssize_t send_all(int fd, const char *ptr, size_t n, int flags)
+ssize_t send_all(int fd, const char *ptr, size_t n, int flags) /*
+La funzione send_all è progettata per inviare tutti i dati specificati su un socket, gestendo eventuali interruzioni e assicurandosi che tutti i dati siano inviati prima di restituire il controllo al chiamante.
+Parametri della Funzione: 
+- int fd: Il file descriptor del socket su cui inviare i dati. (client_fd)
+- const char *ptr: Un puntatore ai dati da inviare. (http_header)
+- size_t n: La dimensione dei dati da inviare in byte. (header_size)
+- int flags: I flag, se presenti, da passare alla chiamata di sistema send*/
 {
 	size_t n_left = n;
 	while (n_left > 0) {
-		ssize_t n_written = send(fd, ptr, n_left, flags);
-		if (n_written < 0) {
+		ssize_t n_written = send(fd, ptr, n_left, flags); //NOTA: restituisce il numero di byte inviati oppure '-1' in caso di errore 
+		if (n_written < 0) { 
 			if (n_left == n)
 				return -1; /* nothing has been sent */
-			else
+			else //NOTA: qualcosa è stato inviato e c'è stato un errore nella send 
 				break; /* we have sent something */
-		} else if (n_written == 0) {
+		} else if (n_written == 0) { //NOTA: non c'erano byte da inviare 
 			break;
 		}
 		n_left -= n_written;
 		ptr += n_written;
 	}
 	assert(n - n_left >= 0);
-	return n - n_left;
+	return n - n_left; //NOTA: ritorna il numero di byte che è riuscita a scrivere  
 }
 
 

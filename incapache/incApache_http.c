@@ -261,18 +261,20 @@ void send_response(int client_fd, int response_code, int cookie,
 	strcat(http_header, "\r\nServer: incApache 8.0 for SETI.\r\n");
 	strcat(http_header, "Connection: close\r\n");
 #endif
-	if (file_size > 0 && mime_type != NULL) {
-		sprintf(http_header + strlen(http_header), "Content-Length: %lu \r\nContent-Type: %s\r\nLast-Modified: ", (unsigned long)file_size, mime_type);
+	if (file_size > 0 && mime_type != NULL) { //NOTA: quando il file non è vuoto e presenta un formato MIME esistente 
+		sprintf(http_header + strlen(http_header), "Content-Length: %lu \r\nContent-Type: %s\r\nLast-Modified: ", (unsigned long)file_size, mime_type); //NOTA: stampa la lunghezza e la tipologia del contenuto del file richiesto dal server. La data di ultima modifica verrà invece stampata nella riga di codice successiva
 
 		/*** compute time_as_string, corresponding to file_modification_time, in GMT standard format;
 		     see gmtime and strftime ***/
 /*** TO BE DONE 8.0 START ***/
 
-	if(!gmtime_r(&file_modification_time, &file_modification_tm)){ //NOTA: converto il tempo di ultima modifica del file richiesto in formato UTC e lo salvo nella struct file_modification_tm
+	if(!gmtime_r(&file_modification_time, &file_modification_tm)){ //NOTA: converto il tempo di ultima modifica del file richiesto in formato UTC (concorde alla struct file_modification_tm) e lo salvo nella struct file_modification_tm (valore di ritorno: null in caso di errore; se si verifica errore,!null = true, entra nell'if)
 		fail("Could not convert file modification time in UTC standard format in send response");
 	}
 
-	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){ //NOTA: converto il tempo di ultima modifica del file richiesto in formato standard GMT e lo salvo in time_as_string
+	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){ //NOTA: converto il tempo di ultima modifica del file richiesto da formato UTC (broken-down time) in formato standard GMT (passato come argomento alla srtftime) e lo salvo nell'array di char time_as_string di dimensione MAX_TIME_STR  
+
+	//NOTA MANUALE: Return Value: The strftime() function returns the number of bytes placed in the array s, not including the terminating null byte, provided the string, including the terminating null byte, fits. Otherwise, it returns 0, and the contents of the array is undefined. (This behavior applies since at least libc 4.4.4; very old versions of libc, such as libc 4.4.1, would return max if the array was too small.). Note that the return value 0 does not necessarily indicate an error; for example, in many locales %p yields an empty string.
 		fail("Could not convert file modification time in UTC standard format to GMT standard format in send response");
 	}
 
@@ -288,10 +290,10 @@ void send_response(int client_fd, int response_code, int cookie,
 	printf("Sending the following response:\n%s\n",http_header); //NOTA: stampo a video l'header preparato, ad esempio potrei stampare Sending the following response: \n HTTP/1.0 200 OK
 	header_size = strlen(http_header); //NOTA: calcolo la lunghezza dell'header
 #ifdef INCaPACHE_8_1
-	join_prev_thread(thread_no); //NOTA: poiché è stata preparata la risposta, il thread ad esso associata viene inserito nella coda dei thread pronti associati al relativo client (indicato da connection_no)
+	join_prev_thread(thread_no); //NOTA: controlla se c'è e, in caso affermativo, aspetta la terminazione del thread precedente in coda a quello che gli è stato passato come argomento. 
 #endif
 #ifdef OptimizeTCP
-	if ((header_sent=send_all(client_fd, http_header, header_size, (fd >= 0 ? MSG_MORE : 0))) < header_size)
+	if ((header_sent=send_all(client_fd, http_header, header_size, (fd >= 0 ? MSG_MORE : 0))) < header_size) //NOTA: se il numero di byte scritti è minore del numero di byte che dovevi scrivere allora controlla se c'è stato errore o sono stati persi dei byte 
 #else
 	if ((header_sent=send_all(client_fd, http_header, header_size, 0)) < header_size )
 #endif
