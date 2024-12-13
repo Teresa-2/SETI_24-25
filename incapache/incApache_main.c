@@ -117,7 +117,10 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 		/*** create PTHREAD number i, running client_connection_thread() ***/
 /*** TO BE DONE 8.0 START ***/
 
-		client_connection_thread((void *) &connection_no[i]); //NOTA: crea un thread di connessione per il client i-esimo (ed essendo in un ciclo lo farà per tutti i 4 possibili client). Il thread di connessione è un thread che si occupa di gestire la connessione con il client. Il thread di connessione è associato ad un client e rimane attivo finché il client non chiude la connessione. Il thread di connessione è un thread di tipo PTHREAD. Il thread di connessione è creato con il metodo client_connection_thread() che prende come argomento un puntatore all'indice del client a cui il thread è associato.
+		if (pthread_create(&thread_ids[i], NULL, client_connection_thread, &connection_no[i]) != 0) {
+			fail_errno("pthread_create");
+		} /* create Pthread che esegue client_connection_thread((void *) &connection_no[i]); */
+		 //NOTA: crea un thread di connessione per il client i-esimo (ed essendo in un ciclo lo farà per tutti i 4 possibili client). Il thread di connessione è un thread che si occupa di gestire la connessione con il client. Il thread di connessione è associato ad un client e rimane attivo finché il client non chiude la connessione. Il thread di connessione è un thread di tipo PTHREAD. Il thread di connessione è creato con il metodo client_connection_thread() che prende come argomento un puntatore all'indice del client a cui il thread è associato.
 
 /*** TO BE DONE 8.0 END ***/
 
