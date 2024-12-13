@@ -140,7 +140,7 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
 	
 /*** TO BE DONE 8.1 END ***/
     }
-    void *response_thread(void *vp) //NOTA: viene invocato nella creazione di un thread e fa iniziare l'esecuzione del thread di risposta
+    void *response_thread(void *vp) //NOTA: viene invocato nella creazione di un thread (pthread_create) e fa iniziare l'esecuzione del thread di risposta
     {
     size_t thread_no = ((int *) vp) - connection_no;
     int connection_idx = *((int *) vp);
@@ -155,9 +155,7 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
               thread_params[i].p_stat); //NOTA: invoca il metodo send_response() passando i parametri necessari per la risposta presenti nel thread di risposta e inviando la risposta al client
     debug(" ... response_thread() freeing filename and stat\n");
     free(thread_params[i].filename);
-    debug(" ... filename free\n"); //aggiunto
     free(thread_params[i].p_stat);
-    debug(" ... p_stat free\n"); //aggiunto
     return NULL;
     }
 #else /* #ifndef INCaPACHE_8_1 */
@@ -255,6 +253,7 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 /*** TO BE DONE 8.1 END ***/
     if (pthread_create(thread_ids + new_thread_idx, NULL, response_thread, connection_no + new_thread_idx)) //NOTA: crea un nuovo thread (di risposta) nel processo chiamante; response_thread è la chiamata al metodo response_thread() sovrastante che si occupa di iniziare l'esecuzione del thread
         fail_errno("Could not create response thread");
+    debug("\n *************************************** \n ho finito la pthread_create in riga 255 di threads.c \n");
     pthread_mutex_unlock(&threads_mutex);
     debug(" ... send_resp_thread(): new thread created\n");
 }

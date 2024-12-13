@@ -418,9 +418,10 @@ void manage_http_requests(int client_fd
 
 					//NB: questo metodo permette di trovare il PRIMO cookie presente nella richiesta HTTP (conforme alla struttura già definita Cookie: UserID=) e se ci sono più cookie, questi vengono ignorati. Inoltre accetta solo valori numerici (e non altri valori possibili) da inserire nel cookie del client. Se il cookie non è presente, viene assegnato un nuovo UID al client (in altra parte del codice?)
 
-					option_val = strtok_r(NULL, "", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
+					option_val = strtok_r(NULL, ";", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
 					char *uid_pos = strstr(option_val, "UserID="); //NOTA: cerco la stringa "UserID=" all'interno del valore dell'opzione Cookie
 					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie); //NOTA: se la stringa "UserID=" è presente nel valore dell'opzione Cookie, allora recupero il valore numerico successivo a "UserID=" (cioè il valore che il client passa come cookie) e lo salvo nella variabile UIDcookie
+					debug("UIDcookie= %i \n", UIDcookie);
 
 /*** TO BE DONE 8.0 END ***/
 
