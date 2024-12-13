@@ -113,21 +113,30 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
     if (to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
         pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
         i = to_join[thrd_no] - thread_ids; //NOTA: determinazione dell'indice del thread precedente a cui accodarsi, che è presente all'interno dell'array thread_ids
-        conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vor
+        conn_no = connection_no[thrd_no]; //NOTA: salvo il numero di connessione del thread che vo
         pthread_mutex_unlock(&threads_mutex);
         
         if (pthread_join(thread_ids[i], NULL) != 0) {
+            
+            //con test threads.sh entra qui dentro dopo un po' di chiamate
+
+            //NOTA: verifico se il join sta provando a joinare se stesso
+            if (pthread_self() == thread_ids[i]) {
+                //fail("Thread is trying to join itself\n");
+                pthread_mutex_unlock(&threads_mutex);
+                return;
+            }
+
             fail("error in phtread join");//NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante) }
         }
         pthread_mutex_lock(&threads_mutex);
         ++no_free_threads; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
         --no_response_threads[conn_no]; //NOTA: decremento il numero di thread di risposta per la connessione conn_no, perché un thread è stato risolto
-        
         connection_no[i] = FREE_SLOT; //NOTA: libero la posizione i nella coda dei thread
         pthread_mutex_unlock(&threads_mutex);
     }
     
-    pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
+    //pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
 	
 /*** TO BE DONE 8.1 END ***/
     }
