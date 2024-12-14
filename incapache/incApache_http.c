@@ -52,8 +52,6 @@ int get_new_UID(void)
 
 	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
 	retval= (CurUID++)%MAX_COOKIES; //NOTA: calcolo il nuovo UID incrementando CurUID e facendo il modulo con MAX_COOKIES, in modo da ottenere un valore compreso tra 1 e MAX_COOKIES-1. Non può essere 0 perchè 0 = root
-	//da chiedere se è giusto escludere quando cookie = 0
-	if (retval == 0) retval = 1; //NOTA: se il valore di retval è 0, lo imposto a 1
 	CurUID=retval; //NOTA: aggiorno il valore di CurUID con l'ultimo UID calcolato
 	UserTracker[retval] = 0; //NOTA: imposto il valore di UserTracker[retval] a 0, cioè assegno all'utente con UID=retval (cioè quello che si è appena presentato al server) un # accessi = 0
 	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
@@ -409,6 +407,7 @@ void manage_http_requests(int client_fd
 		for (http_option_line = NULL, n = 0;
 		     getline(&http_option_line, &n, client_stream) >= 0 && strcmp(http_option_line, "\r\n") != 0;
 		     free(http_option_line), http_option_line = NULL, n = 0) {
+			//ATTENZIONE
 			debug("http_option_line: %s", http_option_line);
 			option_name = strtok_r(http_option_line, ": ", &strtokr_save);
 			if ( option_name != NULL ) {
@@ -419,9 +418,9 @@ void manage_http_requests(int client_fd
 					//NB: questo metodo permette di trovare il PRIMO cookie presente nella richiesta HTTP (conforme alla struttura già definita Cookie: UserID=) e se ci sono più cookie, questi vengono ignorati. Inoltre accetta solo valori numerici (e non altri valori possibili) da inserire nel cookie del client. Se il cookie non è presente, viene assegnato un nuovo UID al client (in altra parte del codice?)
 
 					option_val = strtok_r(NULL, ";", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
+					//option_val = strtok_r(NULL, "", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
 					char *uid_pos = strstr(option_val, "UserID="); //NOTA: cerco la stringa "UserID=" all'interno del valore dell'opzione Cookie
 					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie); //NOTA: se la stringa "UserID=" è presente nel valore dell'opzione Cookie, allora recupero il valore numerico successivo a "UserID=" (cioè il valore che il client passa come cookie) e lo salvo nella variabile UIDcookie
-					debug("UIDcookie= %i \n", UIDcookie);
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -447,12 +446,11 @@ void manage_http_requests(int client_fd
 			    }
                         }
 		}
-		free(http_option_line); //NOTA: libero la memoria allocata per la stringa http_option_line per procedere alla prossima richiesta da parte di un client
+		free(http_option_line); //NOTA: libero la memoria allocata per la stringa http_option_line per procedere alla prossima richiesta da parte di un client (non ha valori di ritorno)
                 if ( UIDcookie >= 0 ) { /*** increment visit count for this user ***/
                     int current_visit_count = keep_track_of_UID(UIDcookie);
 
                     if ( current_visit_count < 0 ) /*** wrong Cookie value ***/
-
                         UIDcookie = get_new_UID();
                     else {
 			printf("\n client provided UID Cookie %d for the %d time\n", UIDcookie, current_visit_count);

@@ -253,7 +253,6 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 /*** TO BE DONE 8.1 END ***/
     if (pthread_create(thread_ids + new_thread_idx, NULL, response_thread, connection_no + new_thread_idx)) //NOTA: crea un nuovo thread (di risposta) nel processo chiamante; response_thread è la chiamata al metodo response_thread() sovrastante che si occupa di iniziare l'esecuzione del thread
         fail_errno("Could not create response thread");
-    debug("\n *************************************** \n ho finito la pthread_create in riga 255 di threads.c \n");
     pthread_mutex_unlock(&threads_mutex);
     debug(" ... send_resp_thread(): new thread created\n");
 }
