@@ -407,7 +407,6 @@ void manage_http_requests(int client_fd
 		for (http_option_line = NULL, n = 0;
 		     getline(&http_option_line, &n, client_stream) >= 0 && strcmp(http_option_line, "\r\n") != 0;
 		     free(http_option_line), http_option_line = NULL, n = 0) {
-			//ATTENZIONE
 			debug("http_option_line: %s", http_option_line);
 			option_name = strtok_r(http_option_line, ": ", &strtokr_save);
 			if ( option_name != NULL ) {
