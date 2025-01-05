@@ -23,11 +23,13 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #ifndef NO_READLINE
 #include <readline/readline.h>
 #include <readline/history.h>
 #endif
 #include <stdint.h>
+#include <asm-generic/fcntl.h>
 
 void fatal(const char * const msg)
 {
@@ -49,7 +51,7 @@ void *my_malloc(size_t size)
 	return rv;
 }
 
-void *my_realloc(void *ptr, size_t size)
+void *my_realloc(void *ptr, size_t size) //funzione che alloca memoria dinamica ad un puntatore ptr di dimensione size. L'allocazione serve solo per aumentare la dimensione del blocco di memoria associato al puntatore ptr e aggiunge i byte necessari (non inizializzati) per raggiungere la dimensione size. se ptr = NULL la realloc funziona come una malloc; se invece la realloc va a ridurre le dimensione di ptr, allora si comporta come una free(ptr). 
 {
 	void *rv = realloc(ptr, size);
 	if (!rv)
@@ -76,83 +78,99 @@ typedef enum { CHECK_OK = 0, CHECK_FAILED = -1 } check_t;
 static const char *const CD = "cd";
 
 typedef struct {
-	int n_args;
+	int n_args; // number of arguments
 	char **args; // in an execv*-compatible format; i.e., args[n_args]=0
 	char *out_pathname; // 0 if no output-redirection is present
 	char *in_pathname; // 0 if no input-redirection is present
 } command_t;
 
 typedef struct {
-	int n_commands;
-	command_t **commands;
+	int n_commands; // number of commands in the line
+	command_t **commands; //array dei comandi della riga
 } line_t;
 
+//NOTA: la funzione free_command libera la memoria allocata dinamicamente per il comando c
 void free_command(command_t * const c)
 {
 	assert(c==0 || c->n_args==0 || (c->n_args > 0 && c->args[c->n_args] == 0)); /* sanity-check: if c is not null, then it is either empty (in case of parsing error) or its args are properly NULL-terminated */
 	/*** TO BE DONE START ***/
 
-	for (int i = c -> n_args - 1; i >= 0; --i) {
+	//svuotamento degli elementi contenuti nell'array args associato al comando c (perché devo svuotare l'array e poi eliminare la struttura anzichè eliminare direttamente l'array?: per evitare memory leak! cancellando direttamente l'array lascerei allocata la memoria associata agli argomenti dell'array stesso)
+	/*for (int i = c -> n_args - 1; i >= 0; --i) {
+		free(c -> args[i]);
+	}*/
+
+	//più intuitivo
+	for (int i = 0; i < c -> n_args; i++) {
 		free(c -> args[i]);
 	}
-	free(c -> args);
-	free(c -> out_pathname);
-	free(c -> in_pathname);
-	free(c);
+
+	free(c -> args); //rimozione dell'array di argomenti
+	free(c -> out_pathname); //rimozione del pathname di output
+	free(c -> in_pathname); //rimozione del pathname di input
+	free(c); //rimozione della struttura del comando
+
+	//NOTA BENE: non viene deallocata la memoria associata all'interno n_args perché è un intero e non è allocato dinamicamente
 
 	/*** TO BE DONE END ***/
 }
 
-void free_line(line_t * const l)
+void free_line(line_t * const l) //libera la memoria allocata dinamicamente per la linea l di comandi
 {
 	assert(l==0 || l->n_commands>=0); /* sanity-check */
 	/*** TO BE DONE START ***/
 
-	for (int i = l -> n_commands - 1; i >= 0; --i)
+	/*for (int i = l -> n_commands - 1; i >= 0; --i)
+		free_command(l -> commands[i]);*/
+	
+	//più intuitivo
+	for (int i = 0; i < l -> n_commands; i++) //rimozione dei comandi (contenuto dell'array di comandi della linea)
 		free_command(l -> commands[i]);
-	free(l -> commands);
-	free(l);
+	
+	free(l -> commands); //rimozione dell'array di comandi
+	free(l); //rimozione della struttura della linea
 
 	/*** TO BE DONE END ***/
 }
 
 #ifdef DEBUG
-void print_command(const command_t * const c)
+void print_command(const command_t * const c) //stampa il comando c
 {
-	if (!c) {
+	if (!c) { //se il comando è nullo (NOTA BENE: NULL=0 in C)
 		printf("Command == NULL\n");
 		return;
-	}
+	} //stampa del comando (se non è nullo)
 	printf("[ ");
 	for(int a=0; a<c->n_args; ++a)
 		printf("%s ", c->args[a]);
-	assert(c->args[c->n_args] == 0);
+	assert(c->args[c->n_args] == 0); //The array of pointers for execve must be terminated by a null pointer
 	printf("] ");
-	printf("in: %s out: %s\n", c->in_pathname, c->out_pathname);
+	printf("in: %s out: %s\n", c->in_pathname, c->out_pathname); //stampa del pathname di input e di output del comando
 }
 
 void print_line(const line_t * const l)
 {
-	if (!l) {
+	if (!l) { //se la linea dei comandi è nulla (NOTA BENE: NULL=0 in C)
 		printf("Line == NULL\n");
 		return;
 	}
-	printf("Line has %d command(s):\n", l->n_commands);
-	for(int a=0; a<l->n_commands; ++a)
+	printf("Line has %d command(s):\n", l->n_commands); //stampa del numero di comandi presenti nella linea
+	for(int a=0; a<l->n_commands; ++a) //stampa di tutti i comandi presenti nella linea
 		print_command(l->commands[a]);
 }
 #endif
 
-command_t *parse_cmd(char * const cmdstr)
+command_t *parse_cmd(char * const cmdstr) //analisi sintattica del comando cmdstr passato come argomento
 {
 	static const char *const BLANKS = " \t";
-	command_t * const result = my_malloc(sizeof(*result));
-	memset(result, 0, sizeof(*result));
+	command_t * const result = my_malloc(sizeof(*result)); //allocazione della memoria per il puntatore (result) che punta ad una struct command_t la quale è il valore di ritorno della funzione
+	memset(result, 0, sizeof(*result)); //inizializzazione della struct result con soli zeri (per evitare garbage values)
 	char *saveptr, *tmp;
-	tmp = strtok_r(cmdstr, BLANKS, &saveptr);
-	while (tmp) {
-		result->args = my_realloc(result->args, (result->n_args + 2)*sizeof(char *));
-		if (*tmp=='<') {
+	tmp = strtok_r(cmdstr, BLANKS, &saveptr); //parsing della stringa cmdstr attraverso il metodo strtok_r (che è una versione thread-safe di strtok). Nel parsing viene usalto BLANKS come delimitatore tra un token e quello successivo. Strtok_r legge un token per volta e restituisce un puntatore al punto in cui è arrivato nella lettura affinché alla chiamata successiva di strtok_r possa riprendere da dove aveva lasciato. strtok_r quando arriva alla fine della stringa da leggere ritornerà NULL.
+	//ATTENZIONE: in questo momento strtok_r passa al while solo il primo token della stringa cmdstr
+	while (tmp) { //finché ci sono token da leggere, per ogni token letto si esegue una analisi sintattica 
+		result->args = my_realloc(result->args, (result->n_args + 2)*sizeof(char *)); //vengono allocate due nuove celle nell'array di argomenti del comando (result->args) per contenere 1) il token appena letto 2) il terminatore NULL che segnerà la fine dell'iterazione in atto per il parsing del comando
+		if (*tmp=='<') { //se c'è redirezione in input
 			if (result->in_pathname) {
 				fprintf(stderr, "Parsing error: cannot have more than one input redirection\n");
 				goto fail;
@@ -189,7 +207,7 @@ command_t *parse_cmd(char * const cmdstr)
 			result->args[result->n_args++] = my_strdup(tmp);
 			result->args[result->n_args] = 0;
 		}
-		tmp = strtok_r(0, BLANKS, &saveptr);
+		tmp = strtok_r(0, BLANKS, &saveptr); //lettura del token successivo. dalla seconda iterazione in poi, strtok_r leggerà il token successivo a quello letto nella chiamata precedente di strtok_r e la stringa passata come primo argomento sarà SEMPRE NULL (per definizione metodo da man)
 	}
 	if (result->n_args)
 		return result;
