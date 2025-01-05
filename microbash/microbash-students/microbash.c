@@ -168,19 +168,21 @@ command_t *parse_cmd(char * const cmdstr) //analisi sintattica del comando cmdst
 	char *saveptr, *tmp;
 	tmp = strtok_r(cmdstr, BLANKS, &saveptr); //parsing della stringa cmdstr attraverso il metodo strtok_r (che è una versione thread-safe di strtok). Nel parsing viene usalto BLANKS come delimitatore tra un token e quello successivo. Strtok_r legge un token per volta e restituisce un puntatore al punto in cui è arrivato nella lettura affinché alla chiamata successiva di strtok_r possa riprendere da dove aveva lasciato. strtok_r quando arriva alla fine della stringa da leggere ritornerà NULL.
 	//ATTENZIONE: in questo momento strtok_r passa al while solo il primo token della stringa cmdstr
+	//tmp = TOKEN ATTUALE, è una stringa (char *)
 	while (tmp) { //finché ci sono token da leggere, per ogni token letto si esegue una analisi sintattica 
 		result->args = my_realloc(result->args, (result->n_args + 2)*sizeof(char *)); //vengono allocate due nuove celle nell'array di argomenti del comando (result->args) per contenere 1) il token appena letto 2) il terminatore NULL che segnerà la fine dell'iterazione in atto per il parsing del comando
-		if (*tmp=='<') { //se c'è redirezione in input
-			if (result->in_pathname) {
+		if (*tmp=='<') { //se il token specifica per una redirezione in input (che inizia con <)
+			if (result->in_pathname) { //si controlla che non sia già stata specificata una redirezione in input, se è già stata specificata si stampa un messaggio di errore e si dealloca la memoria allocata per il comando e ritorna errore (vedi label FAIL in parse_cmd)
 				fprintf(stderr, "Parsing error: cannot have more than one input redirection\n");
 				goto fail;
 			}
-			if (!tmp[1]) {
+			if (!tmp[1]) { //si controlla se è stato specificato nel token successivo un pathname per la redirezione in input. se non è stato specificato si stampa un messaggio di errore e si dealloca la memoria allocata per il comando (vedi label FAIL in parse_cmd)
 				fprintf(stderr, "Parsing error: no path specified for input redirection\n");
 				goto fail;
 			}
-			result->in_pathname = my_strdup(tmp+1);
+			result->in_pathname = my_strdup(tmp+1); //se la redirezione è stata specificata correttamente, si copia il pathname specificato nel token successivo a quello corrente (che è "<") e si inserisce tale valore nel campo in_pathname della struct result
 		} else if (*tmp == '>') {
+			//nota: vedi sopra, come per input redirection
 			if (result->out_pathname) {
 				fprintf(stderr, "Parsing error: cannot have more than one output redirection\n");
 				goto fail;
@@ -191,57 +193,65 @@ command_t *parse_cmd(char * const cmdstr) //analisi sintattica del comando cmdst
 			}
 			result->out_pathname = my_strdup(tmp+1);
 		} else {
-			if (*tmp=='$') {
+			//caso in cui il token letto è una variabile d'ambiente da leggere
+			if (*tmp=='$') { //ATTENZIONE: il simbolo $ è usato per indicare una variabile d'ambiente. In microbash NON è possibile dichiarare nuove variabili d'ambiente, quindi bisogna usare solo quelle predefinite (es. PATH)
+
 				/* Make tmp point to the value of the corresponding environment variable, if any, or the empty string otherwise */
 				/*** TO BE DONE START ***/
 
-				if (!tmp[1]) {
+				if (!tmp[1]) { //se non è specificato il nome della variabile d'ambiente si stampa un messaggio di errore e si dealloca la memoria allocata per il comando (vedi label FAIL in parse_cmd)
 					fprintf(stderr, "Parsing error: no variable name specified\n");
 					goto fail;
 				}
-				if (!(tmp = getenv(tmp + 1)))
-					tmp = "";
+				if (!(tmp = getenv(tmp + 1))) //recupero tramite la funzione getenv (che trova una variabile data nell'ambiente corrente) il valore della variabile d'ambiente specificata nel token corrente (che inizia con $). Se la variabile d'ambiente non esiste, la funzione getenv restituisce NULL
+					tmp = ""; //se la variabile d'ambiente non esiste, tmp punterà ad una stringa vuota
+
+				//NOTA BENE: questo controllo garantisce che il programma non tenti di dereferenziare un puntatore NULL, prevenendo potenziali crash o comportamenti indefiniti
 
 				/*** TO BE DONE END ***/
 			}
-			result->args[result->n_args++] = my_strdup(tmp);
-			result->args[result->n_args] = 0;
+			//se si sta accedendo ad una variabile d'ambiente oppure in tutti gli altri casi (escluse le redirezioni in input e output):
+			result->args[result->n_args++] = my_strdup(tmp); //my_strdup(tmp) restituisce una copia della stringa puntata da tmp allocata dinamicamente. Questa copia viene inserita nell'array di argomenti del comando (nella posizone result->n_args) e il contatore n_args viene incrementato di 1
+			result->args[result->n_args] = 0; //imposta il successivo elemento dell'array args a NULL(cioè 0) per segnalare la fine dell'array degli argomenti del comando
 		}
 		tmp = strtok_r(0, BLANKS, &saveptr); //lettura del token successivo. dalla seconda iterazione in poi, strtok_r leggerà il token successivo a quello letto nella chiamata precedente di strtok_r e la stringa passata come primo argomento sarà SEMPRE NULL (per definizione metodo da man)
 	}
-	if (result->n_args)
-		return result;
-	fprintf(stderr, "Parsing error: empty command\n");
+	if (result->n_args) //se il comando ha almeno un argomento (cioè se il comando non è vuoto)
+		return result; //ritorna il comando correttamente parsato
+	fprintf(stderr, "Parsing error: empty command\n"); //altrimenti; se il comando è vuoto si stampa un messaggio di errore
 fail:
 	free_command(result);
 	return 0;
 }
 
-line_t *parse_line(char * const line)
+line_t *parse_line(char * const line) //analisi sintattica della linea di comandi line passata come argomento
 {
 	static const char * const PIPE = "|";
 	char *cmd, *saveptr;
-	cmd = strtok_r(line, PIPE, &saveptr);
-	if (!cmd)
+	cmd = strtok_r(line, PIPE, &saveptr); //parsing della stringa line attraverso il metodo strtok_r (che è una versione thread-safe di strtok). Nel parsing viene usato PIPE come delimitatore tra un comando e quello successivo. Strtok_r legge un token per volta e salva in cmd un puntatore al punto in cui è arrivato nella lettura affinché alla chiamata successiva di strtok_r possa riprendere da dove aveva lasciato. strtok_r quando arriva alla fine della stringa da leggere ritornerà NULL.
+	if (!cmd) //se la stringa line è vuota, la funzione restituisce NULL (cioè 0)
 		return 0;
-	line_t *result = my_malloc(sizeof(*result));
-	memset(result, 0, sizeof(*result));
-	while (cmd) {
-		command_t * const c = parse_cmd(cmd);
-		if (!c) {
-			free_line(result);
-			return 0;
+	//altrimenti, se la stringa line non è vuota, si procede con l'analisi sintattica della linea di comandi
+	line_t *result = my_malloc(sizeof(*result)); //allocazione della memoria per il puntatore (result) che punta ad una struct line_t la quale è il valore di ritorno della funzione
+	memset(result, 0, sizeof(*result)); //inizializzazione della struct result con soli zeri (per evitare garbage values)
+	while (cmd) { //finché ci sono comandi da leggere, per ogni comando letto si esegue una analisi sintattica
+		command_t * const c = parse_cmd(cmd); //analisi sintattica del comando cmd
+		if (!c) { //se il comando è nullo (NOTA BENE: NULL=0 in C)
+			free_line(result); //si dealloca la memoria allocata per la linea di comandi
+			return 0; //si restituisce NULL (cioè 0) e il programma termina
 		}
-		result->commands = my_realloc(result->commands, (result->n_commands + 1)*sizeof(command_t *));
-		result->commands[result->n_commands++] = c;
-		cmd = strtok_r(0, PIPE, &saveptr);
+		//se il comando è stato correttamente parsato e non è null, si inserisce il comando nell'array di comandi della linea di comandi
+		result->commands = my_realloc(result->commands, (result->n_commands + 1)*sizeof(command_t *)); //allocazione di una nuova cella nell'array di comandi della linea
+		result->commands[result->n_commands++] = c; //inserimento del comando nell'ultima cella appena inserita nell'array di comandi della linea + incremento del contatore dei comandi
+		cmd = strtok_r(0, PIPE, &saveptr); //aggiornamento della variabile cmd con il comando successivo che verrà parsato nella prossima iterazione di parse_line
 	}
-	return result;
+	return result; //se la linea di comandi non è vuota ed è stata correttamente parsata, si restituisce la linea di comandi
 }
 
 check_t check_redirections(const line_t * const l)
 {
-	assert(l);
+	assert(l); //controllo che la linea di comandi non sia nulla, altrimenti ritorna errore
+	
 	/* This function must check that:
 	 * - Only the first command of a line can have input-redirection
 	 * - Only the last command of a line can have output-redirection
@@ -249,22 +259,22 @@ check_t check_redirections(const line_t * const l)
 	 * message and return CHECK_FAILED otherwise
 	 */
 	/*** TO BE DONE START ***/
-
-	if (l -> n_commands != 1)
-		for (int i = 0; i < l -> n_commands; ++i) {
-			if (i != 0)
-				if (l -> commands[i] -> in_pathname) {
-					fprintf(stderr, "Input redirection in a non-first command\n");
+	
+	if (l -> n_commands != 1) //escludendo i casi in cui ci sia al masismo solo un comando nella linea
+		for (int i = 0; i < l -> n_commands; ++i) { //scorrimento di tutti i comandi della linea
+			if (i != 0) //se il comando non è il primo della linea
+				if (l -> commands[i] -> in_pathname) { //se a partire dal 2° comando ha una redirezione in input (cioè se un comando diverso dal 1° ha un pathname di input diverso da NULL)
+					fprintf(stderr, "Input redirection in a non-first command\n"); //si stampa un messaggio di errore
 					return CHECK_FAILED; }
-			if (i != l -> n_commands - 1)
-				if (l -> commands[i] -> out_pathname) {
-					fprintf(stderr, "Output redirection in a non-last command\n");
+			if (i != l -> n_commands - 1) //se il comando non è l'ultimo della linea
+				if (l -> commands[i] -> out_pathname) { //se un comando (che non è l'ultimo della riga a cui appartiene) ha una redirezione in output (cioè se ha un pathname di output diverso da NULL)
+					fprintf(stderr, "Output redirection in a non-last command\n"); //si stampa un messaggio di errore
 					return CHECK_FAILED;
 				}
 		}
 
 	/*** TO BE DONE END ***/
-	return CHECK_OK;
+	return CHECK_OK; //in tutti gli altri casi, si restituisce CHECK_OK	
 }
 
 check_t check_cd(const line_t * const l)
