@@ -242,7 +242,7 @@ line_t *parse_line(char * const line) //analisi sintattica della linea di comand
 		}
 		//se il comando è stato correttamente parsato e non è null, si inserisce il comando nell'array di comandi della linea di comandi
 		result->commands = my_realloc(result->commands, (result->n_commands + 1)*sizeof(command_t *)); //allocazione di una nuova cella nell'array di comandi della linea
-		result->commands[result->n_commands++] = c; //inserimento del comando nell'ultima cella appena inserita nell'array di comandi della linea + incremento del contatore dei comandi
+		result->commands[result->n_commands++] = c; //inserimento del comando nell'ultima cella appena inserita nell'array dei comandi della linea + incremento del contatore dei comandi della linea
 		cmd = strtok_r(0, PIPE, &saveptr); //aggiornamento della variabile cmd con il comando successivo che verrà parsato nella prossima iterazione di parse_line
 	}
 	return result; //se la linea di comandi non è vuota ed è stata correttamente parsata, si restituisce la linea di comandi
@@ -279,7 +279,8 @@ check_t check_redirections(const line_t * const l)
 
 check_t check_cd(const line_t * const l)
 {
-	assert(l);
+	assert(l); //controllo che la linea di comandi non sia nulla, altrimenti ritorna errore
+
 	/* This function must check that if command "cd" is present in l, then such a command
 	 * 1) must be the only command of the line
 	 * 2) cannot have I/O redirections
@@ -289,24 +290,25 @@ check_t check_cd(const line_t * const l)
 	 */
 	/*** TO BE DONE START ***/
 
-	for (int i = 0; i < l -> n_commands; ++i)
-		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) {
+	for (int i = 0; i < l -> n_commands; ++i) //scorrimento di tutti i comandi della linea
+		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) { //confronta il comando corrente con il comando "cd" per un totale di 2 char. Se il confronto è positivo, allora il comando corrente è "cd" e si esegue il controllo dell'if 
 			if (l -> n_commands != 1) {
-				fprintf(stderr, "cd is not the only command\n");
+				fprintf(stderr, "cd is not the only command \n");
 				return CHECK_FAILED;
 			}
 			if (l -> commands[0] -> in_pathname || l -> commands[0] -> out_pathname) {
 				fprintf(stderr, "cd cannot have I/O redirections\n");
 						return CHECK_FAILED;
 			}
-			if (l -> commands[0] -> n_args != 2) {
+			if (l -> commands[0] -> n_args != 2) { //se il comando "cd" ha un numero di argomenti diverso da 2 (cioè se non ha un solo argomento, atteso: cd + argomento per un tot n_args = 2)
 				fprintf(stderr, "cd must have one argument\n");
 				return CHECK_FAILED;
 			}
 		}
 
 	/*** TO BE DONE END ***/
-	return CHECK_OK;
+
+	return CHECK_OK; //in tutti gli altri casi, si restituisce CHECK_OK
 }
 
 void wait_for_children()
@@ -398,118 +400,162 @@ void change_current_directory(char *newdir)
 
 void close_if_needed(int fd)
 {
-	if (fd==NO_REDIR)
+	if (fd==NO_REDIR) //se il file descriptor è NO_REDIR, la funzione termina senza fare nulla
 		return; // nothing to do
-	if (close(fd))
+	if (close(fd)) //chiude il fd (con redirezione) e se ha successo, segnala errore
 		perror("close in close_if_needed");
 }
 
-void execute_line(const line_t * const l)
+void execute_line(const line_t * const l) //esecuzione della linea di comandi l
 {
-	if (strcmp(CD, l->commands[0]->args[0])==0) {
-		assert(l->n_commands == 1 && l->commands[0]->n_args == 2);
-		change_current_directory(l->commands[0]->args[1]);
+	//comando CD, viene valutato separatamente perché è un comando speciale che non può essere eseguito insieme ad altri (è un lupo solitario)
+	if (strcmp(CD, l->commands[0]->args[0])==0) { //se il (1° e unico) comando è "cd"
+		//NOTA: esistono due versioni di strcmp, questa (senza n° di char da confrontare) e l'altra con un terzo argomento che indica il numero di char da confrontare tra le 2 stinghe. Entrambe restituiscono 0 se il confronto ha successo, altrimenti restituiscono un valore diverso da 0 (in base all'errore)
+		assert(l->n_commands == 1 && l->commands[0]->n_args == 2); //controllo che il comando "cd" sia l'unico comando della linea e che abbia un solo argomento (secondo controllo, era già stato usato check_cd nella execute)
+		change_current_directory(l->commands[0]->args[1]); //CAMBIO DIRECTORY. cambio della directory corrente con la directory specificata come argomento del comando "cd", che è il secondo argomento del comando stesso
 		return;
 	}
+
 	int next_stdin = NO_REDIR;
-	for(int a=0; a<l->n_commands; ++a) {
-		int curr_stdin = next_stdin, curr_stdout = NO_REDIR;
-		const command_t * const c = l->commands[a];
-		if (c->in_pathname) {
-			assert(a == 0);
+	for(int a=0; a<l->n_commands; ++a) { //scorrimento di tutti i comandi della linea l
+		int curr_stdin = next_stdin, curr_stdout = NO_REDIR; //inizializzazione dei file-descriptor di input e output
+		const command_t * const c = l->commands[a]; //assegnazione del comando corrente alla variabile c
+		if (c->in_pathname) { //se il comando corrente ha un pathname di input
+			assert(a == 0); //controlla che il comando corrente sia il primo della linea perché la redirezione in input è ammessa solo per il primo comando
+			
 			/* Open c->in_pathname and assign the file-descriptor to curr_stdin
 			 * (handling error cases) */
 			/*** TO BE DONE START ***/
-
-			if ((curr_stdin = open(c -> in_pathname, O_RDONLY)) == -1) {
+			curr_stdin = open(c -> in_pathname, O_RDONLY); //apertura del file specificato dal pathname di input del comando corrente e salvataggio nel fd curr_stdin. curr_stdin ha il flag O_RDONLY che indica che il file è aperto in sola lettura
+			if (curr_stdin == -1) { //se la syscall open fallisce
 				perror("cannot open input file");
-				break;
+				break; //si esce dal ciclo for perché non è possibile continuare senza il file di input
 			}
 
 			/*** TO BE DONE END ***/
 		}
+
 		if (c->out_pathname) {
-			assert(a == (l->n_commands-1));
+			
+			assert(a == (l->n_commands-1)); //controlla che il comando corrente sia l'ultimo della linea perché la redirezione in output è ammessa solo per l'ultimo comando
+			
 			/* Open c->out_pathname and assign the file-descriptor to curr_stdout
 			 * (handling error cases) */
 			/*** TO BE DONE START ***/
 
-			if ((curr_stdout = open(c -> out_pathname, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+			curr_stdout = open(c -> out_pathname, O_WRONLY | O_CREAT | O_TRUNC, 0666); 
+			/* apertura del file specificato dal pathname di output del comando corrente e salvataggio nel fd curr_stdout. curr_stdout ha i flag:
+			- O_WRONLY (apertura in sola scrittura di un file già esistente)
+			- O_CREAT (crea il file se non esiste)
+			- O_TRUNC (se il file selezionato esiste ma non è vuoto, in questo caso lo ripristina mettendo solo 0 per tutta la sua dimensione).
+			Il flag 0666 indica che il file è aperto con i permessi di lettura e scrittura per l'utente, il gruppo e gli altri
+			*/
+
+			if (curr_stdout == -1) { //se la syscall open fallisce
 				perror("cannot open output file");
-				close_if_needed(curr_stdin);
-				break;
+				close_if_needed(curr_stdin); //chiusura del file di input (solo per casi in cui ci sono fd con redirezione in input/output)
+				break; //si esce dal ciclo for perché non è possibile continuare senza il file di output
 			}
 
 			/*** TO BE DONE END ***/
 		} else if (a != (l->n_commands - 1)) { /* unless we're processing the last command, we need to connect the current command and the next one with a pipe */
-			int fds[2];
+			int fds[2]; //array di file-descriptor per la pipe
+
 			/* Create a pipe in fds, and set FD_CLOEXEC in both file-descriptor flags */
 			/*** TO BE DONE START ***/
 
-			if (pipe2(fds,O_CLOEXEC))
+			/*NOTE PIPE
+			pipe() creates a pipe, a unidirectional data channel that can be
+			used for interprocess communication.  The array pipefd is used to
+			return two file descriptors referring to the ends of the pipe.
+			pipefd[0] refers to the read end of the pipe.  pipefd[1] refers
+			to the write end of the pipe.  Data written to the write end of
+			the pipe is buffered by the kernel until it is read from the read
+			end of the pipe.  For further details, see pipe(7).
+			*/
+
+			if (pipe2(fds,O_CLOEXEC)) //creazione di una pipe (struttura per il flusso unidirezionale di dati utile alla comunicazione tra processi diversi, con un lato di ingresso/lettura e un lato di uscita/scrittura). L'operazione è fatta tramite il comando pipe2 che ammette la presenza di FLAG (O_CLOEXEC come da richiesta), a differenza di pipe. O_CLOEXEC è un flag che indica che i file descriptor creati dalla pipe devono essere chiusi automaticamente quando il processo figlio viene eseguito.
 			  fatal_errno("fail in creating pipe");
 
 			/*** TO BE DONE END ***/
-			curr_stdout = fds[1];
-			next_stdin = fds[0];
+			curr_stdout = fds[1]; //lato scrittura della pipe
+			next_stdin = fds[0]; //lato lettura della pipe
 		}
-		run_child(c, curr_stdin, curr_stdout);
-		close_if_needed(curr_stdin);
-		close_if_needed(curr_stdout);
+		run_child(c, curr_stdin, curr_stdout); //esecuzione del comando corrente (solo dei suoi processi figli)
+		close_if_needed(curr_stdin); //chiusura del fd di input
+		close_if_needed(curr_stdout); //chiusura del fd di output
 	}
 	wait_for_children();
 }
 
 void execute(char * const line)
 {
-	line_t * const l = parse_line(line);
+	line_t * const l = parse_line(line); //analisi sintattica della linea di comandi line, puntata dal puntatore l
 #ifdef DEBUG
-	print_line(l);
+	print_line(l); //stampa della linea di comandi l
 #endif
-	if (l) {
-		if (check_redirections(l)==CHECK_OK && check_cd(l)==CHECK_OK)
-			execute_line(l);
-		free_line(l);
+	if (l) { //se la linea di comandi l non è nulla
+		if (check_redirections(l)==CHECK_OK && check_cd(l)==CHECK_OK) //se le redirezioni e il comando "cd" sono corretti, allora procede con l'esecuzione della linea di comandi
+			execute_line(l); //esecuzione della linea di comandi l
+		free_line(l); //libera la memoria allocata dinamicamente per la linea l di comandi
 	}
 }
+
+
+/*NOTA: Il ciclo for(;;) è un ciclo infinito che continua a eseguire finché non viene interrotto esplicitamente da una delle seguenti situazioni:
+	- la linea di comando è nulla
+	- la funzione getcwd fallisce
+*/
 
 int main()
 {
 	const char * const prompt_suffix = " $ ";
 	const size_t prompt_suffix_len = strlen(prompt_suffix);
-	for(;;) {
+	for(;;) { //ciclo infinito
 		char *pwd;
 		/* Make pwd point to a string containing the current working directory.
 		 * The memory area must be allocated (directly or indirectly) via malloc.
 		 */
 		/*** TO BE DONE START ***/
 
-		if ((pwd = getcwd(NULL, 0)) == NULL)
-			fatal_errno("can't get current directory");
+		/* 
+		NOTE SU GETCWD 
+		*char *getcwd(char *buf, size_t size);*
+		//buf = NULL: la funzione deve allocare dinamicamente un buffer sufficientemente grande per contenere il percorso corrente
+		//size = 0: dal 2001, la funzione alloca un buffer di dimensione sufficiente grande per contenere il percorso corrente
+		//return value: se ha successo, getcwd restituisce un puntatore ad un buffer contenente il pathname della current working directory. Se fallisce, restituisce NULL
+		*/
+
+		pwd = getcwd(NULL, 0);
+		
+		if (pwd == NULL)
+			fatal_errno("cannot get current working directory");
 
 		/*** TO BE DONE END ***/
 		pwd = my_realloc(pwd, strlen(pwd) + prompt_suffix_len + 1);
 		strcat(pwd, prompt_suffix);
 #ifdef NO_READLINE
-		const int max_line_size = 512;
-		char * line = my_malloc(max_line_size);
-		printf("%s", pwd);
-		if (!fgets(line, max_line_size, stdin)) {
-			free(line);
-			line = 0;
-			putchar('\n');
-		} else {
-			size_t l = strlen(line);
-			if (l && line[--l]=='\n')
-				line[l] = 0;
+		const int max_line_size = 512; //max_line_size = 512 bytes è un ragionevole compromesso flessibilità e sicurezza (limitare la dimensione dell'input aiuta a prevenire buffer overflow, che possono causare comportamenti imprevisti o vulnerabilità di sicurezza)
+		char * line = my_malloc(max_line_size); //allocazione della memoria per la stringa line di dimensione max_line_size
+		printf("%s", pwd); //stampa del prompt di microbash
+		if (!fgets(line, max_line_size, stdin)) { //lettura di tutti i caratteri dello stream std_in
+		// NOTA SU FDGETS() - fgets() legge al massimo un numero di caratteri pari a (max_line_size - 1) dallo stream stdin e li memorizza nel buffer puntato da line. La lettura si interrompe quando viene rilevato un EOF o un carattere di nuova linea (newline). Se viene letto un carattere di nuova linea, esso viene memorizzato nel buffer. Un byte nullo di terminazione (\0) viene memorizzato dopo l'ultimo carattere nel buffer
+
+		//se la lettura dello stdin fallisce...
+			free(line); //deallocazione della memoria allocata per la stringa line
+			line = 0; //deallocazione del puntatore line al buffer
+			putchar('\n'); //scrive il singolo carattere newline sullo std output
+		} else { //se la lettura dello stdin ha successo...
+			size_t l = strlen(line); //salva in l la lunghezza della stringa line
+			if (l && line[--l]=='\n') //se la stringa line non è vuota e l'ultimo carattere è un newline, allora la stringa è stata presa correttamente e inviata al buffer di microbash in modo corretto
+				line[l] = 0; //affinché la stringa line sia compatibile con i metodi di microbash, l'ultimo carattere ad essere inserito nel buffer deve essere un byte nullo di terminazione (=NULL=0)
 		}
 #else
-		char * const line = readline(pwd);
+		char * const line = readline(pwd); //microbash legge e interpreta la stringa di comando ricevuta da stdin e precedentemente controllata
 #endif
-		free(pwd);
-		if (!line) break;
-		execute(line);
-		free(line);
+		free(pwd); //deallocazione della memoria allocata per il prompt del terminale
+		if (!line) break; //se la stringa line è nulla, il programma termina la sua esecuzione (break esce dal ciclo infinito e fa un return/exit)
+		execute(line); //esecuzione della stringa line
+		free(line); //deallocazione della memoria allocata per la stringa line
 	}
 }
-
