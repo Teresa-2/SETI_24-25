@@ -388,7 +388,54 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the 
 								 * number of requests coming from this client ***/
 /*** TO BE DONE 7.0 START ***/
- 					}
+					myDebug("    ... strtoksave= ");
+					for (int i = 0; i < strlen(strtokr_save); ++i) {
+						myDebug("%c", strtokr_save[i]);
+					}
+					myDebug("\n");
+					
+					while((option_val = strtok_r(NULL, "=", &strtokr_save)) != NULL) {
+						myDebug("    ... option_val= ");
+						for (int i = 0; i < strlen(option_val); ++i) {
+							myDebug("%c", option_val[i]);
+						}
+						myDebug("\n");
+						if (strncmp(option_val, " UserID", 7) == 0 || strncmp(option_val, "UserID", 6) == 0) {
+							
+							option_val = strtok_r(NULL, ";", &strtokr_save);
+							myDebug("    ... option_val= ");
+							for (int i = 0; i < strlen(option_val); ++i) {
+								myDebug("%c", option_val[i]);
+							}
+							myDebug("\n");
+							for (int i = 0; i < strlen(option_val) - 1; ++i) {
+								if (option_val[i] < '0' || option_val[i] > '9') {
+									UIDcookie = -1;
+									break;
+								}
+							}
+							UIDcookie = atoi(option_val);
+							printf("    ... UIDcookie=%d\n", UIDcookie);
+							if(!isAlreadySet(UIDcookie)){
+								const time_t ten_hours = 60*60*10;
+								time_t now_t = time(NULL);
+								char time_as_string[MAX_TIME_STR];
+								struct tm cookie_Expire_Date_tm;
+								time_t expire_date_time_t = now_t + ten_hours;
+								gmtime_r(&expire_date_time_t, &cookie_Expire_Date_tm);
+								strftime(time_as_string, MAX_TIME_STR, "%a, %d %b %Y %T GMT", &cookie_Expire_Date_tm);
+								printf("Expires: ");
+								for (int i = 0; i < strlen(time_as_string); ++i) {
+									printf("%c", time_as_string[i]);
+								}
+								printf("\n");
+							}
+							
+							break;
+						}else { option_val = strtok_r(NULL, " ", &strtokr_save);
+
+						}
+					}
 					/*option_val = strtok_r(NULL, " ", &strtokr_save);
 					if(option_val != NULL && strncmp(option_val, "Expires", 7) != 0) {
 						debug("	   ... Optionval= ");
