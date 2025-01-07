@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 	if (chdir(www_root)) { //NOTA: cambia la directory corrente in quella specificata da www_root. Se non riesce a cambiare la directory allora stampa un messaggio di errore e termina l'esecuzione
 		fail_errno("Cannot chdir to www-root directory");
 	}
-	www_root = getcwd(NULL, 0); //NOTA: getcwd() salva il path della directory corrente in un array allocato dinamicamente. Se non riesce a restituire il path allora stampa un messaggio di errore e termina l'esecuzione
+	www_root = getcwd(NULL, 0); //NOTA: getcwd() salva il path della directory corrente di lavoro in un array allocato dinamicamente. Se non riesce a restituire il path allora stampa un messaggio di errore e termina l'esecuzione
 	if (!www_root) //NOTA: se il path della directory corrente non è stato salvato nella variabile www_root, allora stampa un messaggio di errore e termina l'esecuzione
 		fail_errno("Cannot get current directory");
 	pid = fork(); //NOTA: crea un processo figlio il cui pid è salvato nella variabile "pid" (vedi fork)
