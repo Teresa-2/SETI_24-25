@@ -127,7 +127,7 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
                 return;
             }
 
-            fail("error in phtread join");//NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante) }
+            fail("error in phtread join");//NOTA: attendo la terminazione del thread antecedente a quello passato come parametro, che è in posizione i (come calcolato nel for sovrastante)
         }
         pthread_mutex_lock(&threads_mutex);
         ++no_free_threads; //NOTA: incremento il numero di thread liberi, perché un thread (di risposta) è stato risolto
