@@ -96,11 +96,6 @@ void free_command(command_t * const c)
 	/*** TO BE DONE START ***/
 
 	//svuotamento degli elementi contenuti nell'array args associato al comando c (perché devo svuotare l'array e poi eliminare la struttura anzichè eliminare direttamente l'array?: per evitare memory leak! cancellando direttamente l'array lascerei allocata la memoria associata agli argomenti dell'array stesso)
-	/*for (int i = c -> n_args - 1; i >= 0; --i) {
-		free(c -> args[i]);
-	}*/
-
-	//più intuitivo
 	for (int i = 0; i < c -> n_args; i++) {
 		free(c -> args[i]);
 	}
@@ -119,11 +114,6 @@ void free_line(line_t * const l) //libera la memoria allocata dinamicamente per 
 {
 	assert(l==0 || l->n_commands>=0); /* sanity-check */
 	/*** TO BE DONE START ***/
-
-	/*for (int i = l -> n_commands - 1; i >= 0; --i)
-		free_command(l -> commands[i]);*/
-	
-	//più intuitivo
 	for (int i = 0; i < l -> n_commands; i++) //rimozione dei comandi (contenuto dell'array di comandi della linea)
 		free_command(l -> commands[i]);
 	
