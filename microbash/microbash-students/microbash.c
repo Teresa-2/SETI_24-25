@@ -319,29 +319,32 @@ void wait_for_children()
 	 */
 	/*** TO BE DONE START ***/
 
-	int status = 0;
-	while(1) {
+	int status = 0; //variabile per lo stato di terminazione del processo figlio
+	while(1) { //ciclo infinito per la gestione dei processi figli
 		pid_t pid;
-		if ((pid = wait(&status)) == -1) {
-			if (errno == ECHILD)
-				return;
-			fatal_errno("error in wait");
+		if ((pid = wait(&status)) == -1) { //se la wait fallisce, restituisce -1
+			if (errno == ECHILD) //se errno è ECHILD, non ci sono processi figli da attendere (vedi man wait)
+				return; //si esce dal ciclo while perché non ci sono processi figli da attendere
+			fatal_errno("error in wait"); //se la wait ha fallito ma ci sono dei p. figli ancora da attendere, allora c'è un problema e si stampa un messaggio di errore
 		}
-		if (WIFEXITED(status)) {
-			intmax_t e_status = WEXITSTATUS(status);
-			if (e_status != 0) {
+		//la wait ha avuto successo e il suo valore di ritorno (cioè il PID del p. figlio) è stato salvato nella variabile status
+		if (WIFEXITED(status)) { //la macro WIFEXITED ritorna TRUE se il processo figlio è terminato correttamente
+			intmax_t e_status = WEXITSTATUS(status); //la macro WEXITSTATUS restituisce il valore di uscita del processo figlio, che viene salvato nella variabile e_status
+			if (e_status != 0) { //se il valore di uscita del processo figlio è diverso da 0 allora c'è stato un problema e viene stampato un messaggio di errore
 				fprintf(stderr, "process with PID = %d exited with status %jd\n", pid, e_status);
 			}
 		}
-		if (WIFSIGNALED(status)) {
-			intmax_t sig_num = WTERMSIG(status);
-			fprintf(stderr, "process with PID = %d changed state due to signal %jd: %s\n", pid, sig_num, strsignal(sig_num));
+		//se la wait ha avuto successo e il valore di uscita del p. figlio ha senso
+		if (WIFSIGNALED(status)) { //la macro WIFSIGNALED ritorna TRUE se il processo figlio è stato terminato da un segnale di errore
+			intmax_t sig_num = WTERMSIG(status); //la macro WTERMSIG restituisce il numero del segnale che ha terminato il processo figlio, che viene salvato nella variabile sig_num
+			fprintf(stderr, "process with PID = %d changed state due to signal %jd: %s\n", pid, sig_num, strsignal(sig_num)); //stampa del messaggio di errore, per stampare il valore del numero di segnale che ha causato la terminazione del p.figlio si deve usare la funzione strsignal che traduce il numero del segnale in una stringa leggibile
 		}
 	}
 
 	/*** TO BE DONE END ***/
 }
 
+//NOTA: la funzione redirect cambia il fd per la redirezione
 void redirect(int from_fd, int to_fd)
 {
 	/* If from_fd!=NO_REDIR, then the corresponding open file should be "moved" to to_fd.
@@ -349,16 +352,18 @@ void redirect(int from_fd, int to_fd)
 	 */
 	/*** TO BE DONE START ***/
 
-	if (from_fd != NO_REDIR) {
-		if (dup2(from_fd, to_fd) == -1)
+	if (from_fd != NO_REDIR) { //se il file descriptor di i/o non è NO_REDIR
+		if (dup2(from_fd, to_fd) == -1) //duplicazione del file descriptor from_fd in to_fd. Se la syscall dup2 fallisce, si stampa un messaggio di errore
 			fatal_errno("error in redirect, cannot dup file descriptor");
-		if (close(from_fd))
+		if (close(from_fd)) //dopo la duplicazione del file descriptor, si chiude il file descriptor from_fd. Se la syscall close fallisce, si stampa un messaggio di errore
 			fatal_errno("cannot close fd in redirect");
 	}
 
 	/*** TO BE DONE END ***/
 }
 
+
+//NOTA: crea un processo figlio a cui viene impostata la redirezione di i/o (std) e viene eseguito il comando c
 void run_child(const command_t * const c, int c_stdin, int c_stdout)
 {
 	/* This function must:
@@ -370,16 +375,34 @@ void run_child(const command_t * const c, int c_stdin, int c_stdout)
 	 */
 	/*** TO BE DONE START ***/
 
-	pid_t pid = fork();
+	pid_t pid = fork(); //creazione di un processo figlio
 
-	if (pid == -1) 
+	/* FORK, return value
+	   On success, the PID of the child process is returned in the
+       parent, and 0 is returned in the child.  On failure, -1 is
+       returned in the parent, no child process is created, and errno is
+       set to indicate the error */
+
+	/* Dopo la chiamata a fork(), sia il processo padre che il processo figlio continuano l'esecuzione dallo stesso punto del codice, immediatamente dopo la chiamata a fork().
+	Tuttavia, non si entra direttamente nel processo figlio, perché entrambi i processi (padre e figlio) riprendono l'esecuzione nel medesimo punto del codice, ma con differenze nel valore restituito da fork().
+	
+	Valore restituito da fork():
+	Nel processo padre, fork() restituisce il PID del processo figlio (un valore positivo).
+	Nel processo figlio, fork() restituisce 0.
+	Se la creazione del processo fallisce, fork() restituisce -1 (solo nel processo padre).*/
+
+	//IL CODICE SEGUENTE VIENE UTILIZZATO SIA DAL P. PADRE CHE DAL P. FIGLIO
+
+	//solo il padre può entrare in questo if. se il padre riceve -1, c'è stato un errore nella creazione del processo figlio. analizzando subito questo caso, si evita di fare operazioni di run per il figlio inutili
+	if (pid == -1)
 		fatal_errno("fail in fork");
 
+	//a questo punto sappiamo che il p. figlio esiste ed è pronto per eseguire il codice successivo; infatti pid = 0 è un valore possibile da ottenere con la fork solo da parte del processo figlio (Pid=0 nel padre significa che il figlio è la radice dell'albero dei processi, ma questo è impossibile in quanto figlio di un processo esistente)
 	if (pid == 0) {
-		redirect(c_stdin, STDIN_FILENO);
-		redirect(c_stdout, STDOUT_FILENO);
-		execvp(c -> args[0], c -> args);
-		fatal_errno("error in exec");
+		redirect(c_stdin, STDIN_FILENO); //redirezione in input del p. figlio
+		redirect(c_stdout, STDOUT_FILENO); //redirezione in output del p. figlio
+		execvp(c -> args[0], c -> args); //esecuzione del comando ( int execvp(const char *file, char *const argv[]) - dove file = nome del file eseguibile e args = array di stringhe contenente gli argomenti del comando, args[0] è il nome del comando stesso)
+		fatal_errno("error in exec"); //se la syscall execvp fallisce, si stampa un messaggio di errore
 	}
 
 	/*** TO BE DONE END ***/
@@ -392,7 +415,7 @@ void change_current_directory(char *newdir)
 	 */
 	/*** TO BE DONE START ***/
 
-	if (chdir(newdir))
+	if (chdir(newdir)) //cambio della directory corrente con la directory specificata come argomento del comando "cd", se la syscall ritorna 0 ha fallito
 		perror("fail in cd");
 
 	/*** TO BE DONE END ***/
