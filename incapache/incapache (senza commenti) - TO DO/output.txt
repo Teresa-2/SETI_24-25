@@ -1,0 +1,295 @@
+Server HTTP 1.1 (with pipelining support) listening on port 8000
+with WWW root set to /home/teresa/SETI_24-25/incapache/incapache (consegna)/www-root
+
+Accepted connection from 127.0.0.1
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=0
+ ... send_resp_thread(): parameters set, conn_no=0
+ ... send_resp_thread(): new thread created
+Accepted connection from 127.0.0.1
+Accepted connection from 127.0.0.1
+Accepted connection from 127.0.0.1
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=1
+ ... send_resp_thread(): parameters set, conn_no=2
+ ... send_resp_thread(): new thread created
+ ... response_thread() thread_no=4, conn_no=0
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=2
+ ... send_resp_thread(): parameters set, conn_no=1
+ ... send_resp_thread(): new thread created
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 10
+      ... get_mime_type(index.html): was not .css
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+      ... send_response(200, index.html): header sent
+  ... end send_response(200, index.html)
+ ... response_thread() freeing filename and stat
+Accepted connection from 127.0.0.1
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=0
+ ... send_resp_thread(): parameters set, conn_no=3
+ ... send_resp_thread(): new thread created
+ ... response_thread() thread_no=5, conn_no=2
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 10
+      ... get_mime_type(index.html): was not .css
+ ... response_thread() thread_no=6, conn_no=1
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 11
+      ... get_mime_type(index.html): was not .css
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=3
+ ... send_resp_thread(): parameters set, conn_no=0
+ ... send_resp_thread(): new thread created
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+      ... send_response(200, index.html): header sent
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+      ... send_response(200, index.html): header sent
+  ... end send_response(200, index.html)
+ ... response_thread() freeing filename and stat
+Accepted connection from 127.0.0.1
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+  ... end send_response(200, index.html)
+ ... response_thread() freeing filename and stat
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=1
+ ... send_resp_thread(): parameters set, conn_no=1
+Accepted connection from 127.0.0.1
+ ... send_resp_thread(): new thread created
+ ... response_thread() thread_no=4, conn_no=3
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 10
+      ... get_mime_type(index.html): was not .css
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+      ... send_response(200, index.html): header sent
+  ... end send_response(200, index.html)
+ ... response_thread() freeing filename and stat
+Accepted connection from 127.0.0.1
+ ... response_thread() thread_no=7, conn_no=0
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 10
+      ... get_mime_type(index.html): was not .css
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=0
+ ... send_resp_thread(): parameters set, conn_no=2
+ ... send_resp_thread(): new thread created
+ ... response_thread() thread_no=5, conn_no=1
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 11
+      ... get_mime_type(index.html): was not .css
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+
+-----------------------------------------------
+Received the following request:
+GET / HTTP/1.1
+   ... method_str=GET, filename=/ (0=/), protocol=HTTP/1.1 (len=8)
+     ... http_method=2
+http_option_line: Host: localhost:8000
+http_option_line: User-Agent: curl/7.81.0
+http_option_line: Accept: */*
+
+-----------------------------------------------
+http_method=2, filename=index.html
+    ... sending file index.html
+ ... send_resp_thread(): idx=2
+ ... send_resp_thread(): parameters set, conn_no=3
+ ... send_resp_thread(): new thread created
+ ... response_thread() thread_no=6, conn_no=3
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 12
+      ... get_mime_type(index.html): was not .css
+      ... get_mime_type(index.html): printed filename on mime_request_stream
+      ... get_mime_type(index.html): got answer text/html; charset=us-ascii
+    ... send_response(200, index.html): got mime type text/html; charset=us-ascii
+      ... send_response(200,index.html) : file opened, size=936, mime=text/html; charset=us-ascii
+      ... send_response: file modification time converted in GMT standard format Fri, 13 Dec 2024 08:48:22 GMT
+      ... send_response(200, index.html) : header prepared
+Sending the following response:
+HTTP/1.1 200 OK
+Date: Tue, 07 Jan 2025 16:34:48 GMT
+Set-Cookie: UserID=0; Expires=Wed, 31 Dec 2025 23:59:59 GMT
+Server: incApache 8.1 for SETI.
+Content-Length: 936 
+Content-Type: text/html; charset=us-ascii
+Last-Modified: Fri, 13 Dec 2024 08:48:22 GMT
+
+
+ ... response_thread() thread_no=4, conn_no=2
+  ... start send_response(response_code=200, filename=index.html)
+    ... send_response(200, index.html): opened file 13
+      ... get_mime_type(index.html): was not .css
