@@ -85,6 +85,8 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 	create_listening_socket(port_as_str); //NOTA: crea un socket in ascolto sulla porta specificata da port_as_str che agirà da server con il protocollo TCP/IP
 	drop_privileges(); //NOTA: rimozione dei privilegi da root in quanto server. Il server non può essere root per due ragioni: sicurezza + accessibilità limitata dei file (si può accedere solo ai file della directory www_root)
 	
+	debug("...	Creating socket inside run_webserver \n");
+
 /*** TO BE DONE 8.0 END ***/
 
 #ifdef INCaPACHE_8_1
@@ -121,6 +123,8 @@ void run_webserver(const char *const port_as_str, char *www_root, const int *con
 			fail_errno("pthread_create");
 		} /* create Pthread che esegue client_connection_thread((void *) &connection_no[i]); */
 		 //NOTA: crea un thread di connessione per il client i-esimo (ed essendo in un ciclo lo farà per tutti i 4 possibili client). Il thread di connessione è un thread che si occupa di gestire la connessione con il client. Il thread di connessione è associato ad un client e rimane attivo finché il client non chiude la connessione. Il thread di connessione è un thread di tipo PTHREAD. Il thread di connessione è creato con il metodo client_connection_thread() che prende come argomento un puntatore all'indice del client a cui il thread è associato.
+
+		debug("...	Creating Pthread number i through client_connection_thread() method \n");
 
 /*** TO BE DONE 8.0 END ***/
 

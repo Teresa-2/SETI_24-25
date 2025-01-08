@@ -48,13 +48,12 @@ int get_new_UID(void)
      *** Be careful in order to avoid race conditions ***/
 /*** TO BE DONE 8.0 START ***/
 
-	//DA CHIEDERE: è giusto che CurUID parta da 1 al primo giro, fino a raggiungere al massimo max cookies -1 ? Al secondo giro ripartirebbe da zero… 
-
 	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
 	retval= (CurUID++)%MAX_COOKIES; //NOTA: calcolo il nuovo UID incrementando CurUID e facendo il modulo con MAX_COOKIES, in modo da ottenere un valore compreso tra 1 e MAX_COOKIES-1. Non può essere 0 perchè 0 = root
 	CurUID=retval; //NOTA: aggiorno il valore di CurUID con l'ultimo UID calcolato
 	UserTracker[retval] = 0; //NOTA: imposto il valore di UserTracker[retval] a 0, cioè assegno all'utente con UID=retval (cioè quello che si è appena presentato al server) un # accessi = 0
 	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
+	debug("...	Computing retval and resetting UserTracker[retval] to 0 \n");
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -75,6 +74,7 @@ int keep_track_of_UID(int myUID)
 	pthread_mutex_lock(&cookie_mutex); //NOTA: per evitare race condition
 	newcount = ++UserTracker[myUID]; //NOTA: incremento il contatore del numero di accessi dell'utente con UID=myUID e salvo il nuovo valore in newcount
 	pthread_mutex_unlock(&cookie_mutex); //NOTA: per evitare race condition
+	debug("...	Incrementing UserTracker[myUID] and returning the computed value \n");
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -108,6 +108,7 @@ void send_response(int client_fd, int response_code, int cookie,
 
 	if(!gmtime_r (&now_t, &now_tm)) fail_errno("Error in computing date of servicing current HTTP Request"); //NOTA: gmtime_r converte una data fornita in forma di calendario in formato UTC e la salva in una struct. A differenza della funzione gmtime che restituisce un puntatore a una struct statica (che può essere sovrascritta da altre chiamate a funzioni di tempo, per esempio), gmtime_r restituisce un puntatore a una struct passata come argomento dall'utente garantendo che tale valore non venga sovrascritto da altre chiamate
 	//NOTA: il tempo salvato in now_t viene convertito in UTC e salvato nella struct now_tm
+	debug("...	Computing date of servicing current HTTP Request using a variant of gmtime() \n");
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -126,14 +127,14 @@ void send_response(int client_fd, int response_code, int cookie,
 			if (stat_p == NULL) { //NOTA: se la struct stat_p passata come argomento al metodo è nulla, allora il server non ha informazioni sul file richiesto e deve aprirlo per ottenere informazioni aggiuntive (cioè i metadati)
 				stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p
 				if (stat(filename, stat_p)) { //NOTA: recupero tutti i metadati dal file "filename" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
-				    debug("stat failed");
+				    debug("stat failed \n");
                                     response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
                                     goto int_err; //NOTA: salto alla label int_err
 				}
 			} else { //NOTA: se la struct stat_p passata come argomento al metodo NON è nulla, allora il server ha già i metadati sul file richiesto
 				fd = open(filename, O_RDONLY); //NOTA: apro il file richiesto e lo rendo disponibile successivamente in sola lettura, inoltre salvo il file descriptor in fd. il fd restituito dalla open sarà di default il valore intero più piccolo disponibile tra quelli liberi (per non sprecare memoria), sempre a partire da 2. Il fd è un valore intero che identifica il file aperto e ha valore maggiore di 2 (0 = stdin, 1 = stdout, 2 = stderr). Se la funzione open fallisce, restituisce un valore negativo (-1). O_RDONLY è una costante che indica che il file deve essere aperto in sola lettura (quindi solo read per le open)
 				if (fd<0) { //NOTA: se la open ha fallito, fd = -1 quindi il file richiesto non è stato aperto correttamente
-				    debug("send_response: cannot open file for reading (has the file vanished?)");
+				    debug("send_response: cannot open file for reading (has the file vanished?) \n");
                                     response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la open fallisce, il codice di risposta HTTP è 500 (Internal Error)
                                     goto int_err; //NOTA: salto alla label int_err
                                   }
@@ -147,12 +148,14 @@ void send_response(int client_fd, int response_code, int cookie,
 /*** TO BE DONE 8.0 START ***/
 			file_size = stat_p->st_size; //NOTA: recupero la grandezza del file richiesto dai metadati (salvati in stat_p) e la salvo in file_size
 			if (file_size <= 0 ) {
-				debug("send_response: file size cannot be zero or negative\n");
+				debug("...	send_response: file size cannot be zero or negative\n");
 				goto int_err;
 			}
 			file_modification_time = stat_p->st_mtime; //NOTA: recupero il tempo di ultima modifica del file richiesto dai metadati (salvati in stat_p) e lo salvo in file_modification_time
 			// NOTA: non mettiamo il controllo sul tempo (che in particolare indica il numero di secondi trascorsi dall'epoch) perché può essere sia negativo che positivo, con variazioni che dipendono dal SO
-	
+
+			debug("...	Computing file_size and file_modification_time \n");
+
 /*** TO BE DONE 8.0 END ***/
 
 			debug("      ... send_response(%3d,%s) : file opened, size=%lu, mime=%s\n", response_code, filename, (unsigned long)file_size, mime_type);
@@ -179,7 +182,7 @@ void send_response(int client_fd, int response_code, int cookie,
 /*** TO BE DONE 8.0 START ***/
 			stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p.
 					if (stat(HTML_404, stat_p)) { //NOTA: recupero tutti i metadati dal file "HTML_404" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
-						debug("stat failed (HTML_404)");
+						debug("stat failed (HTML_404) \n");
 										response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
 										goto int_err; //NOTA: salto alla label int_err
 					}
@@ -218,7 +221,7 @@ void send_response(int client_fd, int response_code, int cookie,
 			stat_p = &stat_buffer; //NOTA: la struct stat_p viene inizializzata con la struct stat_buffer, che essendo stata creata e mai utilizzata nel metodo send_response contiene i dati nella forma di default. così facendo evito comportamenti imprevisti dati da possibili contenuti ambigui di stat_p.
 			
 			if (stat(HTML_501, stat_p)) { //NOTA: recupero tutti i metadati dal file "HTML_404" e li salvo nella struct stat_p. Se la funzione stat ritorna un valore diverso da 0, allora c'è stato un errore nel recupero dei metadati del file e viene segnalato errore
-				debug("stat failed (HTML_501)");
+				debug("stat failed (HTML_501) \n");
 				response_code = RESPONSE_CODE_INTERNAL_ERROR; //NOTA: se la funzione stat fallisce, allora il codice di risposta HTTP è 500 (Internal Error)
 				goto int_err; //NOTA: salto alla label int_err
 			}
@@ -247,6 +250,7 @@ void send_response(int client_fd, int response_code, int cookie,
 		/*** TO BE DONE 8.0 START ***/
 
 			sprintf(http_header + strlen(http_header), "\r\nSet-Cookie: UserID=%i%s", cookie, COOKIE_EXPIRE); //NOTA: stampo la stringa http_header a cui aggiungo la lunghezza dell'header, il cookie del client (che è un intero passato come argomento al metodo send_response) e la scadenza del cookie. (cookie = UserID)
+			debug("...	 Setting permanent cookie in order to identify this client \n");
 
 		/*** TO BE DONE 8.0 END ***/
 
@@ -311,6 +315,8 @@ void send_response(int client_fd, int response_code, int cookie,
 
 	if(sendfile(client_fd, fd, NULL, file_size) == -1) { fail("could not send data from fd file to client_fd"); } //NOTA: copia il file descriptor contenuto in fd nel file descriptor contenuto in client_fd. Se la copia fallisce, viene segnalato errore. Se la copia avviene nel kernel, sendfile risulta  più efficiente della combinazione di read(2) e write(2), le quali richiederebbero invece di trasferire i dati da/a uno spazio utente
 	if (close(fd) == -1) {fail_errno("close of file descriptor fd has failed");} //NOTA: chiudo il file descriptor contenuto in fd. Se la chiusura fallisce, viene segnalato errore
+
+	debug("...	Sending fd file on client_fd \n");
 	
 /*** TO BE DONE 8.0 END ***/
 
@@ -375,6 +381,8 @@ void manage_http_requests(int client_fd
 	filename = strtok_r(NULL, " ", &strtokr_save);
 	protocol = strtok_r(NULL, "\r\n", &strtokr_save); // NOTA: Changed delimiter to "\r\n" instead of " \r\n"
 
+	debug("...	Parsing the first line of the request (method_str, filename, protocol) \n");
+
 /*** TO BE DONE 8.0 END ***/
 
 		debug("   ... method_str=%s, filename=%s (0=%c), protocol=%s (len=%d)\n",
@@ -420,6 +428,8 @@ void manage_http_requests(int client_fd
 					//option_val = strtok_r(NULL, "", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
 					char *uid_pos = strstr(option_val, "UserID="); //NOTA: cerco la stringa "UserID=" all'interno del valore dell'opzione Cookie
 					if (uid_pos) sscanf(uid_pos, "UserID=%d", &UIDcookie); //NOTA: se la stringa "UserID=" è presente nel valore dell'opzione Cookie, allora recupero il valore numerico successivo a "UserID=" (cioè il valore che il client passa come cookie) e lo salvo nella variabile UIDcookie
+
+					debug("...	Cookie parsing + counting the number of requests coming from this client \n");
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -494,7 +504,7 @@ void manage_http_requests(int client_fd
 				 ***/
 /*** TO BE DONE 8.0 START ***/
 			
-			debug("Comparing file last modification time with since_tm\n");
+			debug("...	Comparing file last modification time with since_tm\n");
 			
 			//stat-p = server; since_tm = client
 			if(difftime(stat_p->st_mtime, timegm(&since_tm)) <= 0) { //NOTA: se il file che richiede il client è più vecchio o aggiornato come il file che il server ha, allora il file non è stato modificato

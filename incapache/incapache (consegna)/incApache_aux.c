@@ -83,9 +83,10 @@ time_t my_timegm(struct tm *tm)
         /*** Guess what is missing here ... ***/
 /*** TO BE DONE 8.0 START ***/
 
-pthread_mutex_lock(&my_timegm_mutex);
-tz = my_malloc(64); // allocazione di uno spazio di memoria con la funzione sovrastante mymalloc, che restituisce un puntatore ad uno spazio di 64 byte
-memset(tz, 0, 64); // inizializzazione di tutti i 64 byte della memoria allocata a zero (default value più sicuro)
+				pthread_mutex_lock(&my_timegm_mutex);
+				tz = my_malloc(64); // allocazione di uno spazio di memoria con la funzione sovrastante mymalloc, che restituisce un puntatore ad uno spazio di 64 byte
+				memset(tz, 0, 64); // inizializzazione di tutti i 64 byte della memoria allocata a zero (default value più sicuro)
+				debug("initializing time structure tz for the environmental variable TZ \n");
 
 /*** TO BE DONE 8.0 END ***/
 
@@ -101,7 +102,7 @@ memset(tz, 0, 64); // inizializzazione di tutti i 64 byte della memoria allocata
         /*** Guess what is missing here ... ***/
 /*** TO BE DONE 8.0 START ***/
 
-pthread_mutex_unlock(&my_timegm_mutex);
+				pthread_mutex_unlock(&my_timegm_mutex);
 
 /*** TO BE DONE 8.0 END ***/
 

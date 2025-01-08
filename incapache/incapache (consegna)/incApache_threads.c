@@ -80,6 +80,7 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
      *** call pthread_join() on thread_ids[i], and update shared variables
      *** no_free_threads, no_response_threads[conn_no], and
      *** connection_no[i] ***/
+
 /*** TO BE DONE 8.1 START ***/
     pthread_mutex_lock(&threads_mutex);
     for (i = MAX_CONNECTIONS; i < MAX_THREADS; ++i) { //NOTA: per ogni thread di risposta...
@@ -91,16 +92,15 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
             ++no_free_threads;
         }
     }
-    
     pthread_mutex_unlock(&threads_mutex);
+    debug("...  Computing the index i of the thread to join, adding the thread i to the thread to join and updating shared variables in join_all_thread() \n");
+
 /*** TO BE DONE 8.1 END ***/
     }
     void join_prev_thread(int thrd_no)
     {
     size_t i;
     int conn_no;
-    
-    //debug("start of join_prev_thread(%d)\n", thrd_no);
     
     /*** check whether there is a previous thread to join before
      *** proceeding with the current thread.
@@ -109,6 +109,8 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
      *** no_free_threads, no_response_threads[conn_no], and connection_no[i],
      *** avoiding race conditions ***/
 /*** TO BE DONE 8.1 START ***/
+
+    debug("start of join_prev_thread(%d)\n", thrd_no);
     
     if (to_join[thrd_no] != NULL) { //NOTA: se il thread ha un thread precedente da attendere, allora procedo con la terminazione del thread che lo anticipa nella coda
         pthread_mutex_lock(&threads_mutex); //NOTA: per evitare race condition (1 di 2)
@@ -136,6 +138,8 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
         pthread_mutex_unlock(&threads_mutex);
     }
     
+    debug("end of join_prev_thread(%d)\n", thrd_no);
+
     //pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
 	
 /*** TO BE DONE 8.1 END ***/
@@ -178,6 +182,8 @@ void *client_connection_thread(void *vp) //NOTA: crea pthread (del connection_no
     {
         to_join[i]=NULL; //NOTA: forse i=MAX_CONNECTIONS
     }
+    debug("...  Initializing to_join array for thread queue \n");
+
 /*** TO BE DONE 8.1 END ***/
     pthread_mutex_unlock(&threads_mutex);
 #endif
@@ -250,6 +256,7 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
 //RIGUARDA ARRAY
     to_join[new_thread_idx]=to_join[connection_idx]; 
     to_join[connection_idx]=&thread_ids[new_thread_idx];
+    debug("...  Enqueuing the current thread in to_join structure \n");
 /*** TO BE DONE 8.1 END ***/
     if (pthread_create(thread_ids + new_thread_idx, NULL, response_thread, connection_no + new_thread_idx)) //NOTA: crea un nuovo thread (di risposta) nel processo chiamante; response_thread è la chiamata al metodo response_thread() sovrastante che si occupa di iniziare l'esecuzione del thread
         fail_errno("Could not create response thread");
