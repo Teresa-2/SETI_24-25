@@ -479,13 +479,15 @@ void execute_line(const line_t * const l) //esecuzione della linea di comandi l
 
 			/*NOTE PIPE
 			pipe() creates a pipe, a unidirectional data channel that can be
-			used for interprocess communication.  The array pipefd is used to
+			used for interprocess communication.  The array fds is used to
 			return two file descriptors referring to the ends of the pipe.
-			pipefd[0] refers to the read end of the pipe.  pipefd[1] refers
+			fds[0] refers to the read end of the pipe.  fds[1] refers
 			to the write end of the pipe.  Data written to the write end of
 			the pipe is buffered by the kernel until it is read from the read
 			end of the pipe.  For further details, see pipe(7).
 			*/
+
+			//la pipe viene utilizzata per mettere in comunicazione due processi figli consecutivi che eseguono comandi in una pipeline. Il primo processo scrive l'output sulla pipe e il secondo processo legge l'input dalla pipe
 
 			if (pipe2(fds,O_CLOEXEC)) //creazione di una pipe (struttura per il flusso unidirezionale di dati utile alla comunicazione tra processi diversi, con un lato di ingresso/lettura e un lato di uscita/scrittura). L'operazione è fatta tramite il comando pipe2 che ammette la presenza di FLAG (O_CLOEXEC come da richiesta), a differenza di pipe. O_CLOEXEC è un flag che indica che i file descriptor creati dalla pipe devono essere chiusi automaticamente quando il processo figlio viene eseguito.
 			  fatal_errno("fail in creating pipe");
