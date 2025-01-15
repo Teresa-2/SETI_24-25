@@ -352,7 +352,7 @@ check_t check_cd(const line_t * const l)
 
 
 
-### TEST 8: (line 278) verifica dell'incompatibilità del comando cd con redirezioni I/O in un stessa riga di comando
+### TEST 9: (line 278) verifica dell'incompatibilità del comando cd con redirezioni I/O in un stessa riga di comando
 
 ```c
 check_t check_cd(const line_t * const l)
@@ -396,7 +396,7 @@ check_t check_cd(const line_t * const l)
 
 
 
-### TEST 9: (line 278) verifica che il numero di argomenti passati a cd sia diverso da 1
+### TEST 10: (line 278) verifica che il numero di argomenti passati a cd sia diverso da 1
 
 ```c
 check_t check_cd(const line_t * const l)
