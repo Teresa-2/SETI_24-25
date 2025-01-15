@@ -157,3 +157,100 @@ command_t *parse_cmd(char * const cmdstr)
 ![alt text](image-3.png)
 
 **note:** -
+
+
+
+### TEST 5: (line 244) verifica delle redirezioni in I/O nella riga di comando
+
+```c
+check_t check_redirections(const line_t * const l)
+{
+	assert(l);
+	
+	/* This function must check that:
+	 * - Only the first command of a line can have input-redirection
+	 * - Only the last command of a line can have output-redirection
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+	
+	if (l -> n_commands != 1)
+		for (int i = 0; i < l -> n_commands; ++i) {
+			if (i != 0)
+				if (l -> commands[i] -> in_pathname) {
+					fprintf(stderr, "Input redirection in a non-first command\n"); 
+					return CHECK_FAILED; }
+			if (i != l -> n_commands - 1)
+				if (l -> commands[i] -> out_pathname) {
+					fprintf(stderr, "Output redirection in a non-last command\n");
+					return CHECK_FAILED;
+				}
+		}
+
+	/*** TO BE DONE END ***/
+	return CHECK_OK;
+}
+```
+
+**scopo:** verificare la correttezza delle redirezioni in I/O in una linea di comando
+
+**situazione iniziale:** il file *microbash.c* esiste, mentre il file *out.txt* può esistere (in tal caso, viene sovrascritto) o meno (in questo caso, viene creato un file con tale nome)
+
+**linea inviata a microbash:** cat <microbash.c | grep main | wc -l >out.txt
+
+**risultato atteso:** non c'è stampa di alcun errore (e il file out.txt conterrà il numero di volte in cui la stringa *"main"* comparrà nel codice sorgente)
+
+**risultato ottenuto:** 
+![alt text](image-4.png)
+
+**note:** -
+
+
+
+### TEST 6: (line ???) verifica della segnalazione di un errore nel caso in cui in una linea di comando sono specificate redirezioni errate
+
+```c
+check_t check_redirections(const line_t * const l)
+{
+	assert(l);
+	
+	/* This function must check that:
+	 * - Only the first command of a line can have input-redirection
+	 * - Only the last command of a line can have output-redirection
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+	
+	if (l -> n_commands != 1)
+		for (int i = 0; i < l -> n_commands; ++i) {
+			if (i != 0)
+				if (l -> commands[i] -> in_pathname) {
+					fprintf(stderr, "Input redirection in a non-first command\n"); 
+					return CHECK_FAILED; }
+			if (i != l -> n_commands - 1)
+				if (l -> commands[i] -> out_pathname) {
+					fprintf(stderr, "Output redirection in a non-last command\n");
+					return CHECK_FAILED;
+				}
+		}
+
+	/*** TO BE DONE END ***/
+	return CHECK_OK;
+}
+```
+
+**scopo:** verificare che venga segnalato un errore se le redirezioni I/O fornite non siano corrette
+
+**situazione iniziale:** -
+
+**linea inviata a microbash:** cat <in.txt >out.txt | echo >out.txt EOF
+
+**risultato atteso:** Stampa a terminale dell’errore *"Output redirection in a non-last command"* e interruzione dell’esecuzione della linea di comando
+
+**risultato ottenuto:** 
+![alt text](image-5.png)
+
+**note:** Lo stesso comportamento si verifica in caso di redirezioni multiple (non supportate da microbash), ma con l'errore a terminale: *"Input redirection in a non-first command"*
+
