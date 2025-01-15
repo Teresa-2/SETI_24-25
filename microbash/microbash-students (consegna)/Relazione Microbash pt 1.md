@@ -208,7 +208,7 @@ check_t check_redirections(const line_t * const l)
 
 
 
-### TEST 6: (line ???) verifica della segnalazione di un errore nel caso in cui in una linea di comando sono specificate redirezioni errate
+### TEST 6: (line 249) verifica della segnalazione di un errore nel caso in cui in una linea di comando sono specificate redirezioni errate
 
 ```c
 check_t check_redirections(const line_t * const l)
@@ -254,3 +254,186 @@ check_t check_redirections(const line_t * const l)
 
 **note:** Lo stesso comportamento si verifica in caso di redirezioni multiple (non supportate da microbash), ma con l'errore a terminale: *"Input redirection in a non-first command"*
 
+
+
+### TEST 7: (line 273) verifica del corretto funzionamento del cambio di directory
+
+```c
+check_t check_cd(const line_t * const l)
+{
+	assert(l);
+
+	/* This function must check that if command "cd" is present in l, then such a command
+	 * 1) must be the only command of the line
+	 * 2) cannot have I/O redirections
+	 * 3) must have only one argument
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+
+	for (int i = 0; i < l -> n_commands; ++i)
+		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) { 
+			if (l -> n_commands != 1) {
+				fprintf(stderr, "cd is not the only command \n");
+				return CHECK_FAILED;
+			}
+			if (l -> commands[0] -> in_pathname || l -> commands[0] -> out_pathname) {
+				fprintf(stderr, "cd cannot have I/O redirections\n");
+						return CHECK_FAILED;
+			}
+			if (l -> commands[0] -> n_args != 2) {
+				fprintf(stderr, "cd must have one argument\n");
+				return CHECK_FAILED;
+			}
+		}
+
+	/*** TO BE DONE END ***/
+
+	return CHECK_OK;
+}
+```
+
+**scopo:** verificare che cd (*change current working directory*) funzioni correttamente
+
+**situazione iniziale:** nella directory in cui si trova microbash è presente la directory *"new_dir"*
+
+**linea inviata a microbash:** cd new_dir
+
+**risultato atteso:** aggiornamento della cartella di lavoro corrente con la cartella di lavoro fornita dopo cd nella linea di comando
+
+**risultato ottenuto:** 
+![alt text](image-6.png)
+
+**note:** se la cartella fornita a cd è assente, viene stampato a terminale un errore proprio (![alt text](image-7.png))
+
+
+
+### TEST 8: (line 274) verifica dell'incompatibilità di cd con altri comandi in una stessa riga di comando
+
+```c
+check_t check_cd(const line_t * const l)
+{
+	assert(l);
+
+	/* This function must check that if command "cd" is present in l, then such a command
+	 * 1) must be the only command of the line
+	 * 2) cannot have I/O redirections
+	 * 3) must have only one argument
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+
+	for (int i = 0; i < l -> n_commands; ++i)
+		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) { 
+			if (l -> n_commands != 1) {
+				fprintf(stderr, "cd is not the only command \n");
+				return CHECK_FAILED;
+			}
+...
+		}
+	}
+}
+```
+
+**scopo:** verificare che cd è un comando che non può convivere con altri comandi nella medesima riga di comando inviata al terminale
+
+**situazione iniziale:** - 
+
+**linea inviata a microbash:** rm file.txt | cd .. | rmdir dir
+
+**risultato atteso:** viene segnalato un errore (*cd is not the only command*) e non viene eseguita la linea di comando 
+
+**risultato ottenuto:**
+![alt text](image-8.png)
+
+**note:** -
+
+
+
+### TEST 8: (line 278) verifica dell'incompatibilità del comando cd con redirezioni I/O in un stessa riga di comando
+
+```c
+check_t check_cd(const line_t * const l)
+{
+	assert(l);
+
+	/* This function must check that if command "cd" is present in l, then such a command
+	 * 1) must be the only command of the line
+	 * 2) cannot have I/O redirections
+	 * 3) must have only one argument
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+
+	for (int i = 0; i < l -> n_commands; ++i)
+		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) { 
+			...
+			if (l -> commands[0] -> in_pathname || l -> commands[0] -> out_pathname) {
+				fprintf(stderr, "cd cannot have I/O redirections\n");
+						return CHECK_FAILED;
+			}
+...
+		}
+	}
+}
+```
+
+**scopo:** verificare che cd non può essere associata ad una redirezione dell'I/O
+
+**situazione iniziale:** - 
+
+**linea inviata a microbash:** cd <in.txt
+
+**risultato atteso:** segnalazione di un errore specifico (*cd cannot have I/O redirections*) per la presenza di redirezione
+
+**risultato ottenuto:**
+![alt text](image-9.png)
+
+**note:** -
+
+
+
+### TEST 9: (line 278) verifica che il numero di argomenti passati a cd sia diverso da 1
+
+```c
+check_t check_cd(const line_t * const l)
+{
+	assert(l);
+
+	/* This function must check that if command "cd" is present in l, then such a command
+	 * 1) must be the only command of the line
+	 * 2) cannot have I/O redirections
+	 * 3) must have only one argument
+	 * and return CHECK_OK if everything is ok, print a proper error
+	 * message and return CHECK_FAILED otherwise
+	 */
+	/*** TO BE DONE START ***/
+
+	for (int i = 0; i < l -> n_commands; ++i)
+		if (strncmp(l -> commands[i] -> args[0], CD, 2) == 0) { 
+			...
+			if (l -> commands[0] -> n_args != 2) {
+				fprintf(stderr, "cd must have one argument\n");
+				return CHECK_FAILED;
+			}
+...
+		}
+	}
+}
+```
+
+**scopo:** verificare che cd riceva esattamente un argomento
+
+**situazione iniziale:** nella directory corrente sono presenti due sub-directory (new_dir e new_dir2)
+
+**linea inviata a microbash:** cd new_dir new_dir2
+
+**risultato atteso:** stampa a terminale del messaggio di errore *cd must have one argument* e conseguente mancata esecuzione della linea di comando
+
+**risultato ottenuto:**
+![alt text](image-10.png)
+
+**note:** questo controllo verifica solo il numero di argomenti passati al comando cd e non la loro qualità (e.g. non verifica se non sono directory) o la loro esistenza (i.e. lo stesso risultato si potrebbe ottenere inviando la linea *cd new_dir absent_dir*, dove la directory absent_dir è inesistente nel contesto corrente)
