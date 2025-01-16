@@ -741,7 +741,7 @@ void execute_line(const line_t * const l)
 
 **scopo:** verificare che non sia possibile redirigere l'output su un file non accessibile in scrittura.
 
-**situazione iniziale:** il file unavailableOut.txt non è accessibile mentre il file in.txt è completamente accessibile.
+**situazione iniziale:** il file unavailableOut.txt non è accessibile in lettura o scrittura, mentre il file in.txt è completamente accessibile.
 
 **linea inviata a microbash:** cat <in.txt >unavailableOut.txt
 **risultato atteso:** stampa a terminale del messaggio di errore *cannot open output file: Permission denied* e conseguente mancata esecuzione della linea di comando
