@@ -640,21 +640,60 @@ void run_child(const command_t * const c, int c_stdin, int c_stdout)
 
 
 
-### TEST 15: 
+### TEST 15: verificare i dati di un processo dopo che è stato terminato da un segnale di terminazione
 
 ```c
+void wait_for_children()
+{
+	/* This function must wait for the termination of all child processes.
+	 * If a child exits with an exit-status!=0, then you should print a proper message containing its PID and exit-status.
+	 * Similarly, if a child is killed by a signal, then you should print a message specifying its PID, signal number and signal name.
+	 */
+	/*** TO BE DONE START ***/
 
+	int status = 0;
+	while(1) {
+		pid_t pid;
+		if ((pid = wait(&status)) == -1) {
+			if (errno == ECHILD)
+				return;
+			fatal_errno("error in wait");
+		}
+		if (WIFEXITED(status)) {
+			intmax_t e_status = WEXITSTATUS(status);
+			if (e_status != 0) {
+				fprintf(stderr, "process with PID = %d exited with status %jd\n", pid, e_status);
+			}
+		}
+		if (WIFSIGNALED(status)) { 
+			intmax_t sig_num = WTERMSIG(status);
+			fprintf(stderr, "process with PID = %d changed state due to signal %jd: %s\n", pid, sig_num, strsignal(sig_num));
+		}
+	}
+
+	/*** TO BE DONE END ***/
+}
 ```
 
-**scopo:**
+**scopo:** verificare i dati relativi ad un processo, dopo che questo è stato alterato nel suo stato da parte di un segnale (in particolare, l'alterazione dello stato qui considerata è la terminazione) 
 
-**situazione iniziale:** 
+**situazione iniziale:** sono presenti due terminali: 
+*terminale 1:* su questo viene eseguita la microbash tramite la quale viene eseguito il programma a.out, che avvia un ciclo 
+*terminale 2:* su di esso viene mandato il segnale alla microbash per terminare il processo 
 
-**linea inviata a microbash:** 
+**linea inviata a microbash(terminale 1):** ./a.out 
 
-**risultato atteso:** 
+ **linea inviata a microbash(terminale 1):** kill 3378
+
+**risultato atteso:** la microbash il PID del processo figlio, assieme al numero del segnale che ne ha causato la terminazione 
 
 **risultato ottenuto:**
+![alt text](image-15A.png)
 
+![alt text](image-15B.png)
 
-**note:** 
+![alt text](image-15C.png)
+
+![alt text](image-15D.png)
+
+**note:** per trovare l'argomento della funzione *kill*, si è utilizzato il comando *top* nel terminale 2 con il quale è stato possibile deterinare il PID del processo avviato della microbash
