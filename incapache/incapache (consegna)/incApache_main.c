@@ -52,7 +52,6 @@ void drop_privileges() //NOTA: metodo che fa in modo che il processo che lo eseg
 
 void run_file(const int *p_to_file, const int *p_from_file)
 {
-	//DA RIVEDERE teoria lagorio
 	drop_privileges(); //NOTA: fa in modo che il processo perda i privilegi di root e diventi un processo normale. se fosse un processo root, allora terminerebbe l'esecuzione del programma. ATTENZIONE: è necessario che ci siano 1 utente root (= client) + 1 utente non root (= server) per far funzionare correttamente il programma. Il server è NON root affinché i file che mette a disposizione siano accessibili a tutti gli utenti + perché i file a cui può accedere siano solo quelli della directory www_root
 	if (close(p_to_file[PIPE_WRITE_END])) //NOTA: chiude l'estremo di scrittura della pipe p_to_file. Se non riesce a chiuderlo allora stampa un messaggio di errore e termina l'esecuzione.
 		fail_errno("close p_to_file write-end");

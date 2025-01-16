@@ -119,12 +119,9 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
         pthread_mutex_unlock(&threads_mutex);
         
         if (pthread_join(thread_ids[i], NULL) != 0) {
-            
-            //con test threads.sh entra qui dentro dopo un po' di chiamate
 
             //NOTA: verifico se il join sta provando a joinare se stesso
             if (pthread_self() == thread_ids[i]) {
-                //fail("Thread is trying to join itself\n");
                 pthread_mutex_unlock(&threads_mutex);
                 return;
             }
@@ -140,7 +137,6 @@ void join_all_threads(int conn_no) //NOTA: manda in esecuzione tutti i thread re
     
     debug("end of join_prev_thread(%d)\n", thrd_no);
 
-    //pthread_mutex_unlock(&threads_mutex); //NOTA: per evitare race condition (2 di 2)
 	
 /*** TO BE DONE 8.1 END ***/
     }
@@ -180,8 +176,8 @@ void *client_connection_thread(void *vp) //NOTA: crea pthread (del connection_no
 /*** TO BE DONE 8.1 START ***/
     for (int i=0; i<MAX_THREADS; i++) 
     {
-        to_join[i]=NULL; //NOTA: forse i=MAX_CONNECTIONS
-    }
+        to_join[i]=NULL;
+
     debug("...  Initializing to_join array for thread queue \n");
 
 /*** TO BE DONE 8.1 END ***/
@@ -253,7 +249,6 @@ void send_resp_thread(int out_socket, int response_code, int cookie,
     debug(" ... send_resp_thread(): parameters set, conn_no=%d\n", connection_idx);
     /*** enqueue the current thread in the "to_join" data structure ***/
 /*** TO BE DONE 8.1 START ***/
-//RIGUARDA ARRAY
     to_join[new_thread_idx]=to_join[connection_idx]; 
     to_join[connection_idx]=&thread_ids[new_thread_idx];
     debug("...  Enqueuing the current thread in to_join structure \n");

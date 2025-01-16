@@ -276,7 +276,6 @@ void send_response(int client_fd, int response_code, int cookie,
 
 	if(strftime(time_as_string, MAX_TIME_STR,"%a, %d %b %Y %T GMT",&file_modification_tm)==0){ //NOTA: converto il tempo di ultima modifica del file richiesto da formato UTC (broken-down time) in formato standard GMT (passato come argomento alla srtftime) e lo salvo nell'array di char time_as_string di dimensione MAX_TIME_STR  
 
-	//NOTA MANUALE: Return Value: The strftime() function returns the number of bytes placed in the array s, not including the terminating null byte, provided the string, including the terminating null byte, fits. Otherwise, it returns 0, and the contents of the array is undefined. (This behavior applies since at least libc 4.4.4; very old versions of libc, such as libc 4.4.1, would return max if the array was too small.). Note that the return value 0 does not necessarily indicate an error; for example, in many locales %p yields an empty string.
 		fail("Could not convert file modification time in UTC standard format to GMT standard format in send response");
 	}
 
@@ -422,8 +421,6 @@ void manage_http_requests(int client_fd
                                 /*** parse the cookie in order to get the UserID and count the number of requests coming from this client ***/
 /*** TO BE DONE 8.0 START ***/
 
-					//NB: questo metodo permette di trovare il PRIMO cookie presente nella richiesta HTTP (conforme alla struttura già definita Cookie: UserID=) e se ci sono più cookie, questi vengono ignorati. Inoltre accetta solo valori numerici (e non altri valori possibili) da inserire nel cookie del client. Se il cookie non è presente, viene assegnato un nuovo UID al client (in altra parte del codice?)
-
 					option_val = strtok_r(NULL, ";", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
 					//option_val = strtok_r(NULL, "", &strtokr_save); //NOTA: recupero il valore dell'opzione Cookie e lo salvo in option_val
 					char *uid_pos = strstr(option_val, "UserID="); //NOTA: cerco la stringa "UserID=" all'interno del valore dell'opzione Cookie
@@ -506,13 +503,11 @@ void manage_http_requests(int client_fd
 			
 			debug("...	Comparing file last modification time with since_tm\n");
 			
-			//stat-p = server; since_tm = client
 			if(difftime(stat_p->st_mtime, timegm(&since_tm)) <= 0) { //NOTA: se il file che richiede il client è più vecchio o aggiornato come il file che il server ha, allora il file non è stato modificato
 				http_method = METHOD_NOT_CHANGED;	//NOTA: se il file non è stato modificato, il metodo HTTP diventa METHOD_NOT_CHANGED
 			}
 			else { //NOTA: se il server ha la copia del file più recente rispetto a quella del client, entro qui
 				if (http_method == 18) { //NOTA: se il metodo HTTP è 18 (cioè METHOD_CONDITIONAL+METHOD_GET), allora il metodo HTTP condizionale diventa METHOD_GET
-				//DA FARE: sarebbe da scrivere meglio la guardia dell'if perché è un po' brutto 18
 					http_method = METHOD_GET;
 					}
 				else if (http_method == 17) {
