@@ -441,66 +441,224 @@ check_t check_cd(const line_t * const l)
 
 
 ### TEST 11: (line 401) verifica del corretto funzionamento della redirezione standard di input/output
-
+ 
 ```c
 void execute_line(const line_t * const l)
 {
-	...
-	{
-		...
-		if (c->in_pathname) { 
-			assert(a == 0);
-			
-			/* Open c->in_pathname and assign the file-descriptor to curr_stdin
-			 * (handling error cases) */
-			/*** TO BE DONE START ***/
-			curr_stdin = open(c -> in_pathname, O_RDONLY); 
-			if (curr_stdin == -1) {
-				perror("cannot open input file");
-				break;
-			}
-
-			/*** TO BE DONE END ***/
-		}
-
-		if (c->out_pathname) {
-			
-			assert(a == (l->n_commands-1));
-			
-			/* Open c->out_pathname and assign the file-descriptor to curr_stdout
-			 * (handling error cases) */
-			/*** TO BE DONE START ***/
-
-			curr_stdout = open(c -> out_pathname, O_WRONLY | O_CREAT | O_TRUNC, 0666); 
-
-			if (curr_stdout == -1) {
-				perror("cannot open output file");
-				close_if_needed(curr_stdin);
-				break;
-			}
-
-			/*** TO BE DONE END ***/
-		}
-		...
-	}
-	...
+    ...
+    {
+        ...
+        if (c->in_pathname) {
+            assert(a == 0);
+           
+            /* Open c->in_pathname and assign the file-descriptor to curr_stdin
+             * (handling error cases) */
+            /*** TO BE DONE START ***/
+            curr_stdin = open(c -> in_pathname, O_RDONLY);
+            if (curr_stdin == -1) {
+                perror("cannot open input file");
+                break;
+            }
+ 
+            /*** TO BE DONE END ***/
+        }
+ 
+        if (c->out_pathname) {
+           
+            assert(a == (l->n_commands-1));
+           
+            /* Open c->out_pathname and assign the file-descriptor to curr_stdout
+             * (handling error cases) */
+            /*** TO BE DONE START ***/
+ 
+            curr_stdout = open(c -> out_pathname, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+ 
+            if (curr_stdout == -1) {
+                perror("cannot open output file");
+                close_if_needed(curr_stdin);
+                break;
+            }
+ 
+            /*** TO BE DONE END ***/
+        }
+        ...
+    }
+    ...
 }
 ```
-
-**scopo:** redirigere l'input e l'output e eseguire il comando open su due file esistenti e accessibili.
-
-**situazione iniziale:** i file in.txt e out.txt esistono e sono accessibili. In particolare, il file in.txt è accessibile in lettura mentre out.txt in scrittura. 
-
+ 
+**scopo:** redirigere l'input e l'output e eseguire il comando open su due file esistenti e accessibili
+ 
+**situazione iniziale:** i file *in.txt* e *out.txt* esistono e sono accessibili. In particolare, il file in.txt è accessibile in lettura mentre out.txt in scrittura
+ 
 **linea inviata a microbash:** cat <in.txt >out.txt
-
-**risultato atteso:** la linea di comando è corretta e quindi viene eseguito correttamente il comando. 
-
-**risultato ottenuto:** 
+ 
+**risultato atteso:** la linea di comando è corretta e quindi viene eseguito correttamente il comando
+ 
+**risultato ottenuto:**
 ![alt text](image-11.png)
-
-
-**note:** per la verifica non risulta rilevante il contenuto iniziale del file out.txt poichè verrà sovrascritto con il contenuto di in.txt. 
-Se il file out.txt non esistesse, verrebbe creato. 
+ 
+ 
+**note:** per la verifica non risulta rilevante il contenuto iniziale del file *out.txt* poichè verrà sovrascritto con il contenuto di *in.txt*.
+Se il file *out.txt* non esistesse, verrebbe creato
+ 
+ 
+ 
+### TEST 12: (line 401) verifica della restituzione di errore nel caso di redirezione su un file non esistente
+ 
+```c
+void execute_line(const line_t * const l)
+{
+    ...
+    {
+        ...
+        if (c->in_pathname) {
+            assert(a == 0);
+           
+            /* Open c->in_pathname and assign the file-descriptor to curr_stdin
+             * (handling error cases) */
+            /*** TO BE DONE START ***/
+            curr_stdin = open(c -> in_pathname, O_RDONLY);
+            if (curr_stdin == -1) {
+                perror("cannot open input file");
+                break;
+            }
+ 
+            /*** TO BE DONE END ***/
+        }
+ 
+        ...
+    }
+    ...
+}
+```
+ 
+**scopo:** verificare che non sia possibile redirigere l'input e eseguire il comando open su un file non esistente
+ 
+**situazione iniziale:** il file *input.txt* non è presente nella directory corrente
+ 
+**linea inviata a microbash:** cat <input.txt
+ 
+**risultato atteso:** stampa a terminale del messaggio di errore *cannot open input file: No such file or directory* e conseguente mancata esecuzione della linea di comando
+ 
+**risultato ottenuto:**
+![alt text](image-12.png)
+ 
+**note:** -
+ 
+ 
+ 
+### TEST 13: (line 415) verifica della restituzione di errore nel caso di redirezione di output su un file non accessibile in scrittura
+ 
+```c
+void execute_line(const line_t * const l)
+{
+    ...
+    {
+        ...
+ 
+        if (c->out_pathname) {
+           
+            assert(a == (l->n_commands-1));
+           
+            /* Open c->out_pathname and assign the file-descriptor to curr_stdout
+             * (handling error cases) */
+            /*** TO BE DONE START ***/
+ 
+            curr_stdout = open(c -> out_pathname, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+ 
+            if (curr_stdout == -1) {
+                perror("cannot open output file");
+                close_if_needed(curr_stdin);
+                break;
+            }
+ 
+            /*** TO BE DONE END ***/
+        }
+        ...
+    }
+    ...
+}
+```
+ 
+**scopo:** verificare che non sia possibile redirigere l'output su un file non accessibile in scrittura
+ 
+**situazione iniziale:** il file *unavailableOut.txt* non è accessibile mentre il file in.txt è completamente accessibile
+ 
+**linea inviata a microbash:** cat <in.txt >unavailableOut.txt
+ 
+**risultato atteso:** stampa a terminale del messaggio di errore *cannot open output file: Permission denied* e conseguente mancata esecuzione della linea di comando
+ 
+**risultato ottenuto:**
+![alt text](image-13.png)
+ 
+**note:** -
+ 
+ 
+ 
+### TEST 14: verifica della restituzione di errore nel caso di una chiamata ad un programma non esistente nella microbash
+ 
+```c
+void run_child(const command_t * const c, int c_stdin, int c_stdout)
+{
+    /* This function must:
+     * 1) create a child process, then, in the child
+     * 2) redirect c_stdin to STDIN_FILENO (=0)
+     * 3) redirect c_stdout to STDOUT_FILENO (=1)
+     * 4) execute the command specified in c->args[0] with the corresponding arguments c->args
+     * (printing error messages in case of failure, obviously)
+     */
+    /*** TO BE DONE START ***/
+ 
+    pid_t pid = fork();
+ 
+    if (pid == -1)
+        fatal_errno("fail in fork");
+ 
+    if (pid == 0) {
+        redirect(c_stdin, STDIN_FILENO);
+        redirect(c_stdout, STDOUT_FILENO);
+        execvp(c -> args[0], c -> args);
+        fatal_errno("error in exec");
+    }
+ 
+    /*** TO BE DONE END ***/
+}
+```
+ 
+**scopo:** verificare che non sia possibile la chiamata ad un programma non esistente nella microbash
+ 
+**situazione iniziale:** il programma *comando* non esiste nelle directory indicate da PATH
+ 
+**linea inviata a microbash:** comando
+ 
+**risultato atteso:** viene segnalato l'errore tramite l'indicazione del PID del processo figlio arrestato insieme al valore di uscita relativo
+ 
+**risultato ottenuto:**
+![alt text](image-14.png)
+ 
+**note:** in caso di fallimento della funzione execvp, la *wait_for_children* riconosce che il processo figlio è uscito con valore di errore e quindi si occupa di stampare il messaggio di errore relativo
+ 
+ 
+ 
+### TEST 15:
+ 
+```c
+ 
+```
+ 
+**scopo:**
+ 
+**situazione iniziale:**
+ 
+**linea inviata a microbash:**
+ 
+**risultato atteso:**
+ 
+**risultato ottenuto:**
+ 
+ 
+**note:**
 
 
 
