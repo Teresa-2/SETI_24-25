@@ -98,6 +98,7 @@ void free_line(line_t * const l)
 {
 	assert(l==0 || l->n_commands>=0); /* sanity-check */
 	/*** TO BE DONE START ***/
+	
 	/*** TO BE DONE END ***/
 }
 
@@ -161,6 +162,16 @@ command_t *parse_cmd(char * const cmdstr)
 			if (*tmp=='$') {
 				/* Make tmp point to the value of the corresponding environment variable, if any, or the empty string otherwise */
 				/*** TO BE DONE START ***/
+				if (!tmp[1]) {
+					fprintf(stderr, "the variable is not specified");
+					goto fail;
+				}
+				tmp = getenv(tmp+1);
+				if (!tmp) {
+					fprintf("impossible to find the variable");
+					goto fail;
+				}
+				
 				/*** TO BE DONE END ***/
 			}
 			result->args[result->n_args++] = my_strdup(tmp);
