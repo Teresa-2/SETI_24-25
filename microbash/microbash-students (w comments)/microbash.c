@@ -312,7 +312,8 @@ void wait_for_children()
 	int status = 0; //variabile per lo stato di terminazione del processo figlio
 	while(1) { //ciclo infinito per la gestione dei processi figli
 		pid_t pid;
-		if ((pid = wait(&status)) == -1) { //se la wait fallisce, restituisce -1
+		pid = wait(&status);
+		if (pid == -1) { //se la wait fallisce, restituisce -1 (return value su man)
 			if (errno == ECHILD) //se errno è ECHILD, non ci sono processi figli da attendere (vedi man wait)
 				return; //si esce dal ciclo while perché non ci sono processi figli da attendere
 			fatal_errno("error in wait"); //se la wait ha fallito ma ci sono dei p. figli ancora da attendere, allora c'è un problema e si stampa un messaggio di errore

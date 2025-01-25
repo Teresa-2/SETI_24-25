@@ -1,4 +1,4 @@
-#error Please read the accompanying microbash.pdf before hacking this source code (and removing this line).
+//error Please read the accompanying microbash.pdf before hacking this source code (and removing this line).
 /*
  * Micro-bash v2.2
  *
@@ -91,6 +91,14 @@ void free_command(command_t * const c)
 {
 	assert(c==0 || c->n_args==0 || (c->n_args > 0 && c->args[c->n_args] == 0)); /* sanity-check: if c is not null, then it is either empty (in case of parsing error) or its args are properly NULL-terminated */
 	/*** TO BE DONE START ***/
+	for (int i=0; i<c->n_args; i++) {
+		free(c->args[i]);
+	}
+		free(c->args);
+		free(c->in_pathname);
+		free(c->out_pathname);
+		free(c);
+	}
 	/*** TO BE DONE END ***/
 }
 
@@ -99,6 +107,12 @@ void free_line(line_t * const l)
 	assert(l==0 || l->n_commands>=0); /* sanity-check */
 	/*** TO BE DONE START ***/
 	
+	for (int i=0; i < l->n_commands; i++) {
+		free(l->commands[i]);
+	}
+	free(l->commands);
+	free(l);
+
 	/*** TO BE DONE END ***/
 }
 
@@ -168,7 +182,7 @@ command_t *parse_cmd(char * const cmdstr)
 				}
 				tmp = getenv(tmp+1);
 				if (!tmp) {
-					fprintf("impossible to find the variable");
+					fprintf(stderr, "impossible to find the variable");
 					goto fail;
 				}
 				
@@ -219,6 +233,16 @@ check_t check_redirections(const line_t * const l)
 	 * message and return CHECK_FAILED otherwise
 	 */
 	/*** TO BE DONE START ***/
+	for (int i=0; i<l->n_commands; i++) {
+		if (l->commands[i]->in_pathname && i!=0) {
+			fprintf(stderr, "only the first command of a line can have input redirection");
+			return CHECK_FAILED;
+			}
+		if (l->commands[i]->out_pathname && i!=l->n_commands-1) {
+			fprintf(stderr, "Only the last command of a line can have output-redirection");
+			return CHECK_FAILED;
+		}
+	}
 	/*** TO BE DONE END ***/
 	return CHECK_OK;
 }
@@ -234,6 +258,26 @@ check_t check_cd(const line_t * const l)
 	 * message and return CHECK_FAILED otherwise
 	 */
 	/*** TO BE DONE START ***/
+
+	for (int i=0; i<l->n_commands; i++) {
+		//se il comando è cd
+		if (strncmp(l->commands[i]->args[0], CD, 2)==0){
+			if (l->n_commands!=1) {
+				fprintf(stderr, "cd must be the only command of the line");
+				return CHECK_FAILED;
+				}
+			//if (l->commands[i]->in_pathname || l->commands[i]->out_pathname)
+			if (l->commands[0]->in_pathname || l->commands[0]->out_pathname) {
+				fprintf(stderr, "cd cannot have I/O redirections");
+				return CHECK_FAILED;
+			}
+			if (l->commands[i]->n_args!=2) { //ERRORE! QUANTI SONO GLI ARGOMENTI DI UNA LINEA DI COMANDO?
+				fprintf(stderr, "cd must have only one argument"); //cd + suo argomento
+				return CHECK_FAILED;
+			}
+		}
+	}
+
 	/*** TO BE DONE END ***/
 	return CHECK_OK;
 }
@@ -245,6 +289,10 @@ void wait_for_children()
 	 * Similarly, if a child is killed by a signal, then you should print a message specifying its PID, signal number and signal name.
 	 */
 	/*** TO BE DONE START ***/
+		/*in un ciclo infinito (cioè con while(1)), si fa andare una wait.
+		Effettuata la wait, si controlla il suo valore di ritorno e si salva lo stato del figlio su una nuova variabile (status).
+		Se la wait ha avuto successo, si passa la variabile per lo stato di uscita di un figlio alle macro della wait e si stampano messaggi di errore appropriati.
+		*/
 	/*** TO BE DONE END ***/
 }
 
@@ -315,6 +363,8 @@ void execute_line(const line_t * const l)
 			int fds[2];
 			/* Create a pipe in fds, and set FD_CLOEXEC in both file-descriptor flags */
 			/*** TO BE DONE START ***/
+			if (pipe2(fds, FD_CLOEXEC)!=0)
+				fprintf(stderr, "an error has occurred while creating the pipe");
 			/*** TO BE DONE END ***/
 			curr_stdout = fds[1];
 			next_stdin = fds[0];
@@ -349,6 +399,10 @@ int main()
 		 * The memory area must be allocated (directly or indirectly) via malloc.
 		 */
 		/*** TO BE DONE START ***/
+
+		pwd = getcwd(NULL, 0); //quando la size fornita al metodo è zero, come dice il man per getcwd, il primo parametro buf viene allocato dinamicamente con le dimensioni necessarie per allocare l'informazione, per questo viene fornito come null. Il buffer viene quindi ritornato come valore di ritorno di getcwd
+		if (pwd == NULL) //se il puntatore a cui dovrebbe puntare la cwd punta a null, allora c'è stato un errore
+
 		/*** TO BE DONE END ***/
 		pwd = my_realloc(pwd, strlen(pwd) + prompt_suffix_len + 1);
 		strcat(pwd, prompt_suffix);
