@@ -155,6 +155,9 @@ int prepare_udp_socket(char *pong_addr, char *pong_port)
     /*** connect the ping_socket UDP socket with the server ***/
 /*** TO BE DONE START ***/
 
+	/* in UDP, la syscall connect() stabilisce un default per l'indirizzo del socket partner nella comunicazione (consentendo al mittente di usare le stesse system call send() e recv() utilizzabili sui socket di tipo STREAM), e non implica uno scambio di messaggi come nel 3-way handshake TCP.
+	Nel caso in cui non venga richiamata la connect(), il mittente deve specificare esplicitamente l'indirizzo del destinatario mediante la chiamata sendto().*/
+
 	if(connect(ping_socket,pong_addrinfo->ai_addr,pong_addrinfo->ai_addrlen)!=0) {
 		fail_errno("Problem with socket and server connection in UDP");
 	}
@@ -194,7 +197,7 @@ int main(int argc, char *argv[])
 /*** TO BE DONE START ***/
 
 	gai_hints.ai_family = AF_INET; 
-	gai_hints.ai_socktype = SOCK_STREAM;
+	gai_hints.ai_socktype = SOCK_STREAM; //il server pong richiede il socket in TCP
 
 /*** TO BE DONE END ***/
 
